@@ -11,7 +11,7 @@
             --text-dark: #111111;
             --text-light: #faf8f5;
             --accent-gold: #9e846b;
-            --border-editorial: #222222;
+            --border-editorial: #111111;
             --font-serif: 'Didot', 'Bodoni MT', 'Cinzel', 'Playfair Display', serif;
             --font-sans: 'Avenir Next', 'Helvetica Neue', Arial, sans-serif;
         }
@@ -36,7 +36,7 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background-color: rgba(236, 234, 228, 0.92);
+            background-color: rgba(236, 234, 228, 0.95);
             backdrop-filter: blur(10px);
             z-index: 1000;
             border-bottom: 2px solid var(--text-dark);
@@ -72,50 +72,53 @@
             opacity: 0.6;
         }
 
-        /* Cover Hero Section */
+        /* Cover Hero Section - Heavy Typography, No Blind Image Loading */
         .hero {
-            height: 95vh;
+            height: 85vh;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
-            align-items: flex-start;
-            padding: 100px 50px;
+            justify-content: center;
+            align-items: center;
+            padding: 0 50px;
             margin-top: 80px;
-            /* Verified: Young, fierce, stunning plus-size woman in editorial fashion */
-            background: linear-gradient(to top, rgba(17,17,17,0.85) 10%, rgba(17,17,17,0) 60%), url('https://images.unsplash.com/photo-1502441716402-99f5466a938e?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            background-color: var(--bg-dark);
             color: var(--text-light);
+            text-align: center;
             border-bottom: 2px solid var(--text-dark);
+            position: relative;
         }
 
-        .hero h1 {
+        .hero-headline {
             font-family: var(--font-serif);
-            font-size: 5.5rem;
+            font-size: 6rem;
             font-weight: 400;
-            line-height: 1.0;
+            line-height: 0.95;
             text-transform: uppercase;
-            letter-spacing: -1px;
-            margin-bottom: 20px;
+            letter-spacing: -2px;
+            margin-bottom: 30px;
+            max-width: 1000px;
         }
 
         .hero p {
             font-size: 16px;
             max-width: 650px;
             letter-spacing: 1px;
-            opacity: 0.9;
+            opacity: 0.8;
+            line-height: 1.8;
         }
 
-        /* Manifesto */
+        /* Manifesto Block */
         .manifesto {
             padding: 80px 50px;
-            background-color: var(--text-dark);
-            color: var(--text-light);
+            background-color: var(--bg-editorial);
+            color: var(--text-dark);
             text-align: center;
             border-bottom: 2px solid var(--text-dark);
         }
 
         .manifesto p {
             font-family: var(--font-serif);
-            font-size: 28px;
+            font-size: 26px;
             font-style: italic;
             max-width: 1000px;
             margin: 0 auto;
@@ -160,7 +163,7 @@
             margin-bottom: 30px;
         }
 
-        /* Exquisite Form Styling */
+        /* Form Styling */
         .editorial-form {
             margin-bottom: 40px;
         }
@@ -235,12 +238,12 @@
 
         .result-panel p {
             font-size: 13px;
-            color: #444;
+            color: #333;
             line-height: 1.6;
         }
 
         /* ==========================================
-           视觉大片展示区 (EDITORIAL IMAGES)
+           视觉展示区 (EDITORIAL STANDALONE SECTIONS)
            ========================================== */
         .editorial-grid {
             background-color: var(--bg-dark);
@@ -259,23 +262,31 @@
             flex-direction: row-reverse;
         }
 
+        /* Fail-safe placeholder for high fashion graphics */
         .row-img {
             flex: 1.2;
-            height: 650px;
-            overflow: hidden;
-            border: 1px solid #222;
+            height: 600px;
+            background-color: #1e1d1a;
+            border: 1px solid #2a2925;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #555;
+            font-family: var(--font-serif);
+            font-size: 18px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
         }
 
+        /* TIP: You can uncomment and replace this img tag with your exact local youthful plus-size models images later */
         .row-img img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: grayscale(15%);
-            transition: transform 0.8s ease;
-        }
-
-        .grid-row:hover .row-img img {
-            transform: scale(1.03);
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
         .row-text {
@@ -360,9 +371,9 @@
             }
             .row-img {
                 width: 100%;
-                height: 450px;
+                height: 400px;
             }
-            .hero h1 {
+            .hero-headline {
                 font-size: 3.5rem;
             }
         }
@@ -380,15 +391,15 @@
         </nav>
     </header>
 
-    <!-- Main Hero: Young, Bold, Beautiful Plus-Size Cover -->
+    <!-- Main Hero: VOGUE Editorial Text Cover (No Broken Images) -->
     <section class="hero">
-        <h1>Radical Proportions.</h1>
-        <p>A haute-intellect ecosystem redefining curve aesthetics. We do not adapt to fashion; fashion bends to our geometry. Unapologetic, youthful, and structurally supreme.</p>
+        <h1 class="hero-headline">Radical<br>Proportions.</h1>
+        <p>A high-intellect ecosystem reshaping curve geometry. We refuse to modify our silhouettes to blend into traditional molds. Unapologetic, premium, and structurally supreme.</p>
     </section>
 
     <!-- Manifesto Block -->
     <section class="manifesto">
-        <p>"To own space is an act of defiance. We curate for the modern muse who moves with heavy tension, deep intellect, and absolute velocity."</p>
+        <p>"To own space is an act of defiance. We curate for the modern youth muse who moves with absolute velocity, heavy tension, and radical self-love."</p>
     </section>
 
     <!-- ==========================================
@@ -462,27 +473,31 @@
          ========================================== -->
     <section class="editorial-grid">
         
-        <!-- SPORTS BLOCK: Youthful, Active Plus Size Energy -->
+        <!-- SPORTS BLOCK -->
         <div class="grid-row" id="sports">
             <div class="row-img">
-                <img src="https://images.unsplash.com/photo-1511556532299-8f662fc26c06?auto=format&fit=crop&w=1200&q=80" alt="Fierce Young Plus Size Active Athlete">
+                [ curvy& Muse / Sports Editorial ]
+                <!-- To use your custom image, uncomment the line below and change 'your-image-url' -->
+                <!-- <img src="your-image-url.jpg" alt="Sports"> -->
             </div>
             <div class="row-text">
                 <span class="tag">03 / Dynamic Motion</span>
                 <h3>Sports. Raw Tension & Velocity</h3>
-                <p>Power is measured in movement, not constraints. Our fitness ideology refuses weight-loss compliance. It is about conditioning the body to hold space with ultimate authority. High-tension training, fluid posture, and unyielding stamina for the metropolitan vanguard.</p>
+                <p>Power is measured in movement, not constraints. Our fitness ideology refuses weight-loss compliance. It is about conditioning the youthful body to hold space with ultimate authority. High-tension training, fluid posture, and unyielding stamina for the metropolitan vanguard.</p>
             </div>
         </div>
 
-        <!-- HEALTH BLOCK: Elegant Curve Wellness -->
+        <!-- HEALTH BLOCK -->
         <div class="grid-row" id="health">
             <div class="row-img">
-                <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=1200&q=80" alt="Beautiful Young Confident Plus Size Woman Lifestyle">
+                [ curvy& Muse / Wellness Cut ]
+                <!-- To use your custom image, uncomment the line below and change 'your-image-url' -->
+                <!-- <img src="your-image-url.jpg" alt="Health"> -->
             </div>
             <div class="row-text">
                 <span class="tag">04 / Conscious Rituals</span>
                 <h3>Health. Quiet Luxury From Within</h3>
-                <p>Nourishing the avant-garde spirit. Health is an intellectual luxury, a slow-brewed calibration of somatic peace amidst city noises. We map out bespoke wellness guidelines that honor heavy bone structure, dynamic endocrine systems, and complex mental clarity.</p>
+                <p>Nourishing the avant-garde spirit. Health is an intellectual luxury, a slow-brewed calibration of somatic peace amidst city noises. We map out bespoke wellness guidelines that honor heavy bone structure, dynamic curve biology, and complex mental clarity.</p>
             </div>
         </div>
 
@@ -529,7 +544,7 @@
                 tip = "Powerful geometric silhouette. Pairs flawlessly with structured compression knits and asymmetric utility trousers.";
             } else if (bust < 38 && waist < 32) {
                 size = "Atelier Custom Blueprint";
-                tip = "proportions out of bounds. Accessing personalized pattern drafting to precisely map your individual tension drape.";
+                tip = "Proportions out of bounds. Accessing personalized pattern drafting to precisely map your individual tension drape.";
             }
 
             resultDiv.innerHTML = `<h4>Matrix Size: ${size}</h4><p><em>Design Blueprint:</em> ${tip}</p>`;
