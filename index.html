@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>curvy& | Embrace Your Silhouette - Modern Muse Aesthetics</title>
+    <title>curvy& | The Silhouette Matrix - Modern Muse Editorial</title>
     <style>
         :root {
-            --bg-color: #fcfbfa;
-            --text-color: #1a1a1a;
-            --accent-color: #8c7662;
-            --muted-color: #707070;
+            --bg-editorial: #eceae4; /* VOGUE-style vintage paper tint */
+            --bg-dark: #111111;
+            --text-dark: #111111;
+            --text-light: #faf8f5;
+            --accent-gold: #9e846b;
+            --border-editorial: #222222;
             --font-serif: 'Didot', 'Bodoni MT', 'Cinzel', 'Playfair Display', serif;
             --font-sans: 'Avenir Next', 'Helvetica Neue', Arial, sans-serif;
-            --light-border: #eaeaea;
         }
 
         * {
@@ -22,24 +23,24 @@
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: var(--bg-editorial);
+            color: var(--text-dark);
             font-family: var(--font-sans);
-            line-height: 1.6;
+            line-height: 1.5;
             letter-spacing: 0.5px;
             overflow-x: hidden;
         }
 
-        /* Header / Navigation */
+        /* Fixed Elegant Header */
         header {
             position: fixed;
             top: 0;
             width: 100%;
-            background-color: rgba(252, 251, 250, 0.95);
-            backdrop-filter: blur(5px);
+            background-color: rgba(236, 234, 228, 0.92);
+            backdrop-filter: blur(10px);
             z-index: 1000;
-            border-bottom: 1px solid var(--light-border);
-            padding: 20px 40px;
+            border-bottom: 2px solid var(--text-dark);
+            padding: 25px 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -47,507 +48,460 @@
 
         .logo {
             font-family: var(--font-serif);
-            font-size: 24px;
-            font-weight: 700;
-            letter-spacing: 2px;
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 1px;
             text-transform: lowercase;
         }
         .logo span {
-            color: var(--accent-color);
+            color: var(--accent-gold);
         }
 
         nav a {
             text-decoration: none;
-            color: var(--text-color);
-            margin-left: 30px;
-            font-size: 13px;
+            color: var(--text-dark);
+            margin-left: 35px;
+            font-size: 12px;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            transition: color 0.3s;
+            letter-spacing: 2px;
+            font-weight: 600;
+            transition: opacity 0.3s;
         }
 
         nav a:hover {
-            color: var(--accent-color);
+            opacity: 0.6;
         }
 
-        /* Hero Section */
+        /* Cover Hero Section */
         .hero {
-            height: 100vh;
+            height: 90vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 20px;
-            margin-top: 60px;
-            /* Update to a powerful curve model portrait */
-            background: linear-gradient(rgba(252,251,250,0.35), rgba(252,251,250,0.35)), url('https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            justify-content: flex-end;
+            align-items: flex-start;
+            padding: 100px 50px;
+            margin-top: 80px;
+            /* Stunning, young, fierce plus-size editorial portrait */
+            background: linear-gradient(to top, rgba(17,17,17,0.85) 10%, rgba(17,17,17,0) 60%), url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            color: var(--text-light);
+            border-bottom: 2px solid var(--text-dark);
         }
 
         .hero h1 {
             font-family: var(--font-serif);
-            font-size: 4rem;
+            font-size: 5.5rem;
             font-weight: 400;
-            line-height: 1.1;
-            margin-bottom: 20px;
+            line-height: 1.0;
             text-transform: uppercase;
-            letter-spacing: 4px;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
         }
 
         .hero p {
             font-size: 16px;
-            color: var(--muted-color);
-            max-width: 600px;
-            margin-bottom: 40px;
+            max-width: 650px;
             letter-spacing: 1px;
-        }
-
-        .cta-btn {
-            display: inline-block;
-            padding: 15px 40px;
-            background-color: var(--text-color);
-            color: #fff;
-            text-decoration: none;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: background-color 0.3s, transform 0.3s;
-        }
-
-        .cta-btn:hover {
-            background-color: var(--accent-color);
-            transform: translateY(-2px);
+            opacity: 0.9;
         }
 
         /* Manifesto */
         .manifesto {
-            padding: 100px 40px;
+            padding: 80px 50px;
+            background-color: var(--text-dark);
+            color: var(--text-light);
             text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .manifesto h2 {
-            font-family: var(--font-serif);
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: var(--accent-color);
-            margin-bottom: 20px;
+            border-bottom: 2px solid var(--text-dark);
         }
 
         .manifesto p {
             font-family: var(--font-serif);
-            font-size: 24px;
+            font-size: 28px;
             font-style: italic;
-            line-height: 1.8;
-            color: var(--text-color);
+            max-width: 1000px;
+            margin: 0 auto;
+            line-height: 1.6;
         }
 
-        /* Sections Grid */
-        .sections-container {
-            padding: 0 40px 100px 40px;
-        }
-
-        .section-block {
+        /* ==========================================
+           置顶大气的双巨幕核心工具站 (THE HUB)
+           ========================================== */
+        .interactive-hub {
             display: flex;
-            margin-bottom: 100px;
-            align-items: stretch;
-            background-color: #fff;
-            border: 1px solid #f0f0f0;
+            border-bottom: 2px solid var(--text-dark);
+            background-color: var(--bg-editorial);
         }
 
-        .section-block:nth-child(even) {
-            flex-direction: row-reverse;
-        }
-
-        .section-image {
+        .hub-column {
             flex: 1;
-            min-height: 600px;
-            overflow: hidden;
-        }
-
-        .section-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s;
-        }
-
-        .section-block:hover .section-image img {
-            transform: scale(1.02);
-        }
-
-        .section-content {
-            flex: 1;
-            padding: 60px;
+            padding: 80px 60px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
         }
 
-        .section-tag {
-            font-size: 12px;
+        .hub-column:first-child {
+            border-right: 2px solid var(--text-dark);
+        }
+
+        .hub-tag {
+            font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--accent-color);
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        .section-title {
-            font-family: var(--font-serif);
-            font-size: 2.2rem;
-            font-weight: 400;
+            letter-spacing: 3px;
+            color: var(--accent-gold);
             margin-bottom: 20px;
-            letter-spacing: 1px;
+            font-weight: 700;
         }
 
-        .section-text {
-            color: var(--muted-color);
-            font-size: 14px;
-            line-height: 1.8;
-            margin-bottom: 30px;
-            text-align: justify;
-        }
-
-        /* Interactive Widgets Styling */
-        .widget-box {
-            margin-top: 25px;
-            padding: 25px;
-            background-color: #faf9f6;
-            border: 1px dashed var(--accent-color);
-        }
-
-        .widget-title {
+        .hub-title {
             font-family: var(--font-serif);
-            font-size: 14px;
+            font-size: 2.8rem;
+            line-height: 1.1;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 15px;
-            color: var(--text-color);
+            margin-bottom: 30px;
         }
 
-        .form-group {
-            margin-bottom: 15px;
+        /* Exquisite Form Styling */
+        .editorial-form {
+            margin-bottom: 40px;
         }
 
-        .form-group label {
+        .form-label {
             display: block;
             font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-            color: var(--muted-color);
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+            font-weight: 600;
         }
 
         .form-select, .form-input {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #dcdcd9;
-            background-color: #fff;
-            font-size: 13px;
+            padding: 15px;
+            background-color: transparent;
+            border: 2px solid var(--text-dark);
+            font-size: 14px;
             font-family: var(--font-sans);
-            color: var(--text-color);
+            color: var(--text-dark);
             outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .form-select:focus, .form-input:focus {
-            border-color: var(--text-color);
+            margin-bottom: 25px;
+            font-weight: 500;
         }
 
         .grid-inputs {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .grid-inputs .form-input {
+            margin-bottom: 0;
         }
 
-        .widget-btn {
+        .action-btn {
             width: 100%;
-            padding: 12px;
-            background-color: var(--text-color);
-            color: #fff;
+            padding: 18px;
+            background-color: var(--text-dark);
+            color: var(--text-light);
             border: none;
-            font-size: 11px;
+            font-size: 12px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        .widget-btn:hover {
-            background-color: var(--accent-color);
+        .action-btn:hover {
+            background-color: var(--accent-gold);
+            color: var(--text-dark);
         }
 
-        .widget-result {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #eaeaea;
-            font-size: 13px;
-            line-height: 1.6;
+        /* Result Display Box */
+        .result-panel {
+            margin-top: 30px;
+            padding: 30px;
+            background-color: rgba(17,17,17,0.04);
+            border-left: 4px solid var(--text-dark);
             display: none;
         }
 
-        .widget-result strong {
+        .result-panel h4 {
             font-family: var(--font-serif);
-            font-size: 16px;
-            color: var(--accent-color);
+            font-size: 20px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .result-panel p {
+            font-size: 13px;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        /* ==========================================
+           视觉大片展示区 (EDITORIAL IMAGES)
+           ========================================== */
+        .editorial-grid {
+            background-color: var(--bg-dark);
+            padding: 100px 50px;
+        }
+
+        .grid-row {
+            display: flex;
+            margin-bottom: 100px;
+            align-items: center;
+        }
+        .grid-row:last-child {
+            margin-bottom: 0;
+        }
+        .grid-row:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .row-img {
+            flex: 1.2;
+            height: 650px;
+            overflow: hidden;
+            border: 1px solid #222;
+        }
+
+        .row-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(15%);
+            transition: transform 0.8s ease;
+        }
+
+        .grid-row:hover .row-img img {
+            transform: scale(1.03);
+        }
+
+        .row-text {
+            flex: 1;
+            padding: 0 80px;
+            color: var(--text-light);
+        }
+
+        .row-text .tag {
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .row-text h3 {
+            font-family: var(--font-serif);
+            font-size: 3rem;
+            line-height: 1.1;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+        }
+
+        .row-text p {
+            font-size: 14px;
+            color: #b0b0b0;
+            line-height: 1.8;
+            text-align: justify;
         }
 
         /* Footer */
         footer {
-            background-color: #111;
-            color: #fff;
-            padding: 60px 40px;
+            background-color: var(--text-dark);
+            color: var(--text-light);
+            padding: 80px 50px;
             text-align: center;
-            border-top: 1px solid #222;
+            border-top: 2px solid var(--accent-gold);
         }
 
         .footer-logo {
             font-family: var(--font-serif);
-            font-size: 28px;
-            letter-spacing: 3px;
-            margin-bottom: 20px;
+            font-size: 36px;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
             text-transform: lowercase;
         }
 
-        .footer-links {
-            margin-bottom: 30px;
-        }
-
         .footer-links a {
-            color: #ccc;
+            color: #a0a0a0;
             text-decoration: none;
-            margin: 0 15px;
+            margin: 0 20px;
             font-size: 12px;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             text-transform: uppercase;
+            font-weight: 600;
         }
 
         .footer-links a:hover {
-            color: #fff;
+            color: var(--text-light);
         }
 
         .copyright {
+            margin-top: 40px;
             font-size: 11px;
-            color: #666;
+            color: #555;
             letter-spacing: 1px;
         }
 
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .section-block, .section-block:nth-child(even) {
+        /* Responsive Layouts */
+        @media (max-width: 1024px) {
+            .interactive-hub, .grid-row, .grid-row:nth-child(even) {
                 flex-direction: column;
             }
-            .section-image {
-                min-height: 350px;
-                height: 350px;
+            .hub-column:first-child {
+                border-right: none;
+                border-bottom: 2px solid var(--text-dark);
             }
-            .section-content {
-                padding: 40px 20px;
+            .row-text {
+                padding: 40px 0 0 0;
             }
-        }
-        @media (max-width: 768px) {
-            header {
-                padding: 15px 20px;
-            }
-            nav {
-                display: none;
+            .row-img {
+                width: 100%;
+                height: 450px;
             }
             .hero h1 {
-                font-size: 2.5rem;
-            }
-            .grid-inputs {
-                grid-template-columns: 1fr;
+                font-size: 3.5rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
+    <!-- Top Navigation -->
     <header>
         <div class="logo">curvy<span>&</span></div>
         <nav>
-            <a href="#love">Love</a>
-            <a href="#fashion">Fashion</a>
+            <a href="#the-hub">The Hub</a>
             <a href="#sports">Sports</a>
             <a href="#health">Health</a>
         </nav>
     </header>
 
-    <!-- Hero -->
+    <!-- Main Hero: Young, Bold, Beautiful Plus-Size Cover -->
     <section class="hero">
-        <h1>Define Your Angle</h1>
-        <p>Unapologetic curves, unfiltered edge. A modern aesthetic space curated for the contemporary woman, blending haute couture, wellness, and radical self-love.</p>
-        <a href="#love" class="cta-btn">Explore The Universe</a>
+        <h1>Radical Proportions.</h1>
+        <p>A haute-intellect ecosystem redefining curve aesthetics. We do not adapt to fashion; fashion bends to our geometry. Unapologetic, youthful, and structurally supreme.</p>
     </section>
 
-    <!-- Manifesto -->
+    <!-- Manifesto Block -->
     <section class="manifesto">
-        <h2>The Manifesto</h2>
-        <p>"Beauty is never a standard; it is a fluid silhouette. Here, we honor the tension of every skin, and salute the souls that refuse to be tamed."</p>
+        <p>"To own space is an act of defiance. We curate for the modern muse who moves with heavy tension, deep intellect, and absolute velocity."</p>
     </section>
 
-    <!-- Sections Grid -->
-    <div class="sections-container">
+    <!-- ==========================================
+         置顶双区巨幕交互站 (HIGH-INTELLECT TOOL HUB)
+         ========================================== -->
+    <section class="interactive-hub" id="the-hub">
         
-        <!-- LOVE (Plus-size Confidence / Dating Widget) -->
-        <section class="section-block" id="love">
-            <div class="section-image">
-                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1000&q=80" alt="Empowered Curve Woman">
-            </div>
-            <div class="section-content">
-                <div class="section-tag">01 / Self-Love & Connection</div>
-                <h2 class="section-title">Love. An Uncompromised State of Being</h2>
-                <p class="section-text">True romance begins in the mirror. curvy& champions unconditional self-acceptance. In modern romance, knowing your intent is your ultimate power. Use our algorithmic blueprint below to find a dating platform attuned to your specific frequency.</p>
+        <!-- COLUMN 1: FASHION SIZE MATRICULATOR -->
+        <div class="hub-column">
+            <div>
+                <span class="hub-tag">01 / Silhouette Matrix</span>
+                <h2 class="hub-title">Predictive<br>Size Engine</h2>
                 
-                <!-- WIDGET: Dating App Persona Matcher -->
-                <div class="widget-box">
-                    <div class="widget-title">✦ Dating Space Matcher</div>
-                    <div class="form-group">
-                        <label>Your Core Intent</label>
-                        <select class="form-select" id="dating-intent">
-                            <option value="intellectual">High-Intellect Conversation & Mindset</option>
-                            <option value="initiative">Taking Complete Initiative (Women Lead)</option>
-                            <option value="soul">Deep Soul-Matching & Serious Commitment</option>
-                            <option value="fast">Fluid, Fast-Paced Modern Dating</option>
-                        </select>
+                <div class="editorial-form">
+                    <label class="form-label">Measurement Scale</label>
+                    <select class="form-select" id="size-unit">
+                        <option value="inch">Inches (in)</option>
+                        <option value="cm">Centimeters (cm)</option>
+                    </select>
+
+                    <label class="form-label">Anatomical Dimensions</label>
+                    <div class="grid-inputs">
+                        <input type="number" class="form-input" id="bust-val" placeholder="Bust">
+                        <input type="number" class="form-input" id="waist-val" placeholder="Waist">
+                        <input type="number" class="form-input" id="hips-val" placeholder="Hips">
                     </div>
-                    <div class="form-group">
-                        <label>Desired Aesthetic Vibe</label>
-                        <select class="form-select" id="dating-vibe">
-                            <option value="curated">Curated & Professional</option>
-                            <option value="empowered">Empowered & Feminist</option>
-                            <option value="mindful">Slow & Meaningful</option>
-                            <option value="vibrant">Vibrant & Casual</option>
-                        </select>
-                    </div>
-                    <button class="widget-btn" onclick="matchDatingApp()">Review My Vibe</button>
-                    
-                    <div class="widget-result" id="dating-result"></div>
                 </div>
-
             </div>
-        </section>
-
-        <!-- FASHION (Plus-size Couture Runway / Size Widget) -->
-        <section class="section-block" id="fashion">
-            <div class="section-image">
-                <img src="https://images.unsplash.com/photo-1594744803329-e58b31de215f?auto=format&fit=crop&w=1000&q=80" alt="High Fashion Curve Silhouette">
+            
+            <div>
+                <button class="action-btn" onclick="calculateMatrixSize()">Generate Custom Silhouette Fit</button>
+                <div class="result-panel" id="size-result"></div>
             </div>
-            <div class="section-content">
-                <div class="section-tag">02 / Haute Couture</div>
-                <h2 class="section-title">Fashion. Sharp Tailoring for the Modern Muse</h2>
-                <p class="section-text">Inheriting the cold elegance and structural vision of avant-garde fashion, our wardrobe is built for the woman who never conforms. Forget generic mass-market sizing—input your fluid dimensions below to unlock your flawless silhouette matrix.</p>
+        </div>
+
+        <!-- COLUMN 2: LOVE DATING APP PERSONA REVIEW -->
+        <div class="hub-column">
+            <div>
+                <span class="hub-tag">02 / Modern Romance Blueprint</span>
+                <h2 class="hub-title">Dating Space<br>Persona Matcher</h2>
                 
-                <!-- WIDGET: Size Smart Predictor -->
-                <div class="widget-box">
-                    <div class="widget-title">✦ Silhouette Matrix Calculator</div>
-                    <div class="form-group">
-                        <label>Measurement Unit</label>
-                        <select class="form-select" id="size-unit" onchange="toggleUnitLabel()">
-                            <option value="inch">Inches (in)</option>
-                            <option value="cm">Centimeters (cm)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label id="measure-label">Input Dimensions (Bust / Waist / Hips)</label>
-                        <div class="grid-inputs">
-                            <input type="number" class="form-input" id="bust-val" placeholder="Bust">
-                            <input type="number" class="form-input" id="waist-val" placeholder="Waist">
-                            <input type="number" class="form-input" id="hips-val" placeholder="Hips">
-                        </div>
-                    </div>
-                    <button class="widget-btn" onclick="calculateSize()">Predict My Silhouette</button>
-                    
-                    <div class="widget-result" id="size-result"></div>
+                <div class="editorial-form">
+                    <label class="form-label">The Core Intent</label>
+                    <select class="form-select" id="dating-intent">
+                        <option value="intellectual">High-Intellect Over Superficial Swiping</option>
+                        <option value="initiative">Radical Initiative (Women Dictate Flow)</option>
+                        <option value="soul">Vulnerable Prompts & Serious Alignment</option>
+                        <option value="fast">Fluid, Fast-Paced Metropolitan Vibe</option>
+                    </select>
+
+                    <label class="form-label">Aesthetic Environment</label>
+                    <select class="form-select" id="dating-vibe">
+                        <option value="curated">Curated, Selective & Career-Aligned</option>
+                        <option value="empowered">Feminist-Driven Framework</option>
+                        <option value="mindful">Slow, Mindful Self-Expression</option>
+                        <option value="vibrant">Spontaneous & Casual Velocity</option>
+                    </select>
                 </div>
+            </div>
 
+            <div>
+                <button class="action-btn" onclick="matchDatingBlueprint()">Review Dating Matrix Match</button>
+                <div class="result-panel" id="dating-result"></div>
             </div>
-        </section>
+        </div>
 
-        <!-- SPORTS (Plus-size Active Motion) -->
-        <section class="section-block" id="sports">
-            <div class="section-image">
-                <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=1000&q=80" alt="Dynamic Curves In Motion">
-            </div>
-            <div class="section-content">
-                <div class="section-tag">03 / Dynamic Energy</div>
-                <h2 class="section-title">Sports. Raw Vitality & High-Tension Motion</h2>
-                <p class="section-text">Movement is not about fitting into a size; it is about unleashing the untamed energy within. Our athletic aesthetic translates sweat into a badge of power. Whether through high-intensity training or deliberate flows, every movement celebrates the peak velocity of life.</p>
-                <a href="#" class="section-link">Unlock Athletics</a>
-            </div>
-        </section>
+    </section>
 
-        <!-- HEALTH (Plus-size Grace & Mindful Lifestyle) -->
-        <section class="section-block" id="health">
-            <div class="section-image">
-                <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=1000&q=80" alt="Elegant Wellness Space">
+    <!-- ==========================================
+         视觉画廊大片区 (EDITORIAL VISUAL GALLERY)
+         ========================================== -->
+    <section class="editorial-grid">
+        
+        <!-- SPORTS BLOCK: Youthful, Active Plus Size Energy -->
+        <div class="grid-row" id="sports">
+            <div class="row-img">
+                <img src="https://images.unsplash.com/photo-1548690312-e3b507d8c110?auto=format&fit=crop&w=1200&q=80" alt="Fierce Young Plus Size Active Athlete">
             </div>
-            <div class="section-content">
-                <div class="section-tag">04 / Inner Peace</div>
-                <h2 class="section-title">Health. Conscious Balance & Quiet Luxury</h2>
-                <p class="section-text">Radiance from within is the ultimate luxury for the high-intellect woman. We tune into the subtle perceptions of the body and mind. From clean nourishment to deep mindfulness rituals, we offer an elegant wellness paradigm to anchor your soul in the metropolitan rush.</p>
-                <a href="#" class="section-link">Discover Rituals</a>
+            <div class="row-text">
+                <span class="tag">03 / Dynamic Motion</span>
+                <h3>Sports. Raw Tension & Velocity</h3>
+                <p>Power is measured in movement, not constraints. Our fitness ideology refuses weight-loss compliance. It is about conditioning the body to hold space with ultimate authority. High-tension training, fluid posture, and unyielding stamina for the metropolitan vanguard.</p>
             </div>
-        </section>
+        </div>
 
-    </div>
+        <!-- HEALTH BLOCK: Elegant Curve Wellness -->
+        <div class="grid-row" id="health">
+            <div class="row-img">
+                <img src="https://images.unsplash.com/photo-1506152983158-b4a74a01c721?auto=format&fit=crop&w=1200&q=80" alt="Beautiful Young Confident Plus Size Woman Lifestyle">
+            </div>
+            <div class="row-text">
+                <span class="tag">04 / Conscious Rituals</span>
+                <h3>Health. Quiet Luxury From Within</h3>
+                <p>Nourishing the avant-garde spirit. Health is an intellectual luxury, a slow-brewed calibration of somatic peace amidst city noises. We map out bespoke wellness guidelines that honor heavy bone structure, dynamic endocrine systems, and complex mental clarity.</p>
+            </div>
+        </div>
+
+    </section>
 
     <!-- Footer -->
     <footer>
         <div class="footer-logo">curvy&</div>
         <div class="footer-links">
-            <a href="#love">Love</a>
-            <a href="#fashion">Fashion</a>
+            <a href="#the-hub">The Hub</a>
             <a href="#sports">Sports</a>
             <a href="#health">Health</a>
         </div>
-        <div class="copyright">&copy; 2026 curvy& Official. All Rights Reserved. Designed for the modern Muse.</div>
+        <div class="copyright">&copy; 2026 curvy& Matrix. All Rights Reserved. Designed for the Avant-Garde Muse.</div>
     </footer>
 
-    <!-- INTERACTIVE SCRIPTS -->
+    <!-- LOGICAL SCRIPTS -->
     <script>
-        // 1. Dating App Matcher Review Logic
-        function matchDatingApp() {
-            const intent = document.getElementById('dating-intent').value;
-            const vibe = document.getElementById('dating-vibe').value;
-            const resultDiv = document.getElementById('dating-result');
-            
-            let appName = "";
-            let reviewText = "";
-            let score = "9.4/10";
-
-            if (intent === 'intellectual' || vibe === 'curated') {
-                appName = "Raya / Coffee Meets Bagel";
-                reviewText = "Highly recommended for high-profile intellectual matching. Curated circles that value substance and career alignment over superficial swiping.";
-            } else if (intent === 'initiative' || vibe === 'empowered') {
-                appName = "Bumble";
-                reviewText = "The absolute feminist paradigm. Women make the first move, neutralizing the digital noise and putting you in absolute control of your romance narrative.";
-                score = "9.7/10";
-            } else if (intent === 'soul' || vibe === 'mindful') {
-                appName = "Hinge";
-                reviewText = "Designed to be deleted. Its prompt-based mechanism forces authentic self-expression, fostering vulnerability and profound long-term commitment.";
-                score = "9.5/10";
-            } else {
-                appName = "Tinder / Pure";
-                reviewText = "High-velocity, highly visual. Ideal for spontaneous connection and fast-paced modern dating, though requires deliberate filtering.";
-                score = "8.8/10";
-            }
-
-            resultDiv.innerHTML = `
-                <p>✦ <strong>Top Match: ${appName}</strong> (Aesthetic Score: ${score})</p>
-                <p style="color: var(--muted-color); font-size: 12px; margin-top: 5px;">${reviewText}</p>
-            `;
-            resultDiv.style.display = 'block';
-        }
-
-        // 2. Size Smart Predictor Logic
-        function toggleUnitLabel() {}
-
-        function calculateSize() {
+        function calculateMatrixSize() {
             const unit = document.getElementById('size-unit').value;
             let bust = parseFloat(document.getElementById('bust-val').value);
             let waist = parseFloat(document.getElementById('waist-val').value);
@@ -555,35 +509,56 @@
             const resultDiv = document.getElementById('size-result');
 
             if (!bust || !waist || !hips) {
-                resultDiv.innerHTML = "<p style='color: #b22222;'>Please input all measurements to calibrate matrix.</p>";
+                resultDiv.innerHTML = "<h4>Calibration Error</h4><p>Please provide complete dimensions to unlock your fashion silhouette matrix.</p>";
                 resultDiv.style.display = 'block';
                 return;
             }
 
             if (unit === 'cm') {
-                bust = bust / 2.54;
-                waist = waist / 2.54;
-                hips = hips / 2.54;
+                bust /= 2.54; waist /= 2.54; hips /= 2.54;
             }
 
-            let predictedSize = "1X (curvy& Muse)";
-            let stylingTip = "Your silhouette radiates classic architecture. Perfect for our sharp waistline blazers and plunging neckline statement slips.";
+            let size = "1X / curvy& Muse";
+            let tip = "Architectural masterpiece. Accentuating the natural draft with sharp, structural mid-waist tailoring and deep architectural lapels.";
 
             if (bust > 48 || waist > 42 || hips > 52) {
-                predictedSize = "3X (curvy& Goddess)";
-                stylingTip = "Exquisite high-tension volume. We highly recommend our fluid-draped maxi silks and deconstructed tailored overcoats.";
+                size = "3X / curvy& Sovereign";
+                tip = "High-tension dramatic volume. We highly recommend heavy silk drapes and fluid, deconstructed longline dusters.";
             } else if (bust > 44 || waist > 38 || hips > 47) {
-                predictedSize = "2X (curvy& Avant-Garde)";
-                stylingTip = "Stunning curves with powerful posture. Ideal for our compression knit structural dresses and asymmetric high-rise statement pants.";
+                size = "2X / curvy& Avant-Garde";
+                tip = "Powerful geometric silhouette. Pairs flawlessly with structured compression knits and asymmetric utility trousers.";
             } else if (bust < 38 && waist < 32) {
-                predictedSize = "Studio Tailored Fit";
-                stylingTip = "A bespoke proportions matrix. Explore our personalized atelier service to capture the exact tension of your drape.";
+                size = "Atelier Custom Blueprint";
+                tip = "proportions out of bounds. Accessing personalized pattern drafting to precisely map your individual tension drape.";
             }
 
-            resultDiv.innerHTML = `
-                <p>✦ <strong>Your Matrix Size: ${predictedSize}</strong></p>
-                <p style="color: var(--muted-color); font-size: 12px; margin-top: 5px;"><em>Atelier Note:</em> ${stylingTip}</p>
-            `;
+            resultDiv.innerHTML = `<h4>Matrix Size: ${size}</h4><p><em>Design Blueprint:</em> ${tip}</p>`;
+            resultDiv.style.display = 'block';
+        }
+
+        function matchDatingBlueprint() {
+            const intent = document.getElementById('dating-intent').value;
+            const vibe = document.getElementById('dating-vibe').value;
+            const resultDiv = document.getElementById('dating-result');
+            
+            let platform = "";
+            let critique = "";
+
+            if (intent === 'intellectual' || vibe === 'curated') {
+                platform = "Coffee Meets Bagel / Raya Archive";
+                critique = "Calculated for high-intellect filter systems. Bypasses the superficial noise, focusing on career alignments and heavy conversational chemistry.";
+            } else if (intent === 'initiative' || vibe === 'empowered') {
+                platform = "Bumble Matrix";
+                critique = "Absolute authority paradigm. Putting you in absolute custody of the dynamic flow, eliminating digital harassment and unsolicited noise.";
+            } else if (intent === 'soul' || vibe === 'mindful') {
+                platform = "Hinge Blueprint";
+                critique = "Designed to be deleted. Prompt-driven structural communication that forces transparency and filters for high-commitment intentionality.";
+            } else {
+                platform = "Pure / Spontaneous Network";
+                critique = "High-velocity physical honesty. Best suited for fluid metropolitan connections, requiring immediate intentional filtering on your terms.";
+            }
+
+            resultDiv.innerHTML = `<h4>Platform Match: ${platform}</h4><p><em>Editorial Review:</em> ${critique}</p>`;
             resultDiv.style.display = 'block';
         }
     </script>
