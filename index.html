@@ -12,6 +12,7 @@
             --muted-color: #707070;
             --font-serif: 'Didot', 'Bodoni MT', 'Cinzel', 'Playfair Display', serif;
             --font-sans: 'Avenir Next', 'Helvetica Neue', Arial, sans-serif;
+            --light-border: #eaeaea;
         }
 
         * {
@@ -37,7 +38,7 @@
             background-color: rgba(252, 251, 250, 0.95);
             backdrop-filter: blur(5px);
             z-index: 1000;
-            border-bottom: 1px solid #eaeaea;
+            border-bottom: 1px solid var(--light-border);
             padding: 20px 40px;
             display: flex;
             justify-content: space-between;
@@ -79,7 +80,8 @@
             text-align: center;
             padding: 0 20px;
             margin-top: 60px;
-            background: linear-gradient(rgba(252,251,250,0.4), rgba(252,251,250,0.4)), url('https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            /* Update to a powerful curve model portrait */
+            background: linear-gradient(rgba(252,251,250,0.35), rgba(252,251,250,0.35)), url('https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
         }
 
         .hero h1 {
@@ -149,8 +151,8 @@
 
         .section-block {
             display: flex;
-            margin-bottom: 80px;
-            align-items: center;
+            margin-bottom: 100px;
+            align-items: stretch;
             background-color: #fff;
             border: 1px solid #f0f0f0;
         }
@@ -161,7 +163,7 @@
 
         .section-image {
             flex: 1;
-            height: 550px;
+            min-height: 600px;
             overflow: hidden;
         }
 
@@ -173,12 +175,15 @@
         }
 
         .section-block:hover .section-image img {
-            transform: scale(1.03);
+            transform: scale(1.02);
         }
 
         .section-content {
             flex: 1;
             padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .section-tag {
@@ -206,21 +211,88 @@
             text-align: justify;
         }
 
-        .section-link {
-            display: inline-block;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text-color);
-            text-decoration: none;
-            border-bottom: 1px solid var(--text-color);
-            padding-bottom: 4px;
-            transition: color 0.3s, border-color 0.3s;
+        /* Interactive Widgets Styling */
+        .widget-box {
+            margin-top: 25px;
+            padding: 25px;
+            background-color: #faf9f6;
+            border: 1px dashed var(--accent-color);
         }
 
-        .section-link:hover {
+        .widget-title {
+            font-family: var(--font-serif);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            color: var(--muted-color);
+        }
+
+        .form-select, .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #dcdcd9;
+            background-color: #fff;
+            font-size: 13px;
+            font-family: var(--font-sans);
+            color: var(--text-color);
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-select:focus, .form-input:focus {
+            border-color: var(--text-color);
+        }
+
+        .grid-inputs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .widget-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--text-color);
+            color: #fff;
+            border: none;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .widget-btn:hover {
+            background-color: var(--accent-color);
+        }
+
+        .widget-result {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eaeaea;
+            font-size: 13px;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .widget-result strong {
+            font-family: var(--font-serif);
+            font-size: 16px;
             color: var(--accent-color);
-            border-color: var(--accent-color);
         }
 
         /* Footer */
@@ -264,6 +336,18 @@
         }
 
         /* Responsive Design */
+        @media (max-width: 992px) {
+            .section-block, .section-block:nth-child(even) {
+                flex-direction: column;
+            }
+            .section-image {
+                min-height: 350px;
+                height: 350px;
+            }
+            .section-content {
+                padding: 40px 20px;
+            }
+        }
         @media (max-width: 768px) {
             header {
                 padding: 15px 20px;
@@ -274,15 +358,8 @@
             .hero h1 {
                 font-size: 2.5rem;
             }
-            .section-block, .section-block:nth-child(even) {
-                flex-direction: column;
-            }
-            .section-image {
-                width: 100%;
-                height: 350px;
-            }
-            .section-content {
-                padding: 40px 20px;
+            .grid-inputs {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -316,36 +393,85 @@
     <!-- Sections Grid -->
     <div class="sections-container">
         
-        <!-- LOVE -->
+        <!-- LOVE (Plus-size Confidence / Dating Widget) -->
         <section class="section-block" id="love">
             <div class="section-image">
-                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1000&q=80" alt="Love">
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1000&q=80" alt="Empowered Curve Woman">
             </div>
             <div class="section-content">
-                <div class="section-tag">01 / Self-Love</div>
+                <div class="section-tag">01 / Self-Love & Connection</div>
                 <h2 class="section-title">Love. An Uncompromised State of Being</h2>
-                <p class="section-text">True romance begins in the mirror. curvy& champions unconditional self-acceptance. Breaking traditional aesthetic paradigms, the sensuality of the modern woman lies in her resolute gaze and inherent aura. Loving every angle of yourself is the ultimate form of high fashion.</p>
-                <a href="#" class="section-link">Read the Editorial</a>
+                <p class="section-text">True romance begins in the mirror. curvy& champions unconditional self-acceptance. In modern romance, knowing your intent is your ultimate power. Use our algorithmic blueprint below to find a dating platform attuned to your specific frequency.</p>
+                
+                <!-- WIDGET: Dating App Persona Matcher -->
+                <div class="widget-box">
+                    <div class="widget-title">✦ Dating Space Matcher</div>
+                    <div class="form-group">
+                        <label>Your Core Intent</label>
+                        <select class="form-select" id="dating-intent">
+                            <option value="intellectual">High-Intellect Conversation & Mindset</option>
+                            <option value="initiative">Taking Complete Initiative (Women Lead)</option>
+                            <option value="soul">Deep Soul-Matching & Serious Commitment</option>
+                            <option value="fast">Fluid, Fast-Paced Modern Dating</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Desired Aesthetic Vibe</label>
+                        <select class="form-select" id="dating-vibe">
+                            <option value="curated">Curated & Professional</option>
+                            <option value="empowered">Empowered & Feminist</option>
+                            <option value="mindful">Slow & Meaningful</option>
+                            <option value="vibrant">Vibrant & Casual</option>
+                        </select>
+                    </div>
+                    <button class="widget-btn" onclick="matchDatingApp()">Review My Vibe</button>
+                    
+                    <div class="widget-result" id="dating-result"></div>
+                </div>
+
             </div>
         </section>
 
-        <!-- FASHION -->
+        <!-- FASHION (Plus-size Couture Runway / Size Widget) -->
         <section class="section-block" id="fashion">
             <div class="section-image">
-                <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1000&q=80" alt="Fashion">
+                <img src="https://images.unsplash.com/photo-1594744803329-e58b31de215f?auto=format&fit=crop&w=1000&q=80" alt="High Fashion Curve Silhouette">
             </div>
             <div class="section-content">
                 <div class="section-tag">02 / Haute Couture</div>
                 <h2 class="section-title">Fashion. Sharp Tailoring for the Modern Muse</h2>
-                <p class="section-text">Inheriting the cold elegance and structural vision of avant-garde fashion, our wardrobe is built for the woman who never conforms. Structural lines collide with fluid premium textures. We reject fleeting trends, carving out powerful, timeless silhouettes just for you.</p>
-                <a href="#" class="section-link">View Collection</a>
+                <p class="section-text">Inheriting the cold elegance and structural vision of avant-garde fashion, our wardrobe is built for the woman who never conforms. Forget generic mass-market sizing—input your fluid dimensions below to unlock your flawless silhouette matrix.</p>
+                
+                <!-- WIDGET: Size Smart Predictor -->
+                <div class="widget-box">
+                    <div class="widget-title">✦ Silhouette Matrix Calculator</div>
+                    <div class="form-group">
+                        <label>Measurement Unit</label>
+                        <select class="form-select" id="size-unit" onchange="toggleUnitLabel()">
+                            <option value="inch">Inches (in)</option>
+                            <option value="cm">Centimeters (cm)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label id="measure-label">Input Dimensions (Bust / Waist / Hips)</label>
+                        <div class="grid-inputs">
+                            <input type="number" class="form-input" id="bust-val" placeholder="Bust">
+                            <input type="number" class="form-input" id="waist-val" placeholder="Waist">
+                            <input type="number" class="form-input" id="hips-val" placeholder="Hips">
+                        </div>
+                    </div>
+                    <button class="widget-btn" onclick="calculateSize()">Predict My Silhouette</button>
+                    
+                    <div class="widget-result" id="size-result"></div>
+                </div>
+
             </div>
         </section>
 
-        <!-- SPORTS -->
+        <!-- SPORTS (Plus-size Active Motion) -->
         <section class="section-block" id="sports">
             <div class="section-image">
-                <img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&w=1000&q=80" alt="Sports">
+                <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=1000&q=80" alt="Dynamic Curves In Motion">
             </div>
             <div class="section-content">
                 <div class="section-tag">03 / Dynamic Energy</div>
@@ -355,10 +481,10 @@
             </div>
         </section>
 
-        <!-- HEALTH -->
+        <!-- HEALTH (Plus-size Grace & Mindful Lifestyle) -->
         <section class="section-block" id="health">
             <div class="section-image">
-                <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=1000&q=80" alt="Health">
+                <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=1000&q=80" alt="Elegant Wellness Space">
             </div>
             <div class="section-content">
                 <div class="section-tag">04 / Inner Peace</div>
@@ -382,5 +508,84 @@
         <div class="copyright">&copy; 2026 curvy& Official. All Rights Reserved. Designed for the modern Muse.</div>
     </footer>
 
+    <!-- INTERACTIVE SCRIPTS -->
+    <script>
+        // 1. Dating App Matcher Review Logic
+        function matchDatingApp() {
+            const intent = document.getElementById('dating-intent').value;
+            const vibe = document.getElementById('dating-vibe').value;
+            const resultDiv = document.getElementById('dating-result');
+            
+            let appName = "";
+            let reviewText = "";
+            let score = "9.4/10";
+
+            if (intent === 'intellectual' || vibe === 'curated') {
+                appName = "Raya / Coffee Meets Bagel";
+                reviewText = "Highly recommended for high-profile intellectual matching. Curated circles that value substance and career alignment over superficial swiping.";
+            } else if (intent === 'initiative' || vibe === 'empowered') {
+                appName = "Bumble";
+                reviewText = "The absolute feminist paradigm. Women make the first move, neutralizing the digital noise and putting you in absolute control of your romance narrative.";
+                score = "9.7/10";
+            } else if (intent === 'soul' || vibe === 'mindful') {
+                appName = "Hinge";
+                reviewText = "Designed to be deleted. Its prompt-based mechanism forces authentic self-expression, fostering vulnerability and profound long-term commitment.";
+                score = "9.5/10";
+            } else {
+                appName = "Tinder / Pure";
+                reviewText = "High-velocity, highly visual. Ideal for spontaneous connection and fast-paced modern dating, though requires deliberate filtering.";
+                score = "8.8/10";
+            }
+
+            resultDiv.innerHTML = `
+                <p>✦ <strong>Top Match: ${appName}</strong> (Aesthetic Score: ${score})</p>
+                <p style="color: var(--muted-color); font-size: 12px; margin-top: 5px;">${reviewText}</p>
+            `;
+            resultDiv.style.display = 'block';
+        }
+
+        // 2. Size Smart Predictor Logic
+        function toggleUnitLabel() {}
+
+        function calculateSize() {
+            const unit = document.getElementById('size-unit').value;
+            let bust = parseFloat(document.getElementById('bust-val').value);
+            let waist = parseFloat(document.getElementById('waist-val').value);
+            let hips = parseFloat(document.getElementById('hips-val').value);
+            const resultDiv = document.getElementById('size-result');
+
+            if (!bust || !waist || !hips) {
+                resultDiv.innerHTML = "<p style='color: #b22222;'>Please input all measurements to calibrate matrix.</p>";
+                resultDiv.style.display = 'block';
+                return;
+            }
+
+            if (unit === 'cm') {
+                bust = bust / 2.54;
+                waist = waist / 2.54;
+                hips = hips / 2.54;
+            }
+
+            let predictedSize = "1X (curvy& Muse)";
+            let stylingTip = "Your silhouette radiates classic architecture. Perfect for our sharp waistline blazers and plunging neckline statement slips.";
+
+            if (bust > 48 || waist > 42 || hips > 52) {
+                predictedSize = "3X (curvy& Goddess)";
+                stylingTip = "Exquisite high-tension volume. We highly recommend our fluid-draped maxi silks and deconstructed tailored overcoats.";
+            } else if (bust > 44 || waist > 38 || hips > 47) {
+                predictedSize = "2X (curvy& Avant-Garde)";
+                stylingTip = "Stunning curves with powerful posture. Ideal for our compression knit structural dresses and asymmetric high-rise statement pants.";
+            } else if (bust < 38 && waist < 32) {
+                predictedSize = "Studio Tailored Fit";
+                stylingTip = "A bespoke proportions matrix. Explore our personalized atelier service to capture the exact tension of your drape.";
+            }
+
+            resultDiv.innerHTML = `
+                <p>✦ <strong>Your Matrix Size: ${predictedSize}</strong></p>
+                <p style="color: var(--muted-color); font-size: 12px; margin-top: 5px;"><em>Atelier Note:</em> ${stylingTip}</p>
+            `;
+            resultDiv.style.display = 'block';
+        }
+    </script>
 </body>
 </html>
