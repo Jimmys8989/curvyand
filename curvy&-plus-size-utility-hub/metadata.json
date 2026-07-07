@@ -1,0 +1,8 @@
+{
+  "name": "Curvy& Plus-Size Utility Hub",
+  "description": "An elegant, Vogue-style digital studio and tool station for the plus-size community, featuring bespoke interactive engines for Fashion, Love, Sports, and Health.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
