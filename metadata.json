@@ -1,6 +1,0 @@
-{
-  "name": "Curvy&",
-  "description": "A premium fashion tool and brand size converter for the plus-size community.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
