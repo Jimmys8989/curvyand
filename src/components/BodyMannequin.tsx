@@ -59,10 +59,20 @@ export default function BodyMannequin({
   const waistRy = 6;
   const hipsRy = 8;
 
-  // Heights on canvas coordinate Y
-  const bustY = 85;
-  const waistY = 125;
-  const hipsY = 168;
+  // Calculate height ratio (normalized 0.0 to 1.0)
+  // height ranges from 55 to 80 inches (or 140 to 203 cm)
+  const heightPercent = isInch ? (height - 55) / 25 : (height - 140) / 63;
+  const heightClamped = Math.max(0, Math.min(1, heightPercent));
+
+  // Heights on canvas coordinate Y dynamically adjusted by height slider
+  const headTopY = 25;
+  const neckY = headTopY + 10 * (0.8 + heightClamped * 0.4);
+  const shoulderY = neckY + 13 * (0.8 + heightClamped * 0.4);
+  const bustY = shoulderY + 37 * (0.85 + heightClamped * 0.3);
+  const waistY = bustY + 40 * (0.85 + heightClamped * 0.3);
+  const hipsY = waistY + 43 * (0.85 + heightClamped * 0.3);
+  const crotchY = hipsY + 12 * (0.8 + heightClamped * 0.4);
+  const ankleY = crotchY + 55 * (0.7 + heightClamped * 0.6);
 
   // Interactive focus handler
   const handleSelect = (field: "bust" | "waist" | "hips" | "height") => {
@@ -129,7 +139,7 @@ export default function BodyMannequin({
 
         {/* 2. Main Silhouette Outline (Middle Layer - fully dynamic curvy outline) */}
         <path
-          d={`M 100 25 C 96 25, 96 35, 96 35 C 85 37, ${leftShoulderX} 42, ${leftShoulderX} 48 C ${leftShoulderX} 56, ${leftBustX} 70, ${leftBustX} 85 C ${leftBustX} 100, ${leftWaistX} 110, ${leftWaistX} 125 C ${leftWaistX} 135, ${leftHipsX} 150, ${leftHipsX} 168 C ${leftHipsX} 185, ${leftLegThighX} 210, ${leftAnkleX} 235 L ${leftInnerLegX} 235 L 97 180 L 100 180 L 103 180 L ${rightInnerLegX} 235 L ${rightAnkleX} 235 C ${rightLegThighX} 210, ${rightHipsX} 185, ${rightHipsX} 168 C ${rightHipsX} 150, ${rightWaistX} 135, ${rightWaistX} 125 C ${rightWaistX} 110, ${rightBustX} 100, ${rightBustX} 85 C ${rightBustX} 70, ${rightShoulderX} 56, ${rightShoulderX} 48 C ${rightShoulderX} 42, 115 37, 104 35 C 104 35, 104 25, 100 25 Z`}
+                    d={`M 100 ${headTopY} C 96 ${headTopY}, 96 ${neckY}, 96 ${neckY} C 85 ${neckY + 2}, ${leftShoulderX} ${shoulderY - 6}, ${leftShoulderX} ${shoulderY} C ${leftShoulderX} ${shoulderY + 8}, ${leftBustX} ${bustY - 15}, ${leftBustX} ${bustY} C ${leftBustX} ${bustY + 15}, ${leftWaistX} ${waistY - 15}, ${leftWaistX} ${waistY} C ${leftWaistX} ${waistY + 10}, ${leftHipsX} ${hipsY - 18}, ${leftHipsX} ${hipsY} C ${leftHipsX} ${hipsY + 17}, ${leftLegThighX} ${ankleY - 25}, ${leftAnkleX} ${ankleY} L ${leftInnerLegX} ${ankleY} L 97 ${crotchY} L 100 ${crotchY} L 103 ${crotchY} L ${rightInnerLegX} ${ankleY} L ${rightAnkleX} ${ankleY} C ${rightLegThighX} ${ankleY - 25}, ${rightHipsX} ${hipsY + 17}, ${rightHipsX} ${hipsY} C ${rightHipsX} ${hipsY - 18}, ${rightWaistX} ${waistY + 10}, ${rightWaistX} ${waistY} C ${rightWaistX} ${waistY - 15}, ${rightBustX} ${bustY + 15}, ${rightBustX} ${bustY} C ${rightBustX} ${bustY - 15}, ${rightShoulderX} ${shoulderY + 8}, ${rightShoulderX} ${shoulderY} C ${rightShoulderX} ${shoulderY - 6}, 115 ${neckY + 2}, 104 ${neckY} C 104 ${neckY}, 104 ${headTopY}, 100 ${headTopY} Z`}
           fill="url(#mannequinGrad)"
           stroke="#DFB7B0"
           strokeWidth="1.2"
@@ -287,7 +297,7 @@ export default function BodyMannequin({
           />
           <circle
             cx="185"
-            cy={235 - Math.max(10, Math.min(200, (height / (isInch ? 80 : 203)) * 200))}
+            cy={235 - heightClamped * 210}
             r={activeField === "height" ? "5" : "3.5"}
             fill={activeField === "height" ? "#9E5A44" : "#FFFFFF"}
             stroke="#9E5A44"
