@@ -57,9 +57,9 @@ export default function App() {
     return BRANDS;
   });
 
-  // Comments/Sizing Diary state
+  // Comments/Sizing Diary state (v2 key to force bust cached values)
   const [comments, setComments] = useState<Comment[]>(() => {
-    const saved = localStorage.getItem("curvy_comments");
+    const saved = localStorage.getItem("curvy_comments_v2");
     return saved ? JSON.parse(saved) : INITIAL_COMMENTS;
   });
 
@@ -78,7 +78,7 @@ export default function App() {
   }, [brands]);
 
   useEffect(() => {
-    localStorage.setItem("curvy_comments", JSON.stringify(comments));
+    localStorage.setItem("curvy_comments_v2", JSON.stringify(comments));
   }, [comments]);
 
   // Handler to save profile
