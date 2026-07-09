@@ -870,44 +870,212 @@ BRANDS.forEach((brand) => {
   brand.coverImage = fashionCovers[brand.category] || fashionCovers.premium_plus;
 });
 
-export const INITIAL_COMMENTS: Comment[] = [
-  {
-    id: "1",
-    brandId: "torrid",
-    author: "Ashley Thompson",
-    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=100&h=100",
-    text: "I was super nervous buying my wedding guest dress from Torrid. I am a 50\" bust and 44\" waist. Based on the sizing chart, Torrid Size 2 fits absolutely like a dream! Lots of stretch in the lace and very breathable.",
-    rating: 5,
-    timestamp: "July 2, 2026",
-    fitsRatio: "trueToSize",
-    userSize: "Size 2 (US 18-20)",
-    garmentType: "tops_dresses"
-  },
-  {
-    id: "2",
-    brandId: "eloquii",
-    author: "Rochelle Jenkins",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100&h=100",
-    text: "Eloquii statement jackets are unmatched but beware of their rigid fabrics! I bought their blazer in US 16, which runs a bit small in the upper arms. I'd definitely recommend sizing up if you are broad-shouldered.",
-    rating: 4,
-    timestamp: "June 28, 2026",
-    fitsRatio: "runsSmall",
-    userSize: "US 16",
-    garmentType: "tops_dresses"
-  },
-  {
-    id: "3",
-    brandId: "universal-standard",
-    author: "Melissa Gomez",
-    avatar: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&q=80&w=100&h=100",
-    text: "Universal Standard is a holy grail! Remember, a Size 'S' is a US 14-16. I wear a US 16 elsewhere but their S fits generously with beautiful movement. Highly suggest their denim too, it won't stretch out over the day.",
-    rating: 5,
-    timestamp: "June 25, 2026",
-    fitsRatio: "runsLarge",
-    userSize: "S (US 14-16)",
-    garmentType: "pants_bottoms"
-  },
-];
+// Deterministic generator to build 5 high-quality, authentic sizing reviews for each of our 56 brands
+function generateAllBrandComments(): Comment[] {
+  const reviewerPool = [
+    { name: "Sarah Thompson", avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=100&h=100" },
+    { name: "Rochelle Jenkins", avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100&h=100" },
+    { name: "Melissa Gomez", avatar: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&q=80&w=100&h=100" },
+    { name: "Keisha Washington", avatar: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&q=80&w=100&h=100" },
+    { name: "Ashley Miller", avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=100&h=100" },
+    { name: "Elena Rostova", avatar: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=100&h=100" },
+    { name: "Aria Takahashi", avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=100&h=100" },
+    { name: "Chloe Dupont", avatar: "https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?auto=format&fit=crop&q=80&w=100&h=100" },
+    { name: "Jessica Carter", avatar: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&q=80&w=100&h=100" },
+    { name: "Natasha Vance", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100&h=100" },
+    { name: "Imani Jackson", avatar: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&q=80&w=100&h=100" },
+    { name: "Sophia Martinez", avatar: "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&q=80&w=100&h=100" },
+    { name: "Chloe Henderson", avatar: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=100&h=100" },
+    { name: "Jasmine Woods", avatar: "https://images.unsplash.com/photo-1523350165414-082d792c9b7e?auto=format&fit=crop&q=80&w=100&h=100" },
+    { name: "Yuki Tanaka", avatar: "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&fit=crop&q=80&w=100&h=100" },
+    { name: "Tasha Davis", avatar: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=100&h=100" },
+    { name: "Bianca Cruz", avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=100&h=100" },
+    { name: "Gabriela Silva", avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=100&h=100" },
+    { name: "Latoya Jenkins", avatar: "https://images.unsplash.com/photo-1548142813-c348350df52b?auto=format&fit=crop&q=80&w=100&h=100" },
+    { name: "Amara Okoye", avatar: "https://images.unsplash.com/photo-1523824921871-d6f1a15151f1?auto=format&fit=crop&q=80&w=100&h=100" }
+  ];
+
+  const datePool = [
+    "July 6, 2026",
+    "July 4, 2026",
+    "July 1, 2026",
+    "June 25, 2026",
+    "June 18, 2026",
+    "June 12, 2026",
+    "June 5, 2026",
+    "May 28, 2026",
+    "May 15, 2026",
+    "May 2, 2026"
+  ];
+
+  const generatedList: Comment[] = [];
+  let globalIdCounter = 1;
+
+  BRANDS.forEach((brand) => {
+    // Determine the typical sizes for this brand from its default sizing chart
+    const defaultChart = brand.sizeChart.default || brand.sizeChart.tops_dresses || {};
+    const sizeKeys = Object.keys(defaultChart);
+    const sizeCount = sizeKeys.length;
+
+    // We generate 5 mixed-quality real-feeling reviews for each brand
+    for (let i = 0; i < 5; i++) {
+      // Deterministically pick reviewer, date, and size to avoid random fluttering
+      const baseHash = brand.id.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0) + i;
+      const reviewer = reviewerPool[baseHash % reviewerPool.length];
+      const date = datePool[(baseHash * 3) % datePool.length];
+      const sizeIndex = Math.min(sizeCount - 1, Math.max(0, (baseHash * 2) % (sizeCount || 1)));
+      const sizeStr = sizeKeys[sizeIndex] || "Standard Size";
+
+      let text = "";
+      let rating = 5;
+      let fitsRatio: "runsSmall" | "trueToSize" | "runsLarge" = "trueToSize";
+      let gType: "tops_dresses" | "pants_bottoms" | "swimwear" | "intimates_lingerie" = "tops_dresses";
+
+      if (brand.category === "denim") {
+        gType = "pants_bottoms";
+        if (i === 0) {
+          rating = 5;
+          fitsRatio = "trueToSize";
+          text = `Finally, jeans that don't gap in the back! I ordered my recommended ${sizeStr} in ${brand.name} and the mid-section hold is perfect. The wash is rich, and there is just enough stretch to hug my thighs without sagging by the end of the day. Absolute premium quality.`;
+        } else if (i === 1) {
+          rating = 4;
+          fitsRatio = "runsLarge";
+          text = `Super soft and extremely comfortable, but they definitely run a bit loose in the waist after a few hours of wear. I wear ${sizeStr} but I could have easily sized down for a tighter, more contoured fit. If you're in between sizes, consider sizing down!`;
+        } else if (i === 2) {
+          rating = 3;
+          fitsRatio = "runsSmall";
+          text = `The material feels incredibly luxurious and durable, but there is almost zero stretch in the waistband on this specific cut. The hips fit nicely, but I had to squeeze to button them up in my usual ${sizeStr}. Definitely recommend sizing up if you carry weight in your midsection.`;
+        } else if (i === 3) {
+          rating = 2;
+          fitsRatio = "runsSmall";
+          text = `Highly disappointed with the rigid fabric on this style. I ordered the ${sizeStr} and could barely pull them over my calves. Sizing seems much smaller than previous seasons. The hip room is way too narrow for hourglass figures.`;
+        } else {
+          rating = 5;
+          fitsRatio = "trueToSize";
+          text = `Obsessed! These ${brand.name} jeans are a game-changer. They shape my curves beautifully and the length is perfect for taller girls. Got so many compliments on the fit. True to size and worth every penny.`;
+        }
+      } else if (brand.category === "activewear") {
+        if (i === 0) {
+          rating = 5;
+          fitsRatio = "trueToSize";
+          gType = "pants_bottoms";
+          text = `These leggings are completely squat-proof and buttery soft! I got the ${sizeStr} and the high waist stays put during my entire HIIT workout. Absolutely no rolling down, which is a miracle for full tummies.`;
+        } else if (i === 1) {
+          rating = 4;
+          fitsRatio = "runsLarge";
+          gType = "tops_dresses";
+          text = `Amazing quality athletic wear, but the tops are quite long and generous in the chest area. My ${sizeStr} fits okay, but the underarm gaps a little bit. Sizing down would give better athletic support.`;
+        } else if (i === 2) {
+          rating = 3;
+          fitsRatio = "runsSmall";
+          gType = "pants_bottoms";
+          text = `The compression in these leggings is intense! It really holds you in, but the waistband is so tight it digs in. I ordered my usual ${sizeStr} but I wish I had sized up for a more comfortable lounge fit.`;
+        } else if (i === 3) {
+          rating = 2;
+          fitsRatio = "runsSmall";
+          gType = "tops_dresses";
+          text = `Very disappointed in the arm room for the active jacket. I am a standard ${sizeStr}, but the sleeves are so tight in the upper arms I can't layer a long-sleeve tee underneath. The fabric has very little give.`;
+        } else {
+          rating = 5;
+          fitsRatio = "trueToSize";
+          gType = "intimates_lingerie";
+          text = `Excellent support! The sports bra in ${sizeStr} keeps everything secure without hurting my shoulders. ${brand.name} really understands plus-size active needs. Highly breathable fabric too.`;
+        }
+      } else if (brand.category === "swimwear") {
+        gType = "swimwear";
+        if (i === 0) {
+          rating = 5;
+          fitsRatio = "trueToSize";
+          text = `Most flattering swimsuit I've ever owned! I got the ${sizeStr} to get extra coverage and it fits beautifully. The power-mesh lining holds everything in place without feeling restrictive at all.`;
+        } else if (i === 1) {
+          rating = 4;
+          fitsRatio = "runsLarge";
+          text = `Beautiful colors and thick, double-lined fabric. However, the bust cups run a bit large and have no underwire support. I ordered the ${sizeStr}, but if you have a smaller chest relative to your hips, consider sizing down.`;
+        } else if (i === 2) {
+          rating = 3;
+          fitsRatio = "runsSmall";
+          text = `Gorgeous design but the torso is extremely short. I ordered the ${sizeStr} and it digs into my shoulders quite a bit. Best suited for petite or shorter torsos. I'd recommend sizing up for height.`;
+        } else if (i === 3) {
+          rating = 2;
+          fitsRatio = "runsSmall";
+          text = `Hard to get on and the leg holes are cut way too high and tight. I ordered my recommended ${sizeStr} and it pinched my hips terribly. Not designed well for pear shapes. Definitely size up.`;
+        } else {
+          rating = 5;
+          fitsRatio = "trueToSize";
+          text = `Love the high waist bottom and top set! Holds up perfectly in the pool and ocean. Got the ${sizeStr} and it supports my full bust incredibly well. Will buy in more prints!`;
+        }
+      } else if (brand.category === "lingerie") {
+        gType = "intimates_lingerie";
+        if (i === 0) {
+          rating = 5;
+          fitsRatio = "trueToSize";
+          text = `A masterpiece of comfort and support. The straps are wide and don't dig in, and the band has the perfect amount of structure. Ordered ${sizeStr} and it feels custom-made for my shape. Absolute romantic lace!`;
+        } else if (i === 1) {
+          rating = 4;
+          fitsRatio = "runsLarge";
+          text = `Beautiful, soft, and sexy. The cups run slightly roomy, so I have a tiny bit of gapping at the top of my ${sizeStr}. Sizing down one cup size would make it perfect, but the band fits comfortably snug.`;
+        } else if (i === 2) {
+          rating = 3;
+          fitsRatio = "runsSmall";
+          text = `The lace is stunning and feels very premium, but the underbust band runs very snug with little stretch. I ordered ${sizeStr} and had to use an extender on the first few wears. Consider sister-sizing up for band comfort.`;
+        } else if (i === 3) {
+          rating = 2;
+          fitsRatio = "runsSmall";
+          text = `Extremely tight cups. I usually wear ${sizeStr} but this spilled over completely at the sides and top. Sizing up is absolutely mandatory. The wire is also quite stiff and pokes.`;
+        } else {
+          rating = 5;
+          fitsRatio = "trueToSize";
+          text = `Absolutely gorgeous satin and lace bodysuit. It has amazing stretch through the torso, and fits a larger bust perfectly. My ${sizeStr} looks incredible and feels super empowering!`;
+        }
+      } else {
+        // Premium plus & Mainstream
+        if (i === 0) {
+          rating = 5;
+          fitsRatio = "trueToSize";
+          gType = "tops_dresses";
+          text = `This fits absolutely like a dream! I wore my recommended ${sizeStr} to an evening gala and received endless compliments. The drape is elegant, the fabric has excellent weight, and it flows beautifully over my curves.`;
+        } else if (i === 1) {
+          rating = 4;
+          fitsRatio = "runsLarge";
+          gType = "tops_dresses";
+          text = `Incredibly cozy and chic, but the cut is definitely oversized and very generous. My usual ${sizeStr} is super roomy. I don't mind the slouchy look, but if you want a more tailored silhouette, order one size down.`;
+        } else if (i === 2) {
+          rating = 3;
+          fitsRatio = "runsSmall";
+          gType = "tops_dresses";
+          text = `The pattern and color are stunning, but the waist seam has absolutely zero stretch. I ordered ${sizeStr} and it fits my bust nicely, but it's very tight around the ribcage. Definitely size up if you have an apple shape.`;
+        } else if (i === 3) {
+          rating = 2;
+          fitsRatio = "runsSmall";
+          gType = "tops_dresses";
+          text = `Runs extremely narrow through the shoulders and arms. I could barely move my elbows in the ${sizeStr} jacket. The body fits fine, but the sleeve grading is completely off for standard plus-size arms.`;
+        } else {
+          rating = 5;
+          fitsRatio = "trueToSize";
+          gType = "tops_dresses";
+          text = `Perfect wrap style top! It's so hard to find wrap tops that don't gap at the bust, but this one has a small snap button that holds everything in place perfectly. True to ${sizeStr} and beautifully made.`;
+        }
+      }
+
+      generatedList.push({
+        id: (globalIdCounter++).toString(),
+        brandId: brand.id,
+        author: reviewer.name,
+        avatar: reviewer.avatar,
+        text,
+        rating,
+        timestamp: date,
+        fitsRatio,
+        userSize: sizeStr,
+        garmentType: gType
+      });
+    }
+  });
+
+  return generatedList;
+}
+
+export const INITIAL_COMMENTS: Comment[] = generateAllBrandComments();
 
 // Helper to convert category IDs to readable titles
 export function getCategoryTitle(cat: BrandCategory): string {
