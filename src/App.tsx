@@ -3,7 +3,6 @@ import Header from "./components/Header";
 import BrandConverter from "./components/BrandConverter";
 import DatabaseLeaderboard from "./components/DatabaseLeaderboard";
 import BrandDetailView from "./components/BrandDetailView";
-import BrowserBar from "./components/BrowserBar";
 import Homepage from "./components/Homepage";
 import { Brand, Comment, MeasurementProfile } from "./types";
 import { BRANDS, INITIAL_COMMENTS } from "./data";
@@ -234,9 +233,6 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF7F2] font-sans selection:bg-[#EEDCD2] selection:text-[#9E5A44]">
-      {/* High-fidelity Mock Browser Frame with Secure Address Bar */}
-      <BrowserBar currentPath={currentPath} onNavigate={navigateTo} />
-
       {/* Editorial Header */}
       <Header currentPath={currentPath} onNavigate={navigateTo} profile={profile} />
 
