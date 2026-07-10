@@ -7,7 +7,7 @@ interface HomepageProps {
 
 export default function Homepage({ onNavigate }: HomepageProps) {
   return (
-    <div className="max-w-4xl mx-auto py-12 md:py-20 px-4">
+    <div className="max-w-4xl mx-auto pt-2 pb-12 md:pb-16 px-4">
       {/* Visual Accent */}
       <div className="flex justify-center mb-6">
         <span className="text-[11px] font-display font-black uppercase tracking-[0.25em] text-[#9E5A44] bg-[#EEDCD2]/40 px-3.5 py-1.5 rounded-full border border-[#E7E2D8]/30">
