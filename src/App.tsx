@@ -237,7 +237,7 @@ export default function App() {
       <Header currentPath={currentPath} onNavigate={navigateTo} profile={profile} />
 
       {/* Main Container Stage */}
-      <main className="flex-grow mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 w-full">
+      <main className="flex-grow mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4 md:pt-6 pb-10 w-full">
         {/* Render content based on current path */}
         {currentPath === "/" && (
           <Homepage onNavigate={navigateTo} />
