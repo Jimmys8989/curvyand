@@ -14,7 +14,7 @@ export default function SEO({
   description,
   canonicalPath,
   ogType = "website",
-  ogImage = "https://www.curvyand.com/src/assets/images/curvy_brand_icon_1783559811096.jpg",
+  ogImage = "https://www.curvyand.com/curvy-brand-icon.png",
   schema,
 }: SEOProps) {
   useEffect(() => {
