@@ -41,6 +41,13 @@ interface BrandConverterProps {
   onSubmitBrand: (submission: BrandSubmission) => Promise<void>;
 }
 
+const formatHeight = (value: number, unit: "in" | "cm") => {
+  if (unit === "cm") return `${value} cm`;
+  const feet = Math.floor(value / 12);
+  const inches = value % 12;
+  return `${feet}′${inches}″`;
+};
+
 export default function BrandConverter({
   profile,
   onProfileSave,
@@ -66,7 +73,7 @@ export default function BrandConverter({
   const [bust, setBust] = useState<number>(46);
   const [waist, setWaist] = useState<number>(40);
   const [hips, setHips] = useState<number>(50);
-  const [height, setHeight] = useState<number>(170);
+  const [height, setHeight] = useState<number>(68);
   const [unit, setUnit] = useState<"in" | "cm">("in");
   const [profileSaved, setProfileSaved] = useState(false);
 
@@ -101,7 +108,11 @@ export default function BrandConverter({
       setBust(profile.bust);
       setWaist(profile.waist);
       setHips(profile.hips);
-      setHeight(profile.height);
+      setHeight(
+        profile.unit === "in" && profile.height > 80
+          ? Math.round(profile.height / 2.54)
+          : profile.height,
+      );
       setUnit(profile.unit);
     }
   }, [profile]);
@@ -190,6 +201,17 @@ export default function BrandConverter({
     e.preventDefault();
     onProfileSave({ bust, waist, hips, height, unit });
     setProfileSaved(true);
+  };
+
+  const handleUnitChange = (nextUnit: "in" | "cm") => {
+    if (nextUnit === unit) return;
+
+    const factor = nextUnit === "cm" ? 2.54 : 1 / 2.54;
+    setBust(Math.round(bust * factor));
+    setWaist(Math.round(waist * factor));
+    setHips(Math.round(hips * factor));
+    setHeight(Math.round(height * factor));
+    setUnit(nextUnit);
   };
 
   // Sizing Calculations taking current garmentType into account
@@ -425,7 +447,7 @@ export default function BrandConverter({
                 <div className="flex items-center border border-[#E7E2D8] rounded-md overflow-hidden text-xs">
                   <button
                     type="button"
-                    onClick={() => setUnit("in")}
+                    onClick={() => handleUnitChange("in")}
                     className={`px-3 py-1 font-mono transition-luxury cursor-pointer ${
                       unit === "in" ? "bg-[#9E5A44] text-[#FAF7F2] font-semibold" : "bg-white text-neutral-600"
                     }`}
@@ -434,7 +456,7 @@ export default function BrandConverter({
                   </button>
                   <button
                     type="button"
-                    onClick={() => setUnit("cm")}
+                    onClick={() => handleUnitChange("cm")}
                     className={`px-3 py-1 font-mono transition-luxury cursor-pointer ${
                       unit === "cm" ? "bg-[#9E5A44] text-[#FAF7F2] font-semibold" : "bg-white text-neutral-600"
                     }`}
@@ -605,7 +627,7 @@ export default function BrandConverter({
                         <span>Height</span>
                       </label>
                       <span className="font-mono font-bold text-[#9E5A44] bg-[#EEDCD2]/40 px-2.5 py-0.5 rounded text-sm transition-all">
-                        {height} {unit === "in" ? "in" : "cm"}
+                        {formatHeight(height, unit)}
                       </span>
                     </div>
                     <div className="relative mt-2.5">
@@ -631,8 +653,8 @@ export default function BrandConverter({
                       />
                     </div>
                     <div className="flex justify-between text-[9px] text-neutral-400 font-mono pt-1">
-                      <span>Min: {unit === "in" ? "55\"" : "140cm"}</span>
-                      <span>Max: {unit === "in" ? "80\"" : "203cm"}</span>
+                      <span>Min: {formatHeight(unit === "in" ? 55 : 140, unit)}</span>
+                      <span>Max: {formatHeight(unit === "in" ? 80 : 203, unit)}</span>
                     </div>
                   </div>
                 </div>
