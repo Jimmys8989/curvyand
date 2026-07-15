@@ -1,14 +1,17 @@
 import React, { useState } from "react";
-import { ArrowLeft, Star, Heart, Check, HelpCircle, MessageSquare, Plus, Calendar, Ruler, Info, Shirt, Scale, Compass, Trash2 } from "lucide-react";
+import { ArrowLeft, Star, Heart, Check, HelpCircle, MessageSquare, Plus, Calendar, Ruler, Info, Shirt, Scale, Compass, ExternalLink, BookOpen } from "lucide-react";
 import { Brand, Comment, GarmentType } from "../types";
 import BrandLogo from "./BrandLogo";
+import type { ReviewSubmission } from "../community";
 
 interface BrandDetailViewProps {
   brand: Brand;
   comments: Comment[];
   onBack: () => void;
-  onAddComment: (comment: Omit<Comment, "id" | "timestamp">) => void;
-  onDeleteComment: (commentId: string) => void;
+  onAddComment: (comment: ReviewSubmission) => Promise<void>;
+  communityEnabled: boolean;
+  reviewsLoading: boolean;
+  communityError: string | null;
 }
 
 export default function BrandDetailView({
@@ -16,7 +19,9 @@ export default function BrandDetailView({
   comments,
   onBack,
   onAddComment,
-  onDeleteComment,
+  communityEnabled,
+  reviewsLoading,
+  communityError,
 }: BrandDetailViewProps) {
   // Form states
   const [author, setAuthor] = useState("");
@@ -28,6 +33,9 @@ export default function BrandDetailView({
 
   const [formOpen, setFormOpen] = useState(false);
   const [formSuccess, setFormSuccess] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [website, setWebsite] = useState("");
 
   // Active chart category tab
   const [activeChartTab, setActiveChartTab] = useState<GarmentType>("tops_dresses");
@@ -49,31 +57,34 @@ export default function BrandDetailView({
   // Filter comments for this brand
   const brandComments = comments.filter((c) => c.brandId === brand.id);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!author.trim() || !text.trim()) return;
+    if (!communityEnabled || !author.trim() || text.trim().length < 40 || website) return;
 
-    onAddComment({
-      brandId: brand.id,
-      author,
-      avatar: `https://images.unsplash.com/photo-${1500000000000 + Math.floor(Math.random() * 999999)}?auto=format&fit=crop&q=80&w=100&h=100`,
-      text,
-      rating,
-      fitsRatio,
-      userSize: userSize || "Not specified",
-      garmentType: selectedFormGarment
-    });
+    setSubmitting(true);
+    setFormError(null);
+    try {
+      await onAddComment({
+        brandId: brand.id,
+        author,
+        text,
+        rating,
+        fitsRatio,
+        userSize: userSize || undefined,
+        garmentType: selectedFormGarment,
+      });
 
-    setAuthor("");
-    setText("");
-    setRating(5);
-    setFitsRatio("trueToSize");
-    setUserSize("");
-    setFormSuccess(true);
-    setTimeout(() => {
-      setFormSuccess(false);
-      setFormOpen(false);
-    }, 2000);
+      setAuthor("");
+      setText("");
+      setRating(5);
+      setFitsRatio("trueToSize");
+      setUserSize("");
+      setFormSuccess(true);
+    } catch (error) {
+      setFormError(error instanceof Error ? error.message : "Unable to submit your review.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   // Extract the active size chart based on the selected clothing tab
@@ -123,10 +134,12 @@ export default function BrandDetailView({
                     <span className="text-xs uppercase font-mono px-2 py-0.5 bg-[#9E5A44] text-[#FAF7F2] rounded ml-3">Custom</span>
                   )}
                 </h1>
-                <div className="flex items-center space-x-1.5 bg-[#9E5A44] px-3 py-1 rounded-full text-xs font-bold text-[#FAF7F2]">
-                  <Star className="h-3 w-3 fill-current" />
-                  <span>{brand.rating} Rating</span>
-                </div>
+                {brand.ratingCount > 0 && (
+                  <div className="flex items-center space-x-1.5 bg-[#9E5A44] px-3 py-1 rounded-full text-xs font-bold text-[#FAF7F2]">
+                    <Star className="h-3 w-3 fill-current" />
+                    <span>{brand.rating} from {brand.ratingCount} public reviews</span>
+                  </div>
+                )}
               </div>
               <p className="font-sans text-neutral-300 text-sm leading-relaxed max-w-2xl">
                 {brand.description}
@@ -143,7 +156,7 @@ export default function BrandDetailView({
           {/* Fit Assessment Card */}
           <div className="bg-[#FDFBF7] border border-[#E7E2D8] rounded-2xl p-6 space-y-5">
             <h3 className="font-serif font-bold text-lg text-[#1C1917] border-b border-[#E7E2D8] pb-3">
-              Brand Fit Assessment
+              Editorial Fit Assessment
             </h3>
 
             {/* Fit notes details */}
@@ -151,9 +164,12 @@ export default function BrandDetailView({
               <div className="bg-[#FAF7F2] p-4 rounded-xl border border-[#E7E2D8]/80 text-xs text-neutral-700 space-y-1.5">
                 <p className="font-serif font-black text-[#9E5A44] flex items-center space-x-1">
                   <Info className="h-4 w-4" />
-                  <span>Curator's Direct Fitting Notes:</span>
+                  <span>Editorial Fit Note:</span>
                 </p>
                 <p className="leading-relaxed italic">{brand.fitNotes}</p>
+                <p className="text-[10px] text-neutral-400 not-italic">
+                  Curated guidance, not a customer review. Check the retailer's current product chart before ordering.
+                </p>
               </div>
 
               {/* General characteristics list */}
@@ -291,19 +307,84 @@ export default function BrandDetailView({
             <div className="flex items-center justify-between border-b border-[#E7E2D8] pb-4">
               <div className="flex items-center space-x-2">
                 <MessageSquare className="h-5 w-5 text-[#9E5A44]" />
-                <h3 className="font-serif font-bold text-xl text-[#1C1917]">
-                  Community Sizing Diary ({brandComments.length})
-                </h3>
+                <div>
+                  <h3 className="font-serif font-bold text-xl text-[#1C1917]">
+                    Sizing Notes & Community Reviews
+                  </h3>
+                  <p className="mt-0.5 text-[10px] font-mono text-neutral-400">
+                    2 reference notes · {brandComments.length} public Curvy& reviews
+                  </p>
+                </div>
               </div>
 
               <button
                 onClick={() => setFormOpen(!formOpen)}
-                className="flex items-center space-x-1.5 rounded-full bg-[#9E5A44] hover:bg-[#854B38] text-white px-3 py-1.5 text-xs font-display font-bold uppercase tracking-wider transition-luxury cursor-pointer shadow-sm"
+                disabled={!communityEnabled}
+                className="flex items-center space-x-1.5 rounded-full bg-[#9E5A44] hover:bg-[#854B38] text-white px-3 py-1.5 text-xs font-display font-bold uppercase tracking-wider transition-luxury cursor-pointer shadow-sm disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <Plus className="h-3.5 w-3.5" />
                 <span>Write Sizing Note</span>
               </button>
             </div>
+
+            {/* Every brand has clearly attributed reference context while first-party reviews grow. */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <article className="rounded-xl border border-[#DFB7B0] bg-[#EEDCD2]/20 p-4 space-y-3">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-[9px] font-display font-black uppercase tracking-wider text-[#9E5A44] border border-[#DFB7B0]/60">
+                    <ExternalLink className="h-3 w-3" />
+                    External Retailer Reference
+                  </span>
+                  <span className="text-[9px] font-mono text-neutral-400">Not a customer review</span>
+                </div>
+                <div>
+                  <h4 className="font-serif font-bold text-sm text-[#1C1917]">{brand.name} Size Reference</h4>
+                  <p className="mt-1.5 text-xs leading-relaxed text-neutral-600">
+                    Directory range: <strong>{brand.sizingRange}</strong>. Retailer charts can change by garment, fabric, and season, so confirm the current product chart before purchasing.
+                  </p>
+                </div>
+                <a
+                  href={brand.siteUrl}
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                  className="inline-flex items-center gap-1 text-[10px] font-display font-bold uppercase tracking-wider text-[#9E5A44] hover:underline"
+                >
+                  Open {brand.name} website
+                  <ExternalLink className="h-3 w-3" />
+                </a>
+              </article>
+
+              <article className="rounded-xl border border-[#E7E2D8] bg-[#FAF7F2] p-4 space-y-3">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-[9px] font-display font-black uppercase tracking-wider text-[#9E5A44] border border-[#E7E2D8]">
+                    <BookOpen className="h-3 w-3" />
+                    Curvy& Editorial Synthesis
+                  </span>
+                  <span className="text-[9px] font-mono text-neutral-400">Not a customer review</span>
+                </div>
+                <div>
+                  <h4 className="font-serif font-bold text-sm text-[#1C1917]">Fit Pattern Summary</h4>
+                  <p className="mt-1.5 text-xs leading-relaxed text-neutral-600 italic">
+                    {brand.fitNotes}
+                  </p>
+                </div>
+                <p className="text-[9px] font-mono text-neutral-400">
+                  Editorial guidance based on available sizing information; verify against the retailer's latest chart.
+                </p>
+              </article>
+            </div>
+
+            {!communityEnabled && (
+              <div className="rounded-xl border border-[#E7E2D8] bg-[#FAF7F2] px-4 py-3 text-xs text-neutral-500">
+                Public community reviews are opening soon. The external reference and editorial synthesis above remain available in the meantime.
+              </div>
+            )}
+
+            {communityError && (
+              <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs text-red-700">
+                Community data is temporarily unavailable. Please try again later.
+              </div>
+            )}
 
             {/* Write a comment form */}
             {formOpen && (
@@ -321,8 +402,8 @@ export default function BrandDetailView({
                 {formSuccess ? (
                   <div className="bg-[#EEDCD2]/60 border border-[#DFB7B0] rounded-xl p-6 text-center space-y-2">
                     <Heart className="h-8 w-8 text-[#9E5A44] mx-auto fill-current animate-bounce" />
-                    <h5 className="font-serif font-bold text-lg text-neutral-800">Review Submitted!</h5>
-                    <p className="text-xs text-neutral-500">Thank you for building a safer shopping guide for plus-size fashion.</p>
+                    <h5 className="font-serif font-bold text-lg text-neutral-800">Review Received!</h5>
+                    <p className="text-xs text-neutral-500">It will appear publicly after a quick moderation review.</p>
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-4">
@@ -335,6 +416,8 @@ export default function BrandDetailView({
                         <input
                           type="text"
                           required
+                          minLength={2}
+                          maxLength={50}
                           placeholder="e.g., Jennifer K."
                           value={author}
                           onChange={(e) => setAuthor(e.target.value)}
@@ -349,6 +432,7 @@ export default function BrandDetailView({
                         </label>
                         <input
                           type="text"
+                          maxLength={80}
                           placeholder="e.g., Size 2 (US 18-20)"
                           value={userSize}
                           onChange={(e) => setUserSize(e.target.value)}
@@ -422,28 +506,60 @@ export default function BrandDetailView({
                       </label>
                       <textarea
                         required
+                        minLength={40}
+                        maxLength={1000}
                         rows={3}
                         placeholder="Share your bust, waist, and hip parameters, and how the garment fits around curves..."
                         value={text}
                         onChange={(e) => setText(e.target.value)}
                         className="w-full px-3 py-2 text-xs rounded-lg border border-[#E7E2D8] bg-white placeholder-neutral-400 focus:border-[#9E5A44] focus:ring-1 focus:ring-[#9E5A44]"
                       />
+                      <p className="text-[10px] text-neutral-400">
+                        Approved reviews are public. Please do not include contact details or other sensitive information.
+                      </p>
                     </div>
+
+                    <div className="hidden" aria-hidden="true">
+                      <label htmlFor="review-website">Website</label>
+                      <input
+                        id="review-website"
+                        name="website"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        value={website}
+                        onChange={(event) => setWebsite(event.target.value)}
+                      />
+                    </div>
+
+                    {formError && (
+                      <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700">
+                        {formError}
+                      </p>
+                    )}
 
                     <button
                       type="submit"
-                      className="w-full rounded-lg bg-[#9E5A44] hover:bg-[#854B38] text-white py-2.5 text-xs font-display font-bold uppercase tracking-wider cursor-pointer"
+                      disabled={submitting || !communityEnabled}
+                      className="w-full rounded-lg bg-[#9E5A44] hover:bg-[#854B38] text-white py-2.5 text-xs font-display font-bold uppercase tracking-wider cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Publish Sizing Note
+                      {submitting ? "Submitting..." : "Submit for Review"}
                     </button>
                   </form>
                 )}
               </div>
             )}
 
-            {/* Comments list */}
+            {/* First-party public comments remain separate from external/editorial context. */}
             <div className="space-y-4">
-              {brandComments.length > 0 ? (
+              <div className="flex items-center justify-between border-b border-[#E7E2D8] pb-2">
+                <h4 className="font-serif font-bold text-sm text-[#1C1917]">Public Community Reviews</h4>
+                <span className="text-[10px] font-mono text-neutral-400">{brandComments.length} published</span>
+              </div>
+              {reviewsLoading ? (
+                <div className="text-center py-10 text-neutral-400 italic text-xs">
+                  Loading public reviews...
+                </div>
+              ) : brandComments.length > 0 ? (
                 brandComments.map((comment) => {
                   let ratioLabel = "Fits Perfect";
                   let ratioColor = "bg-[#EEDCD2] text-[#9E5A44]";
@@ -463,16 +579,27 @@ export default function BrandDetailView({
                       <div className="flex items-center justify-between gap-4 flex-wrap">
                         {/* Author info */}
                         <div className="flex items-center space-x-3">
-                          <img
-                            src={comment.avatar}
-                            alt={comment.author}
-                            className="h-9 w-9 rounded-full object-cover border border-[#DFB7B0]"
-                            referrerPolicy="no-referrer"
-                          />
+                          {comment.avatar ? (
+                            <img
+                              src={comment.avatar}
+                              alt={comment.author}
+                              className="h-9 w-9 rounded-full object-cover border border-[#DFB7B0]"
+                              referrerPolicy="no-referrer"
+                            />
+                          ) : (
+                            <div className="h-9 w-9 rounded-full border border-[#DFB7B0] bg-[#EEDCD2] text-[#9E5A44] flex items-center justify-center font-serif font-black text-sm">
+                              {comment.author.trim().charAt(0).toUpperCase()}
+                            </div>
+                          )}
                           <div>
-                            <span className="font-serif font-black text-xs text-[#1C1917]">
-                              {comment.author}
-                            </span>
+                            <div className="flex items-center gap-2">
+                              <span className="font-serif font-black text-xs text-[#1C1917]">
+                                {comment.author}
+                              </span>
+                              <span className="rounded-full bg-[#EEDCD2]/50 px-2 py-0.5 text-[8px] font-display font-bold uppercase tracking-wider text-[#9E5A44]">
+                                Submitted on Curvy&
+                              </span>
+                            </div>
                             <div className="flex items-center space-x-1 mt-0.5">
                               {[1, 2, 3, 4, 5].map((star) => (
                                 <Star
@@ -512,21 +639,9 @@ export default function BrandDetailView({
                       </p>
 
                       {/* Bottom action row */}
-                      <div className="flex items-center justify-between text-right pt-2 border-t border-dashed border-[#E7E2D8]/50">
-                        <div>
-                          {comment.isLocal && (
-                            <button
-                              onClick={() => onDeleteComment(comment.id)}
-                              className="inline-flex items-center space-x-1 text-red-500 hover:text-red-700 text-[10px] font-display font-bold uppercase tracking-wider transition-colors cursor-pointer"
-                              title="Delete my sizing note"
-                            >
-                              <Trash2 className="h-3 w-3" />
-                              <span>Delete My Note</span>
-                            </button>
-                          )}
-                        </div>
+                      <div className="flex items-center justify-end text-right pt-2 border-t border-dashed border-[#E7E2D8]/50">
                         <p className="text-[9px] text-neutral-400 font-mono">
-                          Reviewed on {comment.timestamp || "July 2026"}
+                          Published on {comment.timestamp}
                         </p>
                       </div>
                     </div>
@@ -534,7 +649,7 @@ export default function BrandDetailView({
                 })
               ) : (
                 <div className="text-center py-10 text-neutral-400 italic text-xs">
-                  Be the first to share your fitting diary for {brand.name}! Click 'Write Sizing Note' above to begin.
+                  No Curvy& community reviews have been published for {brand.name} yet. The reference notes above are available now.
                 </div>
               )}
             </div>

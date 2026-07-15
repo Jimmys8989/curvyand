@@ -8,7 +8,7 @@ interface DatabaseLeaderboardProps {
   brands: Brand[];
   userVotes: Record<string, "up" | "down">;
   onBrandVote: (brandId: string, type: "up" | "down") => void;
-  onBrandRate: (brandId: string, rating: number) => void;
+  communityEnabled: boolean;
   onSelectBrand: (brand: Brand) => void;
 }
 
@@ -16,7 +16,7 @@ export default function DatabaseLeaderboard({
   brands,
   userVotes = {},
   onBrandVote,
-  onBrandRate,
+  communityEnabled,
   onSelectBrand,
 }: DatabaseLeaderboardProps) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -256,12 +256,13 @@ export default function DatabaseLeaderboard({
                     {/* Accurate Button */}
                     <button
                       onClick={() => onBrandVote(brand.id, "up")}
-                      className={`flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg border transition-all cursor-pointer ${
+                      disabled={!communityEnabled}
+                      className={`flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg border transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed ${
                         userVote === "up"
                           ? "bg-emerald-600 border-emerald-600 text-white font-bold shadow-3xs"
                           : "bg-white border-[#E7E2D8] hover:border-emerald-200 hover:text-emerald-700 text-neutral-500"
                       }`}
-                      title="Fits true to size charts"
+                      title="Editorial baseline plus public fits-accurate votes"
                     >
                       <ThumbsUp className="h-3 w-3 shrink-0" />
                       <span className="text-[10px] font-mono font-bold whitespace-nowrap">
@@ -272,12 +273,13 @@ export default function DatabaseLeaderboard({
                     {/* Off-Fit Button */}
                     <button
                       onClick={() => onBrandVote(brand.id, "down")}
-                      className={`flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg border transition-all cursor-pointer ${
+                      disabled={!communityEnabled}
+                      className={`flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg border transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed ${
                         userVote === "down"
                           ? "bg-red-600 border-red-600 text-white font-bold shadow-3xs"
                           : "bg-white border-[#E7E2D8] hover:border-red-200 hover:text-red-700 text-neutral-500"
                       }`}
-                      title="Runs small, large, or is inconsistent"
+                      title="Editorial baseline plus public off-fit votes"
                     >
                       <ThumbsDown className="h-3 w-3 shrink-0" />
                       <span className="text-[10px] font-mono font-bold whitespace-nowrap">
@@ -286,7 +288,11 @@ export default function DatabaseLeaderboard({
                     </button>
                   </div>
                   <span className="text-[8px] text-neutral-400 font-bold uppercase tracking-wider text-center mt-1">
-                    {userVote ? "My Vote Saved" : "Accuracy Consensus"}
+                    {!communityEnabled
+                      ? "Editorial baseline"
+                      : userVote
+                        ? "Baseline + my public vote"
+                        : "Baseline + public votes"}
                   </span>
                 </div>
 
@@ -295,13 +301,19 @@ export default function DatabaseLeaderboard({
                   <span className="text-[10px] uppercase font-display font-bold text-neutral-400 block lg:hidden w-full text-left mb-1">
                     Community Rating
                   </span>
-                  <div className="flex items-center space-x-1 justify-center">
-                    <Star className="h-3.5 w-3.5 fill-[#9E5A44] text-[#9E5A44]" />
-                    <span className="text-xs font-mono font-bold text-neutral-800">{brand.rating}</span>
-                  </div>
-                  <span className="text-[9px] text-neutral-400 font-mono">
-                    {brand.ratingCount} reviews
-                  </span>
+                  {brand.ratingCount > 0 ? (
+                    <>
+                      <div className="flex items-center space-x-1 justify-center">
+                        <Star className="h-3.5 w-3.5 fill-[#9E5A44] text-[#9E5A44]" />
+                        <span className="text-xs font-mono font-bold text-neutral-800">{brand.rating}</span>
+                      </div>
+                      <span className="text-[9px] text-neutral-400 font-mono">
+                        {brand.ratingCount} public reviews
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-[9px] text-neutral-400 font-mono">No reviews yet</span>
+                  )}
                 </div>
 
                 {/* 8. Action explore */}

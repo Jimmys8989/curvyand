@@ -45,14 +45,13 @@ export interface Comment {
   id: string;
   brandId: string;
   author: string;
-  avatar: string;
+  avatar?: string;
   text: string;
   rating: number;
   timestamp: string;
   fitsRatio: "runsSmall" | "trueToSize" | "runsLarge";
   userSize?: string;
   garmentType?: GarmentType;
-  isLocal?: boolean;
 }
 
 export interface MeasurementProfile {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Header from "./components/Header";
 import BrandConverter from "./components/BrandConverter";
 import DatabaseLeaderboard from "./components/DatabaseLeaderboard";
@@ -8,8 +8,20 @@ import SEO from "./components/SEO";
 import TermsAndPrivacy from "./components/TermsAndPrivacy";
 import InternalLink from "./components/InternalLink";
 import { Brand, Comment, MeasurementProfile } from "./types";
-import { BRANDS, INITIAL_COMMENTS } from "./data";
+import { BRANDS } from "./data";
 import { getSeoForPath, parseComparisonPath } from "./seo";
+import {
+  fetchPublishedCommunityBrands,
+  fetchPublishedReviews,
+  fetchVoteTotals,
+  isCommunityBackendConfigured,
+  submitBrandVote,
+  submitBrandForModeration,
+  submitReviewForModeration,
+  type BrandSubmission,
+  type ReviewSubmission,
+  type VoteTotals,
+} from "./community";
 import { Ruler, Heart, Sparkles, Instagram, Facebook, Mail, BookOpen } from "lucide-react";
 
 export default function App() {
@@ -42,57 +54,79 @@ export default function App() {
     return saved ? JSON.parse(saved) : null;
   });
 
-  // Brands with votes/ratings state (v2 key to reset and align to high-fidelity vote dataset)
-  const [brands, setBrands] = useState<Brand[]>(() => {
-    const saved = localStorage.getItem("curvy_brands_v2");
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved) as Brand[];
-        // Filter out any custom-registered brands
-        const nonCustomSaved = parsed.filter(b => !b.isCustom);
-        // If the cached brand database is outdated (contains fewer official brands than our 56-brand list)
-        if (nonCustomSaved.length < BRANDS.length) {
-          // Immediately overwrite cache with current complete set
-          localStorage.setItem("curvy_brands_v2", JSON.stringify(BRANDS));
-          return BRANDS;
-        }
-
-        // To handle newly added brands, we merge: we start with all brands from BRANDS
-        // and update their votes/ratings if they have saved equivalents.
-        const merged = [...BRANDS];
-        parsed.forEach((savedBrand) => {
-          const index = merged.findIndex((b) => b.id === savedBrand.id);
-          if (index !== -1) {
-            merged[index] = {
-              ...merged[index],
-              votes: savedBrand.votes !== undefined ? savedBrand.votes : merged[index].votes,
-              rating: savedBrand.rating !== undefined ? savedBrand.rating : merged[index].rating,
-              ratingCount: savedBrand.ratingCount !== undefined ? savedBrand.ratingCount : merged[index].ratingCount,
-            };
-          } else if (savedBrand.isCustom) {
-            // Keep custom registered brands
-            merged.push(savedBrand);
-          }
-        });
-        return merged;
-      } catch (e) {
-        return BRANDS;
-      }
-    }
-    return BRANDS;
-  });
-
-  // User custom votes for each brand (brandId -> "up" | "down")
+  // The visitor selection stays local, while public totals live in Supabase.
   const [userVotes, setUserVotes] = useState<Record<string, "up" | "down">>(() => {
-    const saved = localStorage.getItem("curvy_user_votes_v2");
+    const saved = localStorage.getItem("curvy_user_votes_v3");
     return saved ? JSON.parse(saved) : {};
   });
 
-  // Comments/Sizing Diary state (v2 key to force bust cached values)
-  const [comments, setComments] = useState<Comment[]>(() => {
-    const saved = localStorage.getItem("curvy_comments_v2");
-    return saved ? JSON.parse(saved) : INITIAL_COMMENTS;
-  });
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [communityBrands, setCommunityBrands] = useState<Brand[]>([]);
+  const [voteTotals, setVoteTotals] = useState<Record<string, VoteTotals>>({});
+  const [reviewsLoading, setReviewsLoading] = useState(isCommunityBackendConfigured);
+  const [communityError, setCommunityError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!isCommunityBackendConfigured) return;
+
+    let cancelled = false;
+    Promise.all([
+      fetchPublishedReviews(),
+      fetchVoteTotals(),
+      fetchPublishedCommunityBrands(),
+    ])
+      .then(([publishedReviews, totals, publishedBrands]) => {
+        if (cancelled) return;
+        setComments(publishedReviews);
+        setVoteTotals(totals);
+        setCommunityBrands(publishedBrands);
+      })
+      .catch((error) => {
+        if (!cancelled) {
+          setCommunityError(error instanceof Error ? error.message : "Unable to load community data.");
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setReviewsLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const brands = useMemo(
+    () => {
+      const builtInIds = new Set(BRANDS.map((brand) => brand.id));
+      const allBrands = [
+        ...BRANDS,
+        ...communityBrands.filter((brand) => !builtInIds.has(brand.id)),
+      ];
+
+      return allBrands.map((brand) => {
+        const brandReviews = comments.filter((comment) => comment.brandId === brand.id);
+        const ratingCount = brandReviews.length;
+        const rating = ratingCount
+          ? Math.round(
+              (brandReviews.reduce((sum, review) => sum + review.rating, 0) / ratingCount) * 10,
+            ) / 10
+          : 0;
+        const publicTotals = voteTotals[brand.id] ?? { votesUp: 0, votesDown: 0 };
+        const votesUp = brand.votesUp + publicTotals.votesUp;
+        const votesDown = brand.votesDown + publicTotals.votesDown;
+
+        return {
+          ...brand,
+          rating,
+          ratingCount,
+          votesUp,
+          votesDown,
+          votes: votesUp - votesDown,
+        };
+      });
+    },
+    [comments, communityBrands, voteTotals],
+  );
 
   // Extract active brand from path if on /brand-directory/:id
   let selectedBrand: Brand | null = null;
@@ -150,129 +184,48 @@ export default function App() {
   }, [profile]);
 
   useEffect(() => {
-    localStorage.setItem("curvy_brands_v2", JSON.stringify(brands));
-  }, [brands]);
-
-  useEffect(() => {
-    localStorage.setItem("curvy_user_votes_v2", JSON.stringify(userVotes));
+    localStorage.setItem("curvy_user_votes_v3", JSON.stringify(userVotes));
   }, [userVotes]);
-
-  useEffect(() => {
-    localStorage.setItem("curvy_comments_v2", JSON.stringify(comments));
-  }, [comments]);
 
   // Handler to save profile
   const handleProfileSave = (newProfile: MeasurementProfile) => {
     setProfile(newProfile);
   };
 
-  // Handler to handle brand voting (Upvote / Downvote size accuracy with toggle/retract)
-  const handleBrandVote = (brandId: string, type: "up" | "down") => {
-    const currentVote = userVotes[brandId];
-    let upChange = 0;
-    let downChange = 0;
-    let newVote: "up" | "down" | undefined;
+  const handleBrandVote = async (brandId: string, type: "up" | "down") => {
+    if (!isCommunityBackendConfigured) return;
 
-    if (currentVote === type) {
-      // Cancel the vote
-      if (type === "up") {
-        upChange = -1;
-      } else {
-        downChange = -1;
-      }
-      newVote = undefined;
-    } else if (currentVote) {
-      // Toggle vote
-      if (type === "up") {
-        upChange = 1;
-        downChange = -1;
-      } else {
-        upChange = -1;
-        downChange = 1;
-      }
-      newVote = type;
-    } else {
-      // New vote
-      if (type === "up") {
-        upChange = 1;
-      } else {
-        downChange = 1;
-      }
-      newVote = type;
-    }
+    const previousVote = userVotes[brandId];
+    const nextVote = previousVote === type ? null : type;
 
-    // 1. Update user custom votes list
-    setUserVotes((prevVotes) => {
-      const updated = { ...prevVotes };
-      if (newVote) {
-        updated[brandId] = newVote;
-      } else {
-        delete updated[brandId];
-      }
+    setUserVotes((current) => {
+      const updated = { ...current };
+      if (nextVote) updated[brandId] = nextVote;
+      else delete updated[brandId];
       return updated;
     });
 
-    // 2. Update brand votes tally safely and independently
-    setBrands((prevBrands) =>
-      prevBrands.map((b) => {
-        if (b.id === brandId) {
-          // Fallbacks for any dynamically generated custom brands or old cached state
-          const initialVotesUp = b.votesUp !== undefined ? b.votesUp : b.votes;
-          const initialVotesDown = b.votesDown !== undefined ? b.votesDown : 0;
-          const newVotesUp = Math.max(0, initialVotesUp + upChange);
-          const newVotesDown = Math.max(0, initialVotesDown + downChange);
-          return {
-            ...b,
-            votesUp: newVotesUp,
-            votesDown: newVotesDown,
-            votes: newVotesUp - newVotesDown,
-          };
-        }
-        return b;
-      })
-    );
+    try {
+      await submitBrandVote(brandId, nextVote);
+      setVoteTotals(await fetchVoteTotals());
+      setCommunityError(null);
+    } catch (error) {
+      setUserVotes((current) => {
+        const reverted = { ...current };
+        if (previousVote) reverted[brandId] = previousVote;
+        else delete reverted[brandId];
+        return reverted;
+      });
+      setCommunityError(error instanceof Error ? error.message : "Unable to save vote.");
+    }
   };
 
-  // Handler to handle brand scoring
-  const handleBrandRate = (brandId: string, rating: number) => {
-    setBrands((prev) =>
-      prev.map((b) => {
-        if (b.id === brandId) {
-          const totalRating = b.rating * b.ratingCount + rating;
-          const newCount = b.ratingCount + 1;
-          return {
-            ...b,
-            ratingCount: newCount,
-            rating: Math.round((totalRating / newCount) * 10) / 10,
-          };
-        }
-        return b;
-      })
-    );
+  const handleAddComment = async (newComment: ReviewSubmission) => {
+    await submitReviewForModeration(newComment);
   };
 
-  // Handler to add custom sizing review
-  const handleAddComment = (newComment: Omit<Comment, "id" | "timestamp">) => {
-    const commentWithMeta: Comment = {
-      ...newComment,
-      id: Date.now().toString(),
-      isLocal: true, // Marked as locally created by user
-      timestamp: new Date().toLocaleDateString("en-US", {
-        month: "long",
-        day: "numeric",
-        year: "numeric",
-      }),
-    };
-
-    setComments((prev) => [commentWithMeta, ...prev]);
-
-    // Automatically boost rating count of the brand as well
-    handleBrandRate(newComment.brandId, newComment.rating);
-  };
-
-  // Handler to delete custom reviews
-  const handleDeleteComment = (commentId: string) => {
-    setComments((prev) => prev.filter((c) => c.id !== commentId));
+  const handleBrandSubmission = async (submission: BrandSubmission) => {
+    await submitBrandForModeration(submission);
   };
 
   const seo = getSeoForPath(currentPath, brands);
@@ -312,6 +265,8 @@ export default function App() {
             initialSourceBrandId={urlSourceBrandId}
             initialTargetBrandId={urlTargetBrandId}
             onSelectionChange={handleConverterSelectionChange}
+            communityEnabled={isCommunityBackendConfigured}
+            onSubmitBrand={handleBrandSubmission}
           />
         )}
 
@@ -322,14 +277,16 @@ export default function App() {
               comments={comments}
               onBack={() => navigateTo("/brand-directory")}
               onAddComment={handleAddComment}
-              onDeleteComment={handleDeleteComment}
+              communityEnabled={isCommunityBackendConfigured}
+              reviewsLoading={reviewsLoading}
+              communityError={communityError}
             />
           ) : (
             <DatabaseLeaderboard
               brands={brands}
               userVotes={userVotes}
               onBrandVote={handleBrandVote}
-              onBrandRate={handleBrandRate}
+              communityEnabled={isCommunityBackendConfigured}
               onSelectBrand={(brand) => navigateTo(`/brand-directory/${brand.id}`)}
             />
           )

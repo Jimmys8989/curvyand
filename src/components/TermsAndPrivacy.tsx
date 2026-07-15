@@ -79,7 +79,7 @@ export default function TermsAndPrivacy({ onBack }: TermsAndPrivacyProps) {
               <FileText className="h-6 w-6 text-[#9E5A44]" />
               <h2 className="font-serif text-xl font-bold text-[#1C1917]">Terms of Service</h2>
             </div>
-            <p className="text-neutral-500 text-xs italic">Last updated: July 12, 2026</p>
+            <p className="text-neutral-500 text-xs italic">Last updated: July 15, 2026</p>
 
             <section className="space-y-3">
               <h3 className="font-serif font-bold text-[#1C1917] text-base">1. Agreement to Terms</h3>
@@ -91,7 +91,7 @@ export default function TermsAndPrivacy({ onBack }: TermsAndPrivacyProps) {
             <section className="space-y-3">
               <h3 className="font-serif font-bold text-[#1C1917] text-base">2. Purpose of Sizing Suite</h3>
               <p>
-                Curvy& provides digital tools including size converters, brand directory databases, and sizing comparison calculators. All recommendations generated are estimations based on official brand sizing charts and community feedback. Because garments can vary based on fabric, cut, and manufacturing tolerances, we do not guarantee a 100% accurate fit for any individual body shape.
+                Curvy& provides digital tools including size converters, brand directory databases, and sizing comparison calculators. Editorial notes and recommendations are curated estimates informed by available brand sizing information; they are not customer reviews. Published community reviews are displayed separately. Because garments can vary based on fabric, cut, and manufacturing tolerances, we do not guarantee a 100% accurate fit for any individual body shape.
               </p>
             </section>
 
@@ -105,7 +105,7 @@ export default function TermsAndPrivacy({ onBack }: TermsAndPrivacyProps) {
             <section className="space-y-3">
               <h3 className="font-serif font-bold text-[#1C1917] text-base">4. Community Reviews & Contributions</h3>
               <p>
-                When you post reviews, feedback, or vote on fit consistency scores for plus-size brands, you agree that your comments are helpful, respectful, and free of vulgarity. We reserve the right to remove any review that is inappropriate or malicious. You retain ownership of your comments, but grant us a non-exclusive, perpetual license to display them within the sizing database.
+                When you post reviews, feedback, or vote on fit consistency scores for plus-size brands, you agree that your comments are helpful, respectful, and free of vulgarity. Fit vote totals begin with a small editorial baseline and then include public visitor votes; this baseline is not represented as customer activity. New reviews are moderated before publication, and we reserve the right to reject or remove content that is inappropriate, misleading, or malicious. You retain ownership of your comments, but grant us a non-exclusive, perpetual license to display them within the sizing database.
               </p>
             </section>
 
@@ -129,7 +129,7 @@ export default function TermsAndPrivacy({ onBack }: TermsAndPrivacyProps) {
               <ShieldCheck className="h-6 w-6 text-[#9E5A44]" />
               <h2 className="font-serif text-xl font-bold text-[#1C1917]">Privacy Policy</h2>
             </div>
-            <p className="text-neutral-500 text-xs italic">Last updated: July 12, 2026</p>
+            <p className="text-neutral-500 text-xs italic">Last updated: July 15, 2026</p>
 
             <section className="space-y-3">
               <h3 className="font-serif font-bold text-[#1C1917] text-base">1. Information We Collect</h3>
@@ -141,7 +141,10 @@ export default function TermsAndPrivacy({ onBack }: TermsAndPrivacyProps) {
                   <strong>Personal Sizing Metrics:</strong> Your bust, waist, hips, and height measurements are stored entirely client-side using browser-based <code className="bg-[#EEDCD2]/30 px-1 rounded text-xs font-mono">localStorage</code>. We never transmit these personal metrics to external web servers.
                 </li>
                 <li>
-                  <strong>Community Feedback:</strong> When you submit a brand review or size vote, that specific comment (and the custom display name you choose) is synchronized to our server to show other shoppers. No real-world contact details or billing info are requested.
+                  <strong>Community Feedback:</strong> When you submit a brand review, the display name, rating, fit result, garment category, optional size, and review text are sent to our server for moderation. Approved reviews become public. No email address, real-world contact details, or billing information is requested.
+                </li>
+                <li>
+                  <strong>Brand Suggestions:</strong> Missing-brand suggestions, including the brand name, website, category, sizing system, fit profile, price tier, tags, and optional description, are sent to our server for moderation. Approved brands become part of the public directory.
                 </li>
               </ul>
             </section>
@@ -149,21 +152,21 @@ export default function TermsAndPrivacy({ onBack }: TermsAndPrivacyProps) {
             <section className="space-y-3">
               <h3 className="font-serif font-bold text-[#1C1917] text-base">2. How We Use Information</h3>
               <p>
-                We use the server-side review data solely to power the community leaderboard and help other plus-size individuals make informed shopping choices. We do not sell, rent, or lease any data to ad agencies or data brokers.
+                We use server-side review and approved brand-submission data solely to power the community directory and help other plus-size individuals make informed shopping choices. We do not sell, rent, or lease any data to ad agencies or data brokers.
               </p>
             </section>
 
             <section className="space-y-3">
               <h3 className="font-serif font-bold text-[#1C1917] text-base">3. Cookies & Tracking</h3>
               <p>
-                Curvy& does not use invasive cross-site tracking pixels or behavioral ad cookies. We may use simple local session identifiers to remember your navigation preferences.
+                Curvy& does not use invasive cross-site tracking pixels or behavioral ad cookies. We store a random identifier in your browser to remember and de-duplicate community votes; it is not tied to an account or contact information.
               </p>
             </section>
 
             <section className="space-y-3">
               <h3 className="font-serif font-bold text-[#1C1917] text-base">4. Data Deletion</h3>
               <p>
-                You can wipe your sizing profile instantly by clicking "Clear Profile" inside the Sizing Converter. To remove your custom reviews, you can use the delete button adjacent to your review or email our web administrator.
+                You can wipe your sizing profile instantly by clicking "Clear Profile" inside the Sizing Converter. Because this first community version does not use accounts, review and brand-suggestion deletion is not self-service. You may request removal by contacting the site administrator and identifying the submitted content involved.
               </p>
             </section>
 

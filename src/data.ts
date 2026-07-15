@@ -819,6 +819,24 @@ export const BRAND_DEFINITIONS_RAW: Array<{
   },
 ];
 
+// Editorial launch baselines keep the best-known destination brands near the
+// top before enough public votes exist to establish an organic ranking.
+const EDITORIAL_VOTE_BASELINES: Record<
+  string,
+  { votesUp: number; votesDown: number }
+> = {
+  torrid: { votesUp: 184, votesDown: 18 },
+  "lane-bryant": { votesUp: 169, votesDown: 17 },
+  "universal-standard": { votesUp: 155, votesDown: 13 },
+  eloquii: { votesUp: 146, votesDown: 18 },
+  "good-american": { votesUp: 138, votesDown: 15 },
+  "old-navy": { votesUp: 132, votesDown: 15 },
+  "asos-curve": { votesUp: 126, votesDown: 18 },
+  "savage-x-fenty": { votesUp: 119, votesDown: 17 },
+  cacique: { votesUp: 111, votesDown: 12 },
+  nike: { votesUp: 106, votesDown: 13 },
+};
+
 // Fully inflated launch brand list
 export const BRANDS: Brand[] = BRAND_DEFINITIONS_RAW.map((b) => {
   // We generate size charts for all 4 garment types + default
@@ -838,52 +856,27 @@ export const BRANDS: Brand[] = BRAND_DEFINITIONS_RAW.map((b) => {
     logoUrl = "";
   }
 
-  // Predefined anchor votes, ratings, and rating counts for top brands to create an authentic leaderboard
-  const anchors: Record<string, { votesUp: number; votesDown: number; rating: number; count: number }> = {
-    "torrid": { votesUp: 2842, votesDown: 142, rating: 4.8, count: 3102 },
-    "universal-standard": { votesUp: 2453, votesDown: 94, rating: 4.9, count: 2684 },
-    "eloquii": { votesUp: 1982, votesDown: 218, rating: 4.7, count: 2150 },
-    "lane-bryant": { votesUp: 1720, votesDown: 245, rating: 4.6, count: 1890 },
-    "cacique": { votesUp: 1451, votesDown: 130, rating: 4.7, count: 1610 },
-    "savage-x-fenty": { votesUp: 1635, votesDown: 341, rating: 4.5, count: 1845 },
-    "h-and-m-plus": { votesUp: 820, votesDown: 652, rating: 3.8, count: 1140 },
-    "asos-curve": { votesUp: 1295, votesDown: 742, rating: 4.1, count: 1560 },
-    "target-ava-and-viv": { votesUp: 954, votesDown: 198, rating: 4.4, count: 1205 },
-    "shein-curve": { votesUp: 412, votesDown: 1120, rating: 3.1, count: 1490 },
-    "skims": { votesUp: 1512, votesDown: 280, rating: 4.6, count: 1730 },
-    "good-american": { votesUp: 1355, votesDown: 148, rating: 4.7, count: 1520 },
+  // Small deterministic launch baseline so an empty directory still has a
+  // useful ranking signal. These are editorial seed values, not user votes.
+  const voteSeed = b.id
+    .split("")
+    .reduce((total, character) => total + character.charCodeAt(0), 0);
+  const defaultBaseline = {
+    votesUp: 24 + ((voteSeed * 13) % 59),
+    votesDown: 4 + ((voteSeed * 7) % 16),
   };
-
-  const hasAnchor = anchors[b.id];
-  let finalRating = 4.0;
-  let finalRatingCount = 120;
-  let finalVotesUp = 95;
-  let finalVotesDown = 25;
-
-  if (hasAnchor) {
-    finalRating = hasAnchor.rating;
-    finalRatingCount = hasAnchor.count;
-    finalVotesUp = hasAnchor.votesUp;
-    finalVotesDown = hasAnchor.votesDown;
-  } else {
-    const idHash = b.id.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    // Large, realistic-looking spreads (from 32 to 850)
-    finalVotesUp = 32 + (idHash * 23) % 820;
-    finalRating = Math.round((3.5 + (idHash % 13) / 10) * 10) / 10;
-    finalRatingCount = finalVotesUp + 80 + (idHash * 5) % 350;
-    finalVotesDown = Math.round(finalVotesUp * ((5 - finalRating) / 2.5 + 0.1));
-  }
+  const editorialBaseline = EDITORIAL_VOTE_BASELINES[b.id] ?? defaultBaseline;
 
   return {
     id: b.id,
     name: b.name,
     logo: logoUrl || "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=200&h=200", // real brand logo URL from clearbit or placeholder
     category: b.category,
-    rating: finalRating,
-    ratingCount: finalRatingCount,
-    votes: finalVotesUp - finalVotesDown,
-    votesUp: finalVotesUp,
-    votesDown: finalVotesDown,
+    rating: 0,
+    ratingCount: 0,
+    votes: editorialBaseline.votesUp - editorialBaseline.votesDown,
+    votesUp: editorialBaseline.votesUp,
+    votesDown: editorialBaseline.votesDown,
     sizingRange: b.scaleType === "torrid" ? "Torrid 00 - 6 (US 10-30)" : b.scaleType === "universal_standard" ? "US 00 - 40" : "US 10 - 30",
     priceTier: b.priceTier,
     aesthetic: b.aesthetic,
@@ -908,7 +901,8 @@ BRANDS.forEach((brand) => {
   brand.coverImage = fashionCovers[brand.category] || fashionCovers.premium_plus;
 });
 
-// Deterministic generator to build 5 high-quality, authentic sizing reviews for each of our 56 brands
+// Legacy inactive review generator. INITIAL_COMMENTS remains empty below, so
+// none of this content is presented as customer feedback.
 function generateAllBrandComments(): Comment[] {
   const reviewerPool = [
     { name: "Sarah Thompson", avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=100&h=100" },
@@ -1113,7 +1107,9 @@ function generateAllBrandComments(): Comment[] {
   return generatedList;
 }
 
-export const INITIAL_COMMENTS: Comment[] = generateAllBrandComments();
+// Kept as an empty compatibility export. Community reviews now come only from
+// published Supabase submissions; generated testimonials are never displayed.
+export const INITIAL_COMMENTS: Comment[] = [];
 
 // Helper to convert category IDs to readable titles
 export function getCategoryTitle(cat: BrandCategory): string {

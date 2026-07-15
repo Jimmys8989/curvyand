@@ -21,7 +21,8 @@ import {
   Star
 } from "lucide-react";
 import { Brand, MeasurementProfile, GarmentType, BrandCategory } from "../types";
-import { BRANDS, convertMeasurementsToSize, convertSizeToBrandSize, getCategoryTitle, generateSizeChartForBrand, INITIAL_COMMENTS } from "../data";
+import { convertMeasurementsToSize, convertSizeToBrandSize, getCategoryTitle } from "../data";
+import type { BrandSubmission } from "../community";
 import SearchableBrandSelect from "./SearchableBrandSelect";
 import BodyMannequin from "./BodyMannequin";
 
@@ -33,6 +34,8 @@ interface BrandConverterProps {
   initialSourceBrandId?: string;
   initialTargetBrandId?: string;
   onSelectionChange?: (mode: "measurements" | "brand", sourceBrandId: string, targetBrandId: string) => void;
+  communityEnabled: boolean;
+  onSubmitBrand: (submission: BrandSubmission) => Promise<void>;
 }
 
 export default function BrandConverter({
@@ -43,6 +46,8 @@ export default function BrandConverter({
   initialSourceBrandId = "torrid",
   initialTargetBrandId = "eloquii",
   onSelectionChange,
+  communityEnabled,
+  onSubmitBrand,
 }: BrandConverterProps) {
   // Input mode: "measurements" or "brand"
   const [mode, setMode] = useState<"measurements" | "brand">(initialMode);
@@ -81,6 +86,9 @@ export default function BrandConverter({
   const [customBrandAesthetic, setCustomBrandAesthetic] = useState("Minimalist, Trendy");
   const [customBrandDesc, setCustomBrandDesc] = useState("");
   const [brandSuccessMsg, setBrandSuccessMsg] = useState<string | null>(null);
+  const [brandSubmissionError, setBrandSubmissionError] = useState<string | null>(null);
+  const [brandSubmitting, setBrandSubmitting] = useState(false);
+  const [brandWebsite, setBrandWebsite] = useState("");
 
   // Load profile when component mounts or profile changes
   useEffect(() => {
@@ -168,60 +176,10 @@ export default function BrandConverter({
     explanation = res.explanation;
   }
 
-  // Fetch real/dynamic customer review for credibility
-  const getRealUserReviewForBrand = (brand: Brand, size: string, gType: GarmentType) => {
-    // Check if we have an INITIAL_COMMENTS match
-    const match = INITIAL_COMMENTS.find(
-      (c) => c.brandId === brand.id && (c.garmentType === gType || !c.garmentType)
-    );
-    if (match) {
-      return {
-        author: match.author,
-        avatar: match.avatar,
-        text: match.text,
-        rating: match.rating,
-        userSize: match.userSize || size,
-        timestamp: match.timestamp
-      };
-    }
-
-    // Generate a premium dynamic review if none exists
-    const reviewers = [
-      { name: "Sarah Thompson", avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=100&h=100" },
-      { name: "Keisha Washington", avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100&h=100" },
-      { name: "Elena Rostova", avatar: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=100&h=100" },
-      { name: "Chloe Dupont", avatar: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&q=80&w=100&h=100" },
-      { name: "Aria Takahashi", avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=100&h=100" }
-    ];
-
-    const hash = brand.name.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    const reviewer = reviewers[hash % reviewers.length];
-
-    let text = "";
-    if (brand.fitNotes && brand.fitNotes.toLowerCase().includes("generous")) {
-      text = `I usually struggle with sizing, but getting the ${size} in ${brand.name} was absolutely the right call. The fabric feels premium, and it has that gorgeous, relaxed silhouette that drapes so elegantly without pulling anywhere. ${brand.fitNotes || ""}`;
-    } else if (brand.fitNotes && brand.fitNotes.toLowerCase().includes("snug")) {
-      text = `I bought this in size ${size} and it hugs my curves in all the right places! It's beautifully tailored and structured, holding its shape so well through the day. Definitely fits like a glove. ${brand.fitNotes || ""}`;
-    } else {
-      text = `Amazing quality and incredibly true to size! I ordered my recommended size ${size} and the fit is perfect across the shoulders and hips. The fabric has just the right amount of weight and structure. Highly recommend! ${brand.fitNotes || ""}`;
-    }
-
-    // Days calculations
-    const dates = ["June 12, 2026", "June 18, 2026", "June 24, 2026", "July 1, 2026", "July 5, 2026"];
-    const timestamp = dates[hash % dates.length];
-    const rating = 4 + (hash % 2); // 4 or 5 stars
-
-    return {
-      author: reviewer.name,
-      avatar: reviewer.avatar,
-      text: `"${text}"`,
-      rating,
-      userSize: `${size}`,
-      timestamp
-    };
+  const editorialFitNote = {
+    text: targetBrand.fitNotes,
+    recommendedSize: resultSize,
   };
-
-  const activeReview = getRealUserReviewForBrand(targetBrand, resultSize, garmentType);
 
   // Alternative brand suggestions if confidence is below 75%
   const getAlternativeBrand = () => {
@@ -272,76 +230,57 @@ export default function BrandConverter({
 
   const alternativeBrandRec = getAlternativeBrand();
 
-  // Handle dynamic custom brand creation
-  const handleRegisterCustomBrand = (e: React.FormEvent) => {
+  // Missing brands are submitted to Supabase and become public only after moderation.
+  const handleRegisterCustomBrand = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!customBrandName.trim()) return;
+    if (!communityEnabled || !customBrandName.trim() || brandWebsite) return;
 
-    const newBrandId = customBrandName.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-");
-    
-    // Automatically generate responsive multi-category size charts based on parameters
-    const sizeChartObj = {
-      tops_dresses: generateSizeChartForBrand(customBrandScale, "tops_dresses", customBrandFit),
-      pants_bottoms: generateSizeChartForBrand(customBrandScale, "pants_bottoms", customBrandFit),
-      intimates_lingerie: generateSizeChartForBrand(customBrandScale, "intimates_lingerie", customBrandFit),
-      swimwear: generateSizeChartForBrand(customBrandScale, "swimwear", customBrandFit),
-      default: generateSizeChartForBrand(customBrandScale, "tops_dresses", customBrandFit),
-    };
-
-    let logoUrl = "";
-    if (customBrandUrl) {
-      try {
-        const domain = new URL(customBrandUrl).hostname.replace(/^www\./, "");
-        logoUrl = `https://logo.clearbit.com/${domain}`;
-      } catch (e) {
-        logoUrl = "";
-      }
+    const normalizedName = customBrandName.trim();
+    if (brands.some((brand) => brand.name.toLowerCase() === normalizedName.toLowerCase())) {
+      setBrandSubmissionError("This brand is already listed in the directory.");
+      return;
     }
 
-    const newBrand: Brand = {
-      id: newBrandId,
-      name: customBrandName.trim(),
-      logo: logoUrl || "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=200&h=200",
-      coverImage: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=300&h=300",
-      category: customBrandCat,
-      rating: 4.8,
-      ratingCount: 1,
-      votes: 1,
-      votesUp: 1,
-      votesDown: 0,
-      sizingRange: customBrandScale === "torrid" ? "Torrid 00-6" : customBrandScale === "universal_standard" ? "US 00-40" : "Standard Plus Sizing",
-      priceTier: customBrandPrice,
-      aesthetic: customBrandAesthetic.split(",").map((s) => s.trim()),
-      description: customBrandDesc || `Luxury styling brand representing high-quality couture tailored for curvy silhouettes.`,
-      fitNotes: customBrandFit === "generous" ? "Runs roomy and highly supportive." : customBrandFit === "fitted" ? "Tailored snug fit." : "Highly standard true-to-size stretch profile.",
-      sizeChart: sizeChartObj,
-      siteUrl: customBrandUrl || "https://google.com",
-      isCustom: true
-    };
+    const slugBase = normalizedName
+      .normalize("NFKD")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 80);
+    const slug = slugBase || `community-${crypto.randomUUID().slice(0, 8)}`;
 
-    // Push new brand dynamically! It gets appended to App.tsx's state and localStorage!
-    const updatedBrands = [...brands, newBrand];
-    
-    // Directly mutate the parent through side effect
-    // We can also trigger storage sync through the state passed down
-    localStorage.setItem("curvy_brands", JSON.stringify(updatedBrands));
-    
-    // For immediate React state feedback we will prompt the parent
-    // Wait, since we get brands as props, let's trigger a page reload or state alert.
-    // To cleanly update we can just trigger a reload or custom state dispatcher.
-    // Let's reload or dispatch to make it active instantly!
-    setBrandSuccessMsg(`"${customBrandName}" has been registered successfully! It is now instantly searchable.`);
-    
-    // Reset fields
-    setCustomBrandName("");
-    setCustomBrandUrl("");
-    setCustomBrandDesc("");
-    
-    setTimeout(() => {
-      setBrandSuccessMsg(null);
-      setIsAddingBrand(false);
-      window.location.reload(); // Quick refresh to repopulate state from localStorage!
-    }, 2500);
+    setBrandSubmitting(true);
+    setBrandSubmissionError(null);
+    try {
+      await onSubmitBrand({
+        slug,
+        name: normalizedName,
+        category: customBrandCat,
+        scaleSystem: customBrandScale,
+        fitPreference: customBrandFit,
+        priceTier: customBrandPrice,
+        websiteUrl: customBrandUrl || undefined,
+        aestheticTags: customBrandAesthetic
+          .split(",")
+          .map((tag) => tag.trim())
+          .filter(Boolean)
+          .slice(0, 8),
+        description: customBrandDesc || undefined,
+      });
+
+      setBrandSuccessMsg(
+        `"${normalizedName}" was submitted for moderation. Once approved, it will appear for every visitor.`,
+      );
+      setCustomBrandName("");
+      setCustomBrandUrl("");
+      setCustomBrandDesc("");
+    } catch (error) {
+      setBrandSubmissionError(
+        error instanceof Error ? error.message : "Unable to submit this brand.",
+      );
+    } finally {
+      setBrandSubmitting(false);
+    }
   };
 
   // Get current source brand sizes available for the selected garment type
@@ -755,13 +694,17 @@ export default function BrandConverter({
 
           {/* Dynamic "Register Custom Brand" triggers */}
           <div className="pt-4 border-t border-[#E7E2D8] flex items-center justify-between">
-            <span className="text-[10px] text-neutral-500 font-sans">Brand missing? Add it dynamically.</span>
+            <span className="text-[10px] text-neutral-500 font-sans">Brand missing? Suggest it for the public directory.</span>
             <button
-              onClick={() => setIsAddingBrand(!isAddingBrand)}
+              onClick={() => {
+                setIsAddingBrand(!isAddingBrand);
+                setBrandSuccessMsg(null);
+                setBrandSubmissionError(null);
+              }}
               className="text-[#9E5A44] text-[10px] font-display font-bold uppercase tracking-widest flex items-center space-x-1 cursor-pointer hover:underline"
             >
               <PlusCircle className="h-3.5 w-3.5" />
-              <span>Register Brand</span>
+              <span>Suggest Brand</span>
             </button>
           </div>
         </div>
@@ -774,7 +717,7 @@ export default function BrandConverter({
               <div className="flex items-center justify-between border-b border-[#E7E2D8] pb-3">
                 <div className="flex items-center space-x-2">
                   <Plus className="h-5 w-5 text-[#9E5A44]" />
-                  <h3 className="font-serif font-black text-lg text-[#1C1917]">Couture Brand Registration</h3>
+                  <h3 className="font-serif font-black text-lg text-[#1C1917]">Suggest a Missing Brand</h3>
                 </div>
                 <button
                   onClick={() => setIsAddingBrand(false)}
@@ -789,18 +732,26 @@ export default function BrandConverter({
                   <div className="h-12 w-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto">
                     <CheckCircle2 className="h-6 w-6" />
                   </div>
-                  <h4 className="font-serif font-bold text-lg text-neutral-800">Registration Success</h4>
+                  <h4 className="font-serif font-bold text-lg text-neutral-800">Suggestion Received</h4>
                   <p className="text-xs text-neutral-500 leading-relaxed max-w-sm mx-auto">
                     {brandSuccessMsg}
                   </p>
                 </div>
               ) : (
                 <form onSubmit={handleRegisterCustomBrand} className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                  <p className="sm:col-span-2 rounded-lg border border-[#E7E2D8] bg-[#FAF7F2] px-3 py-2 text-[10px] leading-relaxed text-neutral-500">
+                    {communityEnabled
+                      ? "Suggestions are stored in the shared database and reviewed before publication. Approved brands become visible to every visitor; nothing from this form is saved as a local-only brand."
+                      : "The shared community database is not connected yet. You can preview this form, but submission will open after Supabase is configured."}
+                  </p>
+
                   <div className="space-y-1">
                     <label className="block text-[10px] font-display font-bold uppercase tracking-wider text-neutral-700">Brand Name</label>
                     <input
                       type="text"
                       required
+                      minLength={2}
+                      maxLength={80}
                       placeholder="e.g. CurvyCouture"
                       value={customBrandName}
                       onChange={(e) => setCustomBrandName(e.target.value)}
@@ -836,6 +787,7 @@ export default function BrandConverter({
                       <option value="torrid">Torrid System (00-6)</option>
                       <option value="universal_standard">Universal Standard (4XS-4XL)</option>
                       <option value="denim_waist">Waist Inches (Size 30-50)</option>
+                      <option value="lingerie_bra">Full-Bust Bra Sizing</option>
                     </select>
                   </div>
 
@@ -870,6 +822,7 @@ export default function BrandConverter({
                     <label className="block text-[10px] font-display font-bold uppercase tracking-wider text-neutral-700">Store Website URL</label>
                     <input
                       type="url"
+                      maxLength={500}
                       placeholder="https://example.com"
                       value={customBrandUrl}
                       onChange={(e) => setCustomBrandUrl(e.target.value)}
@@ -881,6 +834,7 @@ export default function BrandConverter({
                     <label className="block text-[10px] font-display font-bold uppercase tracking-wider text-neutral-700">Aesthetic tags (comma separated)</label>
                     <input
                       type="text"
+                      maxLength={160}
                       placeholder="Trendy, Romantic, Comfort, Sexy"
                       value={customBrandAesthetic}
                       onChange={(e) => setCustomBrandAesthetic(e.target.value)}
@@ -892,6 +846,7 @@ export default function BrandConverter({
                     <label className="block text-[10px] font-display font-bold uppercase tracking-wider text-neutral-700">Description / Design Ethos</label>
                     <textarea
                       placeholder="Brief overview of the label..."
+                      maxLength={800}
                       value={customBrandDesc}
                       onChange={(e) => setCustomBrandDesc(e.target.value)}
                       rows={2}
@@ -899,11 +854,30 @@ export default function BrandConverter({
                     />
                   </div>
 
+                  <div className="hidden" aria-hidden="true">
+                    <label htmlFor="brand-website-field">Website</label>
+                    <input
+                      id="brand-website-field"
+                      name="website"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={brandWebsite}
+                      onChange={(event) => setBrandWebsite(event.target.value)}
+                    />
+                  </div>
+
+                  {brandSubmissionError && (
+                    <p className="sm:col-span-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700">
+                      {brandSubmissionError}
+                    </p>
+                  )}
+
                   <button
                     type="submit"
-                    className="sm:col-span-2 w-full rounded-lg bg-[#9E5A44] hover:bg-[#854B38] text-white py-3 text-xs font-display font-bold uppercase tracking-widest transition-luxury cursor-pointer shadow-md mt-2"
+                    disabled={!communityEnabled || brandSubmitting}
+                    className="sm:col-span-2 w-full rounded-lg bg-[#9E5A44] hover:bg-[#854B38] text-white py-3 text-xs font-display font-bold uppercase tracking-widest transition-luxury cursor-pointer shadow-md mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Register and Generate Sizing Charts
+                    {brandSubmitting ? "Submitting..." : "Submit Brand for Review"}
                   </button>
                 </form>
               )}
@@ -981,33 +955,25 @@ export default function BrandConverter({
                 "{explanation}"
               </div>
 
-              {/* Real User Review Card to Increase Credibility */}
+              {/* Curated editorial context; intentionally not presented as a user review. */}
               <div className="bg-white/95 rounded-xl p-3.5 border border-[#E7E2D8] space-y-2 text-left relative overflow-hidden shadow-2xs">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <img
-                      src={activeReview.avatar}
-                      alt={activeReview.author}
-                      className="h-8 w-8 rounded-full object-cover border border-[#E7E2D8]"
-                      referrerPolicy="no-referrer"
-                    />
-                    <div>
-                      <span className="block font-sans font-bold text-xs text-[#1C1917]">{activeReview.author}</span>
-                      <span className="block font-mono text-[9px] text-neutral-400">Verified Buyer | Size Fitted: {activeReview.userSize}</span>
+                    <div className="h-8 w-8 rounded-full bg-[#EEDCD2] text-[#9E5A44] flex items-center justify-center">
+                      <Sparkles className="h-4 w-4" />
                     </div>
-                  </div>
-                  <div className="flex items-center space-x-0.5 text-[#E29578]">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className={`h-3 w-3 ${i < activeReview.rating ? "fill-current text-[#E29578]" : "text-neutral-200"}`} />
-                    ))}
+                    <div>
+                      <span className="block font-sans font-bold text-xs text-[#1C1917]">Editorial Fit Note</span>
+                      <span className="block font-mono text-[9px] text-neutral-400">Curated sizing guidance | Suggested: {editorialFitNote.recommendedSize}</span>
+                    </div>
                   </div>
                 </div>
                 <p className="font-sans text-neutral-600 text-[11px] leading-relaxed">
-                  {activeReview.text}
+                  {editorialFitNote.text}
                 </p>
                 <div className="flex items-center justify-between text-[9px] text-neutral-400 font-mono pt-1">
-                  <span>Review Date: {activeReview.timestamp}</span>
-                  <span className="text-[#9E5A44] font-semibold bg-[#EEDCD2]/25 px-1.5 py-0.5 rounded">Verified Fit Feedback</span>
+                  <span>Always compare with the retailer's current product chart.</span>
+                  <span className="text-[#9E5A44] font-semibold bg-[#EEDCD2]/25 px-1.5 py-0.5 rounded">Not a customer review</span>
                 </div>
               </div>
 
