@@ -4,8 +4,9 @@ interface SEOProps {
   title: string;
   description: string;
   canonicalPath: string; // e.g. "/", "/size-converter", "/brand-directory", "/brand-directory/torrid"
-  ogType?: "website" | "profile" | "product";
+  ogType?: "website" | "article";
   ogImage?: string;
+  robots?: "index,follow" | "noindex,follow";
   schema?: Record<string, any> | Record<string, any>[];
 }
 
@@ -15,6 +16,7 @@ export default function SEO({
   canonicalPath,
   ogType = "website",
   ogImage = "https://www.curvyand.com/curvy-brand-icon.png",
+  robots = "index,follow",
   schema,
 }: SEOProps) {
   useEffect(() => {
@@ -29,6 +31,15 @@ export default function SEO({
       document.head.appendChild(metaDescription);
     }
     metaDescription.setAttribute("content", description);
+
+    // Keep indexability explicit, especially for client-side 404 states.
+    let metaRobots = document.querySelector('meta[name="robots"]');
+    if (!metaRobots) {
+      metaRobots = document.createElement("meta");
+      metaRobots.setAttribute("name", "robots");
+      document.head.appendChild(metaRobots);
+    }
+    metaRobots.setAttribute("content", robots);
 
     // 3. Update Canonical Link
     let canonicalLink = document.querySelector('link[rel="canonical"]');
@@ -78,7 +89,13 @@ export default function SEO({
       tag.setAttribute("content", content);
     });
 
-    // 6. Dynamic JSON-LD Structured Data
+    // 6. Replace the build-time schema with route-aware JSON-LD after hydration.
+    const staticScript = document.getElementById("seo-static-schema");
+    if (staticScript) {
+      staticScript.remove();
+    }
+
+    // Dynamic JSON-LD Structured Data
     // Remove existing JSON-LD script from previous page render
     const existingScript = document.getElementById("seo-schema-script");
     if (existingScript) {
@@ -100,7 +117,7 @@ export default function SEO({
         script.remove();
       }
     };
-  }, [title, description, canonicalPath, ogType, ogImage, schema]);
+  }, [title, description, canonicalPath, ogType, ogImage, robots, schema]);
 
   return null;
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import { Scissors, Award, Sparkles, Heart } from "lucide-react";
 import { MeasurementProfile } from "../types";
+import InternalLink from "./InternalLink";
 
 interface HeaderProps {
   currentPath: string;
@@ -22,8 +23,9 @@ export default function Header({ currentPath, onNavigate, profile }: HeaderProps
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           {/* Logo & Brand Name */}
-          <div 
-            onClick={() => onNavigate("/")}
+          <InternalLink
+            href="/"
+            onNavigate={onNavigate}
             className="flex items-center space-x-2 cursor-pointer group"
           >
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#9E5A44] text-[#FAF7F2] group-hover:scale-105 transition-transform">
@@ -37,12 +39,13 @@ export default function Header({ currentPath, onNavigate, profile }: HeaderProps
                 Fashion Sizing Suite
               </p>
             </div>
-          </div>
+          </InternalLink>
 
           {/* Nav Tabs */}
           <nav className="flex space-x-1 sm:space-x-4">
-            <button
-              onClick={() => onNavigate("/size-converter")}
+            <InternalLink
+              href="/size-converter"
+              onNavigate={onNavigate}
               className={`flex items-center space-x-2 px-3 py-2 text-xs sm:text-sm font-display font-semibold uppercase tracking-wider rounded-md transition-luxury cursor-pointer ${
                 isConverterActive
                   ? "bg-[#EEDCD2] text-[#9E5A44]"
@@ -51,10 +54,11 @@ export default function Header({ currentPath, onNavigate, profile }: HeaderProps
             >
               <Scissors className="h-4 w-4" />
               <span>Sizing Converter</span>
-            </button>
+            </InternalLink>
 
-            <button
-              onClick={() => onNavigate("/brand-directory")}
+            <InternalLink
+              href="/brand-directory"
+              onNavigate={onNavigate}
               className={`flex items-center space-x-2 px-3 py-2 text-xs sm:text-sm font-display font-semibold uppercase tracking-wider rounded-md transition-luxury cursor-pointer ${
                 isDatabaseActive
                   ? "bg-[#EEDCD2] text-[#9E5A44]"
@@ -63,7 +67,7 @@ export default function Header({ currentPath, onNavigate, profile }: HeaderProps
             >
               <Award className="h-4 w-4" />
               <span>Brand Directory</span>
-            </button>
+            </InternalLink>
           </nav>
 
           {/* User Profile Mini Display */}

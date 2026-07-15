@@ -24,6 +24,23 @@ export default function DatabaseLeaderboard({
   const [selectedAesthetic, setSelectedAesthetic] = useState<string>("all");
   const [selectedPrice, setSelectedPrice] = useState<number | "all">("all");
 
+  const handleBrandLink = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    brand: Brand,
+  ) => {
+    if (
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return;
+    }
+    event.preventDefault();
+    onSelectBrand(brand);
+  };
+
   // Get all unique aesthetics
   const allAesthetics = Array.from(
     new Set(brands.flatMap((b) => b.aesthetic))
@@ -45,9 +62,12 @@ export default function DatabaseLeaderboard({
     <div className="space-y-8 animate-fadeIn">
       {/* Editorial Title */}
       <div className="text-center max-w-xl mx-auto py-2">
-        <h2 className="font-serif text-3xl sm:text-4xl font-black tracking-tight text-[#1C1917]">
+        <h1 className="font-serif text-3xl sm:text-4xl font-black tracking-tight text-[#1C1917]">
           Brand Directory
-        </h2>
+        </h1>
+        <p className="mt-3 text-sm text-neutral-500 leading-relaxed">
+          Compare plus-size brand ranges, measurement charts, and curated fit notes.
+        </p>
       </div>
 
       {/* Filter and Search Bar Card */}
@@ -177,8 +197,14 @@ export default function DatabaseLeaderboard({
                   />
                   <div className="space-y-1">
                     <div className="flex items-center space-x-2">
-                      <h3 className="font-serif font-black text-base text-[#1C1917] leading-tight hover:text-[#9E5A44] cursor-pointer flex items-center" onClick={() => onSelectBrand(brand)}>
-                        <span>{brand.name}</span>
+                      <h3 className="font-serif font-black text-base leading-tight flex items-center">
+                        <a
+                          href={`/brand-directory/${brand.id}`}
+                          onClick={(event) => handleBrandLink(event, brand)}
+                          className="text-[#1C1917] hover:text-[#9E5A44] cursor-pointer"
+                        >
+                          {brand.name}
+                        </a>
                         {brand.isCustom && (
                           <span className="text-[8px] uppercase font-mono px-1 bg-[#9E5A44] text-[#FAF7F2] rounded ml-1.5 shrink-0">Custom</span>
                         )}
@@ -283,12 +309,13 @@ export default function DatabaseLeaderboard({
                   <span className="text-xs text-neutral-400 block lg:hidden italic">
                     Ready to explore?
                   </span>
-                  <button
-                    onClick={() => onSelectBrand(brand)}
+                  <a
+                    href={`/brand-directory/${brand.id}`}
+                    onClick={(event) => handleBrandLink(event, brand)}
                     className="px-4 py-2 bg-white hover:bg-[#9E5A44] hover:text-white border border-[#E7E2D8] hover:border-[#9E5A44] rounded-lg text-xs font-display font-bold uppercase tracking-wider transition-luxury cursor-pointer"
                   >
                     Details
-                  </button>
+                  </a>
                 </div>
               </div>
             );

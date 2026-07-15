@@ -1,5 +1,6 @@
 import express from "express";
 import path from "path";
+import { existsSync } from "node:fs";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
@@ -7,7 +8,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
 app.use(express.json());
 
@@ -91,9 +92,29 @@ async function startServer() {
     app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), "dist");
-    app.use(express.static(distPath));
+
+    // Serve generated extensionless SEO pages before Express sees nested folders.
+    app.get("*", (req, res, next) => {
+      if (req.path === "/" || path.extname(req.path)) {
+        next();
+        return;
+      }
+
+      const candidate = path.resolve(distPath, `${req.path.replace(/^\/+/, "")}.html`);
+      if (candidate.startsWith(`${distPath}${path.sep}`) && existsSync(candidate)) {
+        res.sendFile(candidate);
+        return;
+      }
+      next();
+    });
+
+    app.use(express.static(distPath, { extensions: ["html"] }));
     app.get("*", (req, res) => {
-      res.sendFile(path.join(distPath, "index.html"));
+      if (/^\/size-converter\/[a-z0-9-]+to[a-z0-9-]+$/.test(req.path)) {
+        res.sendFile(path.join(distPath, "_converter-fallback.html"));
+        return;
+      }
+      res.status(404).sendFile(path.join(distPath, "404.html"));
     });
   }
 

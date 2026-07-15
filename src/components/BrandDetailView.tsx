@@ -32,6 +32,20 @@ export default function BrandDetailView({
   // Active chart category tab
   const [activeChartTab, setActiveChartTab] = useState<GarmentType>("tops_dresses");
 
+  const handleBackLink = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return;
+    }
+    event.preventDefault();
+    onBack();
+  };
+
   // Filter comments for this brand
   const brandComments = comments.filter((c) => c.brandId === brand.id);
 
@@ -68,13 +82,14 @@ export default function BrandDetailView({
   return (
     <div className="space-y-8 animate-fadeIn">
       {/* Back button */}
-      <button
-        onClick={onBack}
+      <a
+        href="/brand-directory"
+        onClick={handleBackLink}
         className="inline-flex items-center space-x-2 text-xs font-display font-bold uppercase tracking-wider text-[#9E5A44] hover:underline cursor-pointer"
       >
         <ArrowLeft className="h-4 w-4" />
         <span>Back to Directory Leaderboard</span>
-      </button>
+      </a>
 
       {/* Hero Header Card */}
       <div className="relative overflow-hidden rounded-3xl bg-neutral-950 text-white min-h-[220px] flex items-end p-6 sm:p-10 border border-[#E7E2D8]">

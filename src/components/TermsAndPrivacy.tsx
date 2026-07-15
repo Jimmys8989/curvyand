@@ -8,17 +8,25 @@ interface TermsAndPrivacyProps {
 export default function TermsAndPrivacy({ onBack }: TermsAndPrivacyProps) {
   const [activeTab, setActiveTab] = useState<"terms" | "privacy">("terms");
 
+  const handleBackLink = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
+      event.preventDefault();
+      onBack();
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto py-8 md:py-12 px-4 animate-fade-in">
       {/* Back Button */}
-      <button
-        onClick={onBack}
+      <a
+        href="/"
+        onClick={handleBackLink}
         className="group flex items-center space-x-2 text-xs font-display font-bold uppercase tracking-wider text-[#9E5A44] hover:text-[#5C3224] transition-colors mb-8 cursor-pointer"
         id="btn-terms-back"
       >
         <ArrowLeft className="h-4 w-4 transform group-hover:-translate-x-1 transition-transform" />
         <span>Back to Home</span>
-      </button>
+      </a>
 
       {/* Header */}
       <div className="text-center mb-10 space-y-3">
