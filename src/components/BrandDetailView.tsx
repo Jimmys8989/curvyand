@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { ArrowLeft, Star, Heart, Check, HelpCircle, MessageSquare, Plus, Calendar, Ruler, Info, Shirt, Scale, Compass, ExternalLink, BookOpen } from "lucide-react";
+import { ArrowLeft, Star, Heart, Check, HelpCircle, MessageSquare, Plus, Calendar, Ruler, Info, Shirt, Scale, Compass, ExternalLink } from "lucide-react";
 import { Brand, Comment, GarmentType } from "../types";
 import BrandLogo from "./BrandLogo";
 import type { ReviewSubmission } from "../community";
+import { getExternalReviewsForBrand } from "../externalReviews";
 
 interface BrandDetailViewProps {
   brand: Brand;
@@ -56,6 +57,7 @@ export default function BrandDetailView({
 
   // Filter comments for this brand
   const brandComments = comments.filter((c) => c.brandId === brand.id);
+  const externalReviews = getExternalReviewsForBrand(brand.id);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -144,17 +146,26 @@ export default function BrandDetailView({
               <p className="font-sans text-neutral-300 text-sm leading-relaxed max-w-2xl">
                 {brand.description}
               </p>
+              <a
+                href={brand.siteUrl}
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+                className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-white/10 px-3.5 py-2 text-[10px] font-display font-bold uppercase tracking-wider text-white transition-colors hover:border-white/60 hover:bg-white/20"
+              >
+                Visit {brand.name} Website
+                <ExternalLink className="h-3 w-3" />
+              </a>
             </div>
           </div>
         </div>
       </div>
 
       {/* Main Breakdown Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12">
         {/* Left Column: Brand fit profile & exact charts */}
-        <div className="lg:col-span-5 space-y-6">
+        <div className="space-y-6 lg:contents">
           {/* Fit Assessment Card */}
-          <div className="bg-[#FDFBF7] border border-[#E7E2D8] rounded-2xl p-6 space-y-5">
+          <div className="bg-[#FDFBF7] border border-[#E7E2D8] rounded-2xl p-6 space-y-5 lg:order-1 lg:col-span-5">
             <h3 className="font-serif font-bold text-lg text-[#1C1917] border-b border-[#E7E2D8] pb-3">
               Editorial Fit Assessment
             </h3>
@@ -208,7 +219,7 @@ export default function BrandDetailView({
           </div>
 
           {/* Sizing Chart Sheet with clothing category switcher */}
-          <div className="bg-[#FDFBF7] border border-[#E7E2D8] rounded-2xl p-6 space-y-4">
+          <div className="bg-[#FDFBF7] border border-[#E7E2D8] rounded-2xl p-6 space-y-4 lg:order-3 lg:col-span-12">
             <div className="border-b border-[#E7E2D8] pb-3 space-y-2">
               <h3 className="font-serif font-bold text-lg text-[#1C1917]">
                 Official Size Parameters
@@ -302,81 +313,43 @@ export default function BrandDetailView({
         </div>
 
         {/* Right Column: Customer Reviews / Community Guide */}
-        <div className="lg:col-span-7 space-y-6">
+        <div className="space-y-6 lg:order-2 lg:col-span-7">
           <div className="bg-[#FDFBF7] border border-[#E7E2D8] rounded-2xl p-6 sm:p-8 space-y-6">
-            <div className="flex items-center justify-between border-b border-[#E7E2D8] pb-4">
+            <div className="flex flex-col gap-3 border-b border-[#E7E2D8] pb-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-center space-x-2">
                 <MessageSquare className="h-5 w-5 text-[#9E5A44]" />
                 <div>
                   <h3 className="font-serif font-bold text-xl text-[#1C1917]">
-                    Sizing Notes & Community Reviews
+                    Sizing Reviews
                   </h3>
                   <p className="mt-0.5 text-[10px] font-mono text-neutral-400">
-                    2 reference notes · {brandComments.length} public Curvy& reviews
+                    {externalReviews.length + brandComments.length} review{externalReviews.length + brandComments.length === 1 ? "" : "s"} available · External sources are labeled
                   </p>
                 </div>
               </div>
-
               <button
-                onClick={() => setFormOpen(!formOpen)}
+                onClick={() => {
+                  setFormOpen((current) => {
+                    if (!current) {
+                      setFormSuccess(false);
+                      setFormError(null);
+                    }
+                    return !current;
+                  });
+                }}
                 disabled={!communityEnabled}
-                className="flex items-center space-x-1.5 rounded-full bg-[#9E5A44] hover:bg-[#854B38] text-white px-3 py-1.5 text-xs font-display font-bold uppercase tracking-wider transition-luxury cursor-pointer shadow-sm disabled:opacity-40 disabled:cursor-not-allowed"
+                aria-expanded={formOpen}
+                aria-controls="community-review-form"
+                className="flex w-full items-center justify-center space-x-1.5 rounded-full bg-[#9E5A44] px-4 py-2 text-xs font-display font-bold uppercase tracking-wider text-white shadow-sm transition-luxury hover:bg-[#854B38] disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto"
               >
-                <Plus className="h-3.5 w-3.5" />
-                <span>Write Sizing Note</span>
+                <Plus className={`h-3.5 w-3.5 transition-transform ${formOpen ? "rotate-45" : ""}`} />
+                <span>{formOpen ? "Close Form" : "Write Sizing Note"}</span>
               </button>
-            </div>
-
-            {/* Every brand has clearly attributed reference context while first-party reviews grow. */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <article className="rounded-xl border border-[#DFB7B0] bg-[#EEDCD2]/20 p-4 space-y-3">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-[9px] font-display font-black uppercase tracking-wider text-[#9E5A44] border border-[#DFB7B0]/60">
-                    <ExternalLink className="h-3 w-3" />
-                    External Retailer Reference
-                  </span>
-                  <span className="text-[9px] font-mono text-neutral-400">Not a customer review</span>
-                </div>
-                <div>
-                  <h4 className="font-serif font-bold text-sm text-[#1C1917]">{brand.name} Size Reference</h4>
-                  <p className="mt-1.5 text-xs leading-relaxed text-neutral-600">
-                    Directory range: <strong>{brand.sizingRange}</strong>. Retailer charts can change by garment, fabric, and season, so confirm the current product chart before purchasing.
-                  </p>
-                </div>
-                <a
-                  href={brand.siteUrl}
-                  target="_blank"
-                  rel="noopener noreferrer nofollow"
-                  className="inline-flex items-center gap-1 text-[10px] font-display font-bold uppercase tracking-wider text-[#9E5A44] hover:underline"
-                >
-                  Open {brand.name} website
-                  <ExternalLink className="h-3 w-3" />
-                </a>
-              </article>
-
-              <article className="rounded-xl border border-[#E7E2D8] bg-[#FAF7F2] p-4 space-y-3">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-[9px] font-display font-black uppercase tracking-wider text-[#9E5A44] border border-[#E7E2D8]">
-                    <BookOpen className="h-3 w-3" />
-                    Curvy& Editorial Synthesis
-                  </span>
-                  <span className="text-[9px] font-mono text-neutral-400">Not a customer review</span>
-                </div>
-                <div>
-                  <h4 className="font-serif font-bold text-sm text-[#1C1917]">Fit Pattern Summary</h4>
-                  <p className="mt-1.5 text-xs leading-relaxed text-neutral-600 italic">
-                    {brand.fitNotes}
-                  </p>
-                </div>
-                <p className="text-[9px] font-mono text-neutral-400">
-                  Editorial guidance based on available sizing information; verify against the retailer's latest chart.
-                </p>
-              </article>
             </div>
 
             {!communityEnabled && (
               <div className="rounded-xl border border-[#E7E2D8] bg-[#FAF7F2] px-4 py-3 text-xs text-neutral-500">
-                Public community reviews are opening soon. The external reference and editorial synthesis above remain available in the meantime.
+                Public community reviews are opening soon. Sourced external perspectives remain available in the meantime.
               </div>
             )}
 
@@ -388,14 +361,14 @@ export default function BrandDetailView({
 
             {/* Write a comment form */}
             {formOpen && (
-              <div className="bg-white rounded-xl border border-[#DFB7B0] p-5 space-y-4 shadow-sm animate-fadeIn">
+              <div id="community-review-form" className="bg-white rounded-xl border border-[#DFB7B0] p-5 space-y-4 shadow-sm animate-fadeIn">
                 <div className="flex justify-between items-center pb-2 border-b border-[#E7E2D8]">
                   <h4 className="font-serif font-bold text-[#9E5A44] text-sm">Post a New Sizing Review</h4>
                   <button
                     onClick={() => setFormOpen(false)}
                     className="text-neutral-400 hover:text-neutral-600 text-xs cursor-pointer font-bold uppercase"
                   >
-                    Cancel
+                    {formSuccess ? "Close" : "Cancel"}
                   </button>
                 </div>
 
@@ -549,12 +522,61 @@ export default function BrandDetailView({
               </div>
             )}
 
-            {/* First-party public comments remain separate from external/editorial context. */}
+            {/* Sourced and first-party reviews share one list; provenance stays visible on each card. */}
             <div className="space-y-4">
-              <div className="flex items-center justify-between border-b border-[#E7E2D8] pb-2">
-                <h4 className="font-serif font-bold text-sm text-[#1C1917]">Public Community Reviews</h4>
-                <span className="text-[10px] font-mono text-neutral-400">{brandComments.length} published</span>
-              </div>
+              {externalReviews.map((review) => {
+                const signalLabel =
+                  review.fitSignal === "runsSmall"
+                    ? "Often reported smaller"
+                    : review.fitSignal === "runsLarge"
+                      ? "Often reported generous"
+                      : review.fitSignal === "trueToSize"
+                        ? "Often reported true to size"
+                        : "Mixed fit reports";
+                const signalStyle =
+                  review.fitSignal === "runsSmall"
+                    ? "bg-red-50 text-red-700 border-red-200"
+                    : review.fitSignal === "runsLarge"
+                      ? "bg-amber-50 text-amber-700 border-amber-200"
+                      : review.fitSignal === "trueToSize"
+                        ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                        : "bg-neutral-50 text-neutral-600 border-neutral-200";
+
+                return (
+                  <article key={review.id} className="space-y-3 rounded-xl border border-[#E7E2D8]/80 bg-[#FAF7F2]/60 p-5 transition-colors hover:bg-[#FAF7F2]">
+                    <div className="flex flex-wrap items-start justify-between gap-3">
+                      <div>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <p className="font-serif text-sm font-bold text-[#1C1917]">{review.topic}</p>
+                          <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[8px] font-display font-bold uppercase tracking-wider text-emerald-700">
+                            External User Review
+                          </span>
+                        </div>
+                        <p className="mt-1 text-[9px] font-mono text-neutral-400">
+                          {review.sourceName} · {review.sourceCommunity} · {review.sourceDate}
+                        </p>
+                      </div>
+                      <span className={`rounded-full border px-2.5 py-1 text-[9px] font-display font-bold uppercase tracking-wider ${signalStyle}`}>
+                        {signalLabel}
+                      </span>
+                    </div>
+                    <p className="text-xs leading-relaxed text-neutral-600">{review.summary}</p>
+                    <div className="flex flex-wrap items-center justify-between gap-2 border-t border-dashed border-[#E7E2D8] pt-2">
+                      <span className="text-[9px] font-mono text-neutral-400">Paraphrased from the linked public discussion</span>
+                      <a
+                        href={review.sourceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer nofollow"
+                        className="inline-flex items-center gap-1 text-[10px] font-display font-bold uppercase tracking-wider text-[#9E5A44] hover:underline"
+                      >
+                        Read original discussion
+                        <ExternalLink className="h-3 w-3" />
+                      </a>
+                    </div>
+                  </article>
+                );
+              })}
+
               {reviewsLoading ? (
                 <div className="text-center py-10 text-neutral-400 italic text-xs">
                   Loading public reviews...
@@ -595,9 +617,6 @@ export default function BrandDetailView({
                             <div className="flex items-center gap-2">
                               <span className="font-serif font-black text-xs text-[#1C1917]">
                                 {comment.author}
-                              </span>
-                              <span className="rounded-full bg-[#EEDCD2]/50 px-2 py-0.5 text-[8px] font-display font-bold uppercase tracking-wider text-[#9E5A44]">
-                                Submitted on Curvy&
                               </span>
                             </div>
                             <div className="flex items-center space-x-1 mt-0.5">
@@ -647,11 +666,11 @@ export default function BrandDetailView({
                     </div>
                   );
                 })
-              ) : (
+              ) : externalReviews.length === 0 ? (
                 <div className="text-center py-10 text-neutral-400 italic text-xs">
-                  No Curvy& community reviews have been published for {brand.name} yet. The reference notes above are available now.
+                  No sizing reviews have been published for {brand.name} yet. Be the first to share your fit experience.
                 </div>
-              )}
+              ) : null}
             </div>
           </div>
         </div>

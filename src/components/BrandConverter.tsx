@@ -18,11 +18,13 @@ import {
   Globe,
   Dribbble,
   Scale,
-  Star
+  Star,
+  ExternalLink,
 } from "lucide-react";
-import { Brand, MeasurementProfile, GarmentType, BrandCategory } from "../types";
+import { Brand, Comment, MeasurementProfile, GarmentType, BrandCategory } from "../types";
 import { convertMeasurementsToSize, convertSizeToBrandSize, getCategoryTitle } from "../data";
 import type { BrandSubmission } from "../community";
+import { getExternalReviewsForBrand } from "../externalReviews";
 import SearchableBrandSelect from "./SearchableBrandSelect";
 import BodyMannequin from "./BodyMannequin";
 
@@ -30,6 +32,7 @@ interface BrandConverterProps {
   profile: MeasurementProfile | null;
   onProfileSave: (profile: MeasurementProfile) => void;
   brands: Brand[];
+  comments: Comment[];
   initialMode?: "measurements" | "brand";
   initialSourceBrandId?: string;
   initialTargetBrandId?: string;
@@ -42,6 +45,7 @@ export default function BrandConverter({
   profile,
   onProfileSave,
   brands,
+  comments,
   initialMode = "measurements",
   initialSourceBrandId = "torrid",
   initialTargetBrandId = "eloquii",
@@ -64,6 +68,7 @@ export default function BrandConverter({
   const [hips, setHips] = useState<number>(50);
   const [height, setHeight] = useState<number>(170);
   const [unit, setUnit] = useState<"in" | "cm">("in");
+  const [profileSaved, setProfileSaved] = useState(false);
 
   // Brand-to-brand fields
   const [sourceBrandId, setSourceBrandId] = useState<string>(initialSourceBrandId);
@@ -101,6 +106,10 @@ export default function BrandConverter({
     }
   }, [profile]);
 
+  useEffect(() => {
+    setProfileSaved(false);
+  }, [bust, waist, hips, height, unit]);
+
   // Synchronize with external url props from parent router
   useEffect(() => {
     if (initialMode && initialMode !== mode) {
@@ -123,20 +132,48 @@ export default function BrandConverter({
 
   // Handle mode change with URL notification
   const handleModeChange = (newMode: "measurements" | "brand") => {
+    let nextTargetBrandId = targetBrandId;
+    if (newMode === "brand" && sourceBrandId === targetBrandId) {
+      nextTargetBrandId = brands.find((brand) => brand.id !== sourceBrandId)?.id ?? targetBrandId;
+      setTargetBrandId(nextTargetBrandId);
+      setChartSubpageId(nextTargetBrandId);
+    }
     setMode(newMode);
-    onSelectionChange?.(newMode, sourceBrandId, targetBrandId);
+    onSelectionChange?.(newMode, sourceBrandId, nextTargetBrandId);
   };
+
+  // Recover old or manually entered same-brand comparison URLs instead of showing a dead end.
+  useEffect(() => {
+    if (mode !== "brand" || sourceBrandId !== targetBrandId) return;
+
+    const nextTargetBrandId = brands.find((brand) => brand.id !== sourceBrandId)?.id;
+    if (!nextTargetBrandId) return;
+
+    setTargetBrandId(nextTargetBrandId);
+    setChartSubpageId(nextTargetBrandId);
+    onSelectionChange?.("brand", sourceBrandId, nextTargetBrandId);
+  }, [mode, sourceBrandId, targetBrandId, brands, onSelectionChange]);
 
   // Handle target brand selection change with URL notification
   const handleTargetBrandChange = (newTargetId: string) => {
-    setTargetBrandId(newTargetId);
-    setChartSubpageId(newTargetId);
-    onSelectionChange?.(mode, sourceBrandId, newTargetId);
+    let nextTargetBrandId = newTargetId;
+    if (mode === "brand" && newTargetId === sourceBrandId) {
+      nextTargetBrandId = brands.find((brand) => brand.id !== sourceBrandId)?.id ?? newTargetId;
+    }
+    setTargetBrandId(nextTargetBrandId);
+    setChartSubpageId(nextTargetBrandId);
+    onSelectionChange?.(mode, sourceBrandId, nextTargetBrandId);
   };
 
   // Handle source brand selection change with URL notification
   const handleSourceBrandChange = (brandId: string) => {
     setSourceBrandId(brandId);
+    let nextTargetBrandId = targetBrandId;
+    if (mode === "brand" && brandId === targetBrandId) {
+      nextTargetBrandId = brands.find((brand) => brand.id !== brandId)?.id ?? targetBrandId;
+      setTargetBrandId(nextTargetBrandId);
+      setChartSubpageId(nextTargetBrandId);
+    }
     const selectedBrand = brands.find((b) => b.id === brandId);
     if (selectedBrand) {
       // Find matching size list based on current garment type, or fallback
@@ -146,17 +183,20 @@ export default function BrandConverter({
         setSourceSize(sizes[0]);
       }
     }
-    onSelectionChange?.(mode, brandId, targetBrandId);
+    onSelectionChange?.(mode, brandId, nextTargetBrandId);
   };
 
   const handleProfileSave = (e: React.FormEvent) => {
     e.preventDefault();
     onProfileSave({ bust, waist, hips, height, unit });
+    setProfileSaved(true);
   };
 
   // Sizing Calculations taking current garmentType into account
   const targetBrand = brands.find((b) => b.id === targetBrandId) || brands[0];
   const sourceBrand = brands.find((b) => b.id === sourceBrandId) || brands[0];
+  const featuredCommunityReview = comments.find((comment) => comment.brandId === targetBrand.id);
+  const featuredExternalReview = getExternalReviewsForBrand(targetBrand.id)[0];
 
   let resultSize = "";
   let confidence = 0;
@@ -175,11 +215,6 @@ export default function BrandConverter({
     confidence = res.confidence;
     explanation = res.explanation;
   }
-
-  const editorialFitNote = {
-    text: targetBrand.fitNotes,
-    recommendedSize: resultSize,
-  };
 
   // Alternative brand suggestions if confidence is below 75%
   const getAlternativeBrand = () => {
@@ -618,10 +653,23 @@ export default function BrandConverter({
 
               <button
                 type="submit"
-                className="w-full rounded-lg bg-[#9E5A44] hover:bg-[#854B38] text-white py-3 text-xs font-display font-bold uppercase tracking-widest transition-luxury cursor-pointer shadow-md"
+                className={`flex w-full items-center justify-center gap-2 rounded-lg py-3 text-xs font-display font-bold uppercase tracking-widest text-white shadow-md transition-luxury ${
+                  profileSaved
+                    ? "bg-emerald-700"
+                    : "cursor-pointer bg-[#9E5A44] hover:bg-[#854B38]"
+                }`}
               >
-                Save Sizing Profile
+                {profileSaved && <CheckCircle2 className="h-4 w-4" />}
+                {profileSaved ? "Profile Saved" : "Save Sizing Profile"}
               </button>
+              <p
+                aria-live="polite"
+                className={`text-center text-[10px] leading-relaxed ${profileSaved ? "text-emerald-700" : "text-neutral-400"}`}
+              >
+                {profileSaved
+                  ? "Saved on this device. Your recommendations already update automatically."
+                  : "Save these measurements on this device for your next visit."}
+              </p>
             </form>
           ) : (
             <div className="space-y-5">
@@ -955,27 +1003,63 @@ export default function BrandConverter({
                 "{explanation}"
               </div>
 
-              {/* Curated editorial context; intentionally not presented as a user review. */}
-              <div className="bg-white/95 rounded-xl p-3.5 border border-[#E7E2D8] space-y-2 text-left relative overflow-hidden shadow-2xs">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <div className="h-8 w-8 rounded-full bg-[#EEDCD2] text-[#9E5A44] flex items-center justify-center">
-                      <Sparkles className="h-4 w-4" />
+              {featuredCommunityReview ? (
+                <div className="space-y-3 rounded-xl border border-[#E7E2D8] bg-white/95 p-4 text-left shadow-2xs">
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div className="flex items-center gap-2.5">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#EEDCD2] font-serif text-xs font-black text-[#9E5A44]">
+                        {featuredCommunityReview.author.trim().charAt(0).toUpperCase()}
+                      </div>
+                      <div>
+                        <span className="block text-xs font-bold text-[#1C1917]">{featuredCommunityReview.author}</span>
+                        <span className="block text-[9px] font-mono text-neutral-400">Published on {featuredCommunityReview.timestamp}</span>
+                      </div>
                     </div>
+                    <span className="rounded-full bg-[#EEDCD2]/55 px-2.5 py-1 text-[8px] font-display font-bold uppercase tracking-wider text-[#9E5A44]">
+                      Curvy& User Review
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Star
+                        key={star}
+                        className={`h-3 w-3 ${star <= featuredCommunityReview.rating ? "fill-current text-[#9E5A44]" : "text-neutral-300"}`}
+                      />
+                    ))}
+                    {featuredCommunityReview.userSize && (
+                      <span className="pl-1 text-[9px] font-mono text-neutral-400">Size: {featuredCommunityReview.userSize}</span>
+                    )}
+                  </div>
+                  <p className="text-[11px] leading-relaxed text-neutral-600">“{featuredCommunityReview.text}”</p>
+                </div>
+              ) : featuredExternalReview ? (
+                <div className="space-y-3 rounded-xl border border-[#E7E2D8] bg-white/95 p-4 text-left shadow-2xs">
+                  <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
-                      <span className="block font-sans font-bold text-xs text-[#1C1917]">Editorial Fit Note</span>
-                      <span className="block font-mono text-[9px] text-neutral-400">Curated sizing guidance | Suggested: {editorialFitNote.recommendedSize}</span>
+                      <span className="block text-xs font-bold text-[#1C1917]">{featuredExternalReview.topic}</span>
+                      <span className="mt-0.5 block text-[9px] font-mono text-neutral-400">
+                        {featuredExternalReview.sourceName} · {featuredExternalReview.sourceCommunity} · {featuredExternalReview.sourceDate}
+                      </span>
                     </div>
+                    <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-[8px] font-display font-bold uppercase tracking-wider text-emerald-700">
+                      External User Review
+                    </span>
+                  </div>
+                  <p className="text-[11px] leading-relaxed text-neutral-600">{featuredExternalReview.summary}</p>
+                  <div className="flex flex-wrap items-center justify-between gap-2 border-t border-dashed border-[#E7E2D8] pt-2">
+                    <span className="text-[9px] font-mono text-neutral-400">Paraphrased from a public discussion</span>
+                    <a
+                      href={featuredExternalReview.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer nofollow"
+                      className="inline-flex items-center gap-1 text-[9px] font-display font-bold uppercase tracking-wider text-[#9E5A44] hover:underline"
+                    >
+                      Read original
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
                   </div>
                 </div>
-                <p className="font-sans text-neutral-600 text-[11px] leading-relaxed">
-                  {editorialFitNote.text}
-                </p>
-                <div className="flex items-center justify-between text-[9px] text-neutral-400 font-mono pt-1">
-                  <span>Always compare with the retailer's current product chart.</span>
-                  <span className="text-[#9E5A44] font-semibold bg-[#EEDCD2]/25 px-1.5 py-0.5 rounded">Not a customer review</span>
-                </div>
-              </div>
+              ) : null}
 
               {/* Smart Alternative Recommendation Panel for low confidence fits (<75%) */}
               {alternativeBrandRec && (

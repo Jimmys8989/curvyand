@@ -6,6 +6,7 @@ import BrandDetailView from "./components/BrandDetailView";
 import Homepage from "./components/Homepage";
 import SEO from "./components/SEO";
 import TermsAndPrivacy from "./components/TermsAndPrivacy";
+import AboutUs from "./components/AboutUs";
 import InternalLink from "./components/InternalLink";
 import { Brand, Comment, MeasurementProfile } from "./types";
 import { BRANDS } from "./data";
@@ -22,7 +23,6 @@ import {
   type ReviewSubmission,
   type VoteTotals,
 } from "./community";
-import { Ruler, Heart, Sparkles, Instagram, Facebook, Mail, BookOpen } from "lucide-react";
 
 export default function App() {
   // Dynamic path routing state
@@ -243,7 +243,7 @@ export default function App() {
         schema={seo.schema}
       />
       {/* Editorial Header */}
-      <Header currentPath={currentPath} onNavigate={navigateTo} profile={profile} />
+      <Header currentPath={currentPath} onNavigate={navigateTo} />
 
       {/* Main Container Stage */}
       <main className="flex-grow mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4 md:pt-6 pb-10 w-full">
@@ -256,11 +256,16 @@ export default function App() {
           <TermsAndPrivacy onBack={() => navigateTo("/")} />
         )}
 
+        {currentPath === "/about" && (
+          <AboutUs onNavigate={navigateTo} />
+        )}
+
         {isSizeConverterPath && seo.pageKind !== "not-found" && (
           <BrandConverter
             profile={profile}
             onProfileSave={handleProfileSave}
             brands={brands}
+            comments={comments}
             initialMode={converterMode}
             initialSourceBrandId={urlSourceBrandId}
             initialTargetBrandId={urlTargetBrandId}
@@ -318,9 +323,9 @@ export default function App() {
       {/* Editorial Fashion Footer */}
       <footer className="bg-[#1C1917] text-[#FAF7F2] border-t border-[#FAF7F2]/10 py-12 mt-16 font-display">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-10 border-b border-neutral-800">
-            {/* Column 1: Brand Info */}
-            <div className="md:col-span-5 space-y-4">
+          <div className="grid grid-cols-1 gap-8 border-b border-neutral-800 pb-10 md:grid-cols-12">
+            {/* Column 1: Brand */}
+            <div className="space-y-3 md:col-span-4">
               <InternalLink href="/" onNavigate={navigateTo} className="flex items-center space-x-2">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#9E5A44] text-[#FAF7F2] cursor-pointer">
                   <span className="font-serif text-sm font-bold italic">&</span>
@@ -329,15 +334,15 @@ export default function App() {
                   Curvy<span className="text-[#DFB7B0] font-light italic">&</span>
                 </span>
               </InternalLink>
-              <p className="text-xs text-neutral-400 leading-relaxed max-w-sm font-sans">
-                Curvy& is a premier digital fashion studio created specifically to serve the needs of the plus-size community. We believe in sizing transparency, fit confidence, and high-fashion without compromise.
+              <p className="max-w-xs text-xs leading-relaxed text-neutral-400 font-sans">
+                Plus-size sizing tools and fit guidance.
               </p>
             </div>
 
-            {/* Column 2: Quick Links */}
+            {/* Column 2: Explore */}
             <div className="md:col-span-4 space-y-3 text-xs">
               <h4 className="font-bold uppercase tracking-widest text-[#DFB7B0] text-[10px]">
-                Shopping Suite Links
+                Explore
               </h4>
               <ul className="space-y-2 font-sans text-neutral-400">
                 <li>
@@ -347,26 +352,26 @@ export default function App() {
                 </li>
                 <li>
                   <InternalLink href="/brand-directory" onNavigate={navigateTo} className="hover:text-white transition-colors cursor-pointer text-left">
-                    Leaderboard Directory & Database
+                    Brand Directory
+                  </InternalLink>
+                </li>
+                <li>
+                  <InternalLink href="/about" onNavigate={navigateTo} className="hover:text-white transition-colors cursor-pointer text-left">
+                    About Us
                   </InternalLink>
                 </li>
               </ul>
             </div>
 
-            {/* Column 3: Legal & Trust */}
-            <div className="md:col-span-3 space-y-3 text-xs">
+            {/* Column 3: Legal */}
+            <div className="md:col-span-4 space-y-3 text-xs">
               <h4 className="font-bold uppercase tracking-widest text-[#DFB7B0] text-[10px]">
                 Legal & Compliance
               </h4>
               <ul className="space-y-2 font-sans text-neutral-400">
                 <li>
                   <InternalLink href="/terms-and-privacy" onNavigate={navigateTo} className="hover:text-white transition-colors cursor-pointer text-left">
-                    Terms of Service
-                  </InternalLink>
-                </li>
-                <li>
-                  <InternalLink href="/terms-and-privacy" onNavigate={navigateTo} className="hover:text-white transition-colors cursor-pointer text-left">
-                    Privacy Policy
+                    Terms & Privacy
                   </InternalLink>
                 </li>
               </ul>

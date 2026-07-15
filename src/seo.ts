@@ -30,6 +30,7 @@ export interface SeoConfig {
     | "brand"
     | "converter"
     | "comparison"
+    | "about"
     | "legal"
     | "not-found";
   brand?: Brand;
@@ -79,7 +80,7 @@ export function parseComparisonPath(path: string, brands: Brand[]) {
 
     const targetId = pair.slice(sourcePrefix.length);
     const targetBrand = brands.find((brand) => brand.id === targetId);
-    if (targetBrand && targetBrand.id !== sourceBrand.id) {
+    if (targetBrand) {
       return { sourceBrand, targetBrand };
     }
   }
@@ -304,6 +305,33 @@ export function getSeoForPath(path: string, brands: Brand[]): SeoConfig {
     };
   }
 
+  if (normalizedPath === "/about") {
+    const description =
+      "Learn why Curvy& was created, how its plus-size sizing guidance is organized, and how community and external fit experiences are sourced and labeled.";
+    return {
+      title: "About Curvy& | Plus-Size Sizing Transparency",
+      description,
+      canonicalPath: normalizedPath,
+      pageKind: "about",
+      schema: {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "AboutPage",
+            url: `${SITE_URL}${normalizedPath}`,
+            name: "About Curvy&",
+            description,
+            about: { "@id": `${SITE_URL}/#organization` },
+          },
+          breadcrumbs([
+            { name: "Home", path: "/" },
+            { name: "About Us", path: normalizedPath },
+          ]),
+        ],
+      },
+    };
+  }
+
   return {
     title: "Page Not Found | Curvy&",
     description: "The requested Curvy& page could not be found.",
@@ -314,7 +342,7 @@ export function getSeoForPath(path: string, brands: Brand[]): SeoConfig {
 }
 
 export function getIndexableRoutes(brands: Brand[]): string[] {
-  const coreRoutes = ["/", "/size-converter", "/brand-directory", "/terms-and-privacy"];
+  const coreRoutes = ["/", "/size-converter", "/brand-directory", "/about", "/terms-and-privacy"];
   const brandRoutes = brands.map((brand) => `/brand-directory/${brand.id}`);
   const measurementRoutes = brands.map((brand) => `/size-converter-${brand.id}`);
   const comparisonRoutes = SEO_COMPARISON_PAIRS.map(

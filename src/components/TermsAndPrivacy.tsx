@@ -105,7 +105,7 @@ export default function TermsAndPrivacy({ onBack }: TermsAndPrivacyProps) {
             <section className="space-y-3">
               <h3 className="font-serif font-bold text-[#1C1917] text-base">4. Community Reviews & Contributions</h3>
               <p>
-                When you post reviews, feedback, or vote on fit consistency scores for plus-size brands, you agree that your comments are helpful, respectful, and free of vulgarity. Fit vote totals begin with a small editorial baseline and then include public visitor votes; this baseline is not represented as customer activity. New reviews are moderated before publication, and we reserve the right to reject or remove content that is inappropriate, misleading, or malicious. You retain ownership of your comments, but grant us a non-exclusive, perpetual license to display them within the sizing database.
+                When you post reviews, feedback, or vote on fit consistency scores for plus-size brands, you agree that your comments are helpful, respectful, and free of vulgarity. Fit vote totals begin with a small editorial baseline and then include public visitor votes; this baseline is not represented as customer activity. New reviews are moderated before publication, and we reserve the right to reject or remove content that is inappropriate, misleading, or malicious. Curated external perspectives are clearly labeled paraphrases of public discussions and link to their original sources; they are not represented as Curvy& customer submissions. You retain ownership of your comments, but grant us a non-exclusive, perpetual license to display them within the sizing database.
               </p>
             </section>
 
