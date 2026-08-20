@@ -1,4 +1,5 @@
 import type { Brand } from "./types";
+import { BLOG_POSTS, getBlogPost } from "./blog";
 
 export const SITE_URL = "https://www.curvyand.com";
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/curvy-brand-icon.png`;
@@ -30,6 +31,8 @@ export interface SeoConfig {
     | "brand"
     | "converter"
     | "comparison"
+    | "blog"
+    | "blog-post"
     | "about"
     | "legal"
     | "not-found";
@@ -332,6 +335,81 @@ export function getSeoForPath(path: string, brands: Brand[]): SeoConfig {
     };
   }
 
+  if (normalizedPath === "/blog") {
+    const description =
+      "Read original Curvy& articles about plus-size sizing, fit, measurements, and more confident online shopping.";
+    return {
+      title: "Plus-Size Sizing & Fit Journal | Curvy&",
+      description,
+      canonicalPath: normalizedPath,
+      pageKind: "blog",
+      schema: {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "CollectionPage",
+            url: `${SITE_URL}${normalizedPath}`,
+            name: "Curvy& Journal",
+            description,
+            mainEntity: {
+              "@type": "ItemList",
+              itemListElement: BLOG_POSTS.map((post, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                name: post.title,
+                url: `${SITE_URL}/blog/${post.slug}`,
+              })),
+            },
+          },
+          breadcrumbs([
+            { name: "Home", path: "/" },
+            { name: "Journal", path: normalizedPath },
+          ]),
+        ],
+      },
+    };
+  }
+
+  const blogMatch = normalizedPath.match(/^\/blog\/([^/]+)$/);
+  if (blogMatch) {
+    const post = getBlogPost(blogMatch[1]);
+    if (post) {
+      const canonicalPath = `/blog/${post.slug}`;
+      return {
+        title: `${post.title} | Curvy&`,
+        description: post.summary,
+        canonicalPath,
+        ogType: "article",
+        pageKind: "blog-post",
+        schema: {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "BlogPosting",
+              url: `${SITE_URL}${canonicalPath}`,
+              headline: post.title,
+              description: post.summary,
+              datePublished: "2026-08-20",
+              dateModified: "2026-08-20",
+              author: {
+                "@type": "Organization",
+                name: post.author,
+                url: `${SITE_URL}/about`,
+              },
+              publisher: { "@id": `${SITE_URL}/#organization` },
+              mainEntityOfPage: `${SITE_URL}${canonicalPath}`,
+            },
+            breadcrumbs([
+              { name: "Home", path: "/" },
+              { name: "Journal", path: "/blog" },
+              { name: post.title, path: canonicalPath },
+            ]),
+          ],
+        },
+      };
+    }
+  }
+
   return {
     title: "Page Not Found | Curvy&",
     description: "The requested Curvy& page could not be found.",
@@ -342,11 +420,12 @@ export function getSeoForPath(path: string, brands: Brand[]): SeoConfig {
 }
 
 export function getIndexableRoutes(brands: Brand[]): string[] {
-  const coreRoutes = ["/", "/size-converter", "/brand-directory", "/about", "/terms-and-privacy"];
+  const coreRoutes = ["/", "/size-converter", "/brand-directory", "/blog", "/about", "/terms-and-privacy"];
+  const blogRoutes = BLOG_POSTS.map((post) => `/blog/${post.slug}`);
   const brandRoutes = brands.map((brand) => `/brand-directory/${brand.id}`);
   const measurementRoutes = brands.map((brand) => `/size-converter-${brand.id}`);
   const comparisonRoutes = SEO_COMPARISON_PAIRS.map(
     ([source, target]) => `/size-converter/${source}to${target}`,
   );
-  return [...coreRoutes, ...brandRoutes, ...measurementRoutes, ...comparisonRoutes];
+  return [...coreRoutes, ...blogRoutes, ...brandRoutes, ...measurementRoutes, ...comparisonRoutes];
 }

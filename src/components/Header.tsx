@@ -1,5 +1,5 @@
 import React from "react";
-import { Scissors, Award } from "lucide-react";
+import { Scissors, Award, BookOpen } from "lucide-react";
 import InternalLink from "./InternalLink";
 
 interface HeaderProps {
@@ -11,6 +11,7 @@ export default function Header({ currentPath, onNavigate }: HeaderProps) {
   const isHome = currentPath === "/";
   const isConverterActive = currentPath.startsWith("/size-converter");
   const isDatabaseActive = currentPath.startsWith("/brand-directory");
+  const isBlogActive = currentPath.startsWith("/blog");
 
   if (isHome) {
     return (
@@ -80,6 +81,20 @@ export default function Header({ currentPath, onNavigate }: HeaderProps) {
             >
               <Award className="h-4 w-4" />
               <span className="hidden sm:inline">Brand Directory</span>
+            </InternalLink>
+
+            <InternalLink
+              href="/blog"
+              onNavigate={onNavigate}
+              aria-label="Curvy& Journal"
+              className={`flex items-center gap-2 rounded-md px-2.5 py-2 text-[10px] font-display font-semibold uppercase tracking-wider transition-luxury sm:px-3 sm:text-xs ${
+                isBlogActive
+                  ? "bg-[#EEDCD2] text-[#9E5A44]"
+                  : "text-neutral-600 hover:text-[#9E5A44] hover:bg-[#FAF7F2]"
+              }`}
+            >
+              <BookOpen className="h-4 w-4" />
+              <span className="hidden lg:inline">Journal</span>
             </InternalLink>
           </nav>
         </div>

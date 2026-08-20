@@ -7,9 +7,12 @@ import Homepage from "./components/Homepage";
 import SEO from "./components/SEO";
 import TermsAndPrivacy from "./components/TermsAndPrivacy";
 import AboutUs from "./components/AboutUs";
+import BlogAndDiscussions from "./components/BlogAndDiscussions";
+import BlogPostView from "./components/BlogPostView";
 import InternalLink from "./components/InternalLink";
 import { Brand, Comment, MeasurementProfile } from "./types";
 import { BRANDS } from "./data";
+import { getBlogPost } from "./blog";
 import { getSeoForPath, parseComparisonPath } from "./seo";
 import {
   fetchPublishedCommunityBrands,
@@ -229,6 +232,8 @@ export default function App() {
   };
 
   const seo = getSeoForPath(currentPath, brands);
+  const blogMatch = currentPath.match(/^\/blog\/([^/]+)$/);
+  const selectedBlogPost = blogMatch ? getBlogPost(blogMatch[1]) : undefined;
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF7F2] font-sans selection:bg-[#EEDCD2] selection:text-[#9E5A44]">
@@ -258,6 +263,14 @@ export default function App() {
 
         {currentPath === "/about" && (
           <AboutUs onNavigate={navigateTo} />
+        )}
+
+        {currentPath === "/blog" && (
+          <BlogAndDiscussions onNavigate={navigateTo} />
+        )}
+
+        {selectedBlogPost && (
+          <BlogPostView post={selectedBlogPost} onNavigate={navigateTo} />
         )}
 
         {isSizeConverterPath && seo.pageKind !== "not-found" && (
@@ -353,6 +366,11 @@ export default function App() {
                 <li>
                   <InternalLink href="/brand-directory" onNavigate={navigateTo} className="hover:text-white transition-colors cursor-pointer text-left">
                     Brand Directory
+                  </InternalLink>
+                </li>
+                <li>
+                  <InternalLink href="/blog" onNavigate={navigateTo} className="hover:text-white transition-colors cursor-pointer text-left">
+                    Journal
                   </InternalLink>
                 </li>
                 <li>

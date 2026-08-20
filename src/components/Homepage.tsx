@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowUpRight, Ruler, Search } from "lucide-react";
+import { ArrowRight, ArrowUpRight, BookOpen, Ruler, Search } from "lucide-react";
 import InternalLink from "./InternalLink";
 
 interface HomepageProps {
@@ -97,6 +97,29 @@ export default function Homepage({ onNavigate }: HomepageProps) {
           </div>
         </InternalLink>
       </div>
+
+      <InternalLink
+        href="/blog"
+        onNavigate={onNavigate}
+        className="group mt-5 flex flex-col gap-5 rounded-[2rem] border border-[#E7E2D8] bg-[#FDFBF7] p-6 transition-colors hover:border-[#9E5A44] sm:flex-row sm:items-center sm:justify-between sm:p-7"
+      >
+        <div className="flex items-start gap-4">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#EEDCD2] text-[#9E5A44]">
+            <BookOpen className="h-5 w-5" />
+          </div>
+          <div>
+            <p className="text-[9px] font-display font-bold uppercase tracking-[0.2em] text-[#9E5A44]">Curvy& Journal</p>
+            <h2 className="mt-1 font-serif text-2xl font-black text-[#1C1917]">Curvy& Journal</h2>
+            <p className="mt-1 max-w-2xl text-xs leading-relaxed text-neutral-500">
+              Read original articles about plus-size sizing, fit, and more confident online shopping.
+            </p>
+          </div>
+        </div>
+        <span className="inline-flex shrink-0 items-center gap-2 self-end text-[10px] font-display font-bold uppercase tracking-wider text-[#9E5A44] sm:self-auto">
+          Explore Journal
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+        </span>
+      </InternalLink>
 
     </div>
   );
