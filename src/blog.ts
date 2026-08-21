@@ -3,6 +3,27 @@ export interface BlogSection {
   paragraphs: string[];
   bullets?: string[];
   ranking?: BlogRankingEntry[];
+  regions?: BlogRegionGuide[];
+}
+
+export interface BlogRegionBrand {
+  name: string;
+  sizeRange: string;
+  bestFor: string;
+  note: string;
+  url: string;
+  storeStatus: "stores" | "limited" | "online-only";
+  storeLabel: string;
+  storeNote: string;
+  storeUrl?: string;
+}
+
+export interface BlogRegionGuide {
+  code: string;
+  name: string;
+  intro: string;
+  shoppingNote: string;
+  brands: BlogRegionBrand[];
 }
 
 export interface BlogRankingEntry {
@@ -27,10 +48,12 @@ export interface BlogPost {
   summary: string;
   author: string;
   publishedAt: string;
+  publishedAtIso: string;
   readTime: string;
   featured?: boolean;
   sections: BlogSection[];
   researchNote?: string;
+  researchLabel?: string;
   researchSources?: BlogResearchSource[];
 }
 
@@ -43,6 +66,7 @@ export const BLOG_POSTS: BlogPost[] = [
       "Plus-size shoppers repeatedly describe the same contradiction: measurements are essential, yet following a chart can still produce the wrong fit. The solution is not to abandon the chart, but to read it in layers.",
     author: "Curvy& Editorial",
     publishedAt: "August 20, 2026",
+    publishedAtIso: "2026-08-20",
     readTime: "8 min read",
     featured: true,
     sections: [
@@ -120,6 +144,7 @@ export const BLOG_POSTS: BlogPost[] = [
       "Community conversations about a worthwhile splurge point to a practical definition of luxury: dependable fit, daily comfort, durable construction, and a piece you can realistically wear again and again.",
     author: "Curvy& Editorial",
     publishedAt: "August 20, 2026",
+    publishedAtIso: "2026-08-20",
     readTime: "8 min read",
     sections: [
       {
@@ -203,6 +228,7 @@ export const BLOG_POSTS: BlogPost[] = [
       "A brand can advertise extended sizing and still leave shoppers with few usable options. Real access depends on measurements, proportion, style variety, product information, and where the clothes are actually available.",
     author: "Curvy& Editorial",
     publishedAt: "August 20, 2026",
+    publishedAtIso: "2026-08-20",
     readTime: "9 min read",
     sections: [
       {
@@ -284,6 +310,7 @@ export const BLOG_POSTS: BlogPost[] = [
       "Which size charts are easiest to trust? Curvy& ranks 10 widely shopped brands by fit predictability, chart clarity, and recurring feedback from plus-size shoppers.",
     author: "Curvy& Editorial",
     publishedAt: "August 20, 2026",
+    publishedAtIso: "2026-08-20",
     readTime: "11 min read",
     sections: [
       {
@@ -481,6 +508,392 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         label: "Old Navy cross-category and same-size inconsistency discussion",
         url: "https://www.reddit.com/r/PlusSizeFashion/comments/1ptfq01/",
+      },
+    ],
+  },
+  {
+    slug: "where-to-buy-plus-size-clothing-online-by-country",
+    title: "Where to buy plus-size clothing online in the US, UK, Australia, Europe, and Canada",
+    eyebrow: "Global Shopping Guide",
+    summary:
+      "A region-by-region guide to 20 online plus-size retailers, with published size ranges, style strengths, and the local shipping and returns details worth checking before you order.",
+    author: "Curvy& Editorial",
+    publishedAt: "August 21, 2026",
+    publishedAtIso: "2026-08-21",
+    readTime: "12 min read",
+    sections: [
+      {
+        heading: "The best online store is often the one closest to you",
+        paragraphs: [
+          "A global list of plus-size brands can look generous until checkout adds international postage, import charges, a long return journey, or a size system that does not translate cleanly. A useful shopping guide therefore needs to begin with location—not only style.",
+          "This guide focuses on retailers with an active online presence in five major markets: the United States, United Kingdom, Australia, Europe, and Canada. The published ranges below describe the broadest current range shown by each retailer as of August 21, 2026. Individual garments, collections, colors, and sale stock may stop earlier.",
+        ],
+      },
+      {
+        heading: "How the brands were selected",
+        paragraphs: [
+          "Each retailer offers more than a token handful of extended-size products and publishes enough sizing information to make measurement-led shopping possible. The selection balances specialist plus-size brands with broader inclusive labels, different price points, and practical categories such as denim, workwear, occasionwear, basics, lingerie, and activewear.",
+          "A place on this list is not a promise of perfect fit, quality, or availability. It is a practical starting point: an active regional storefront, a visible size guide, and a range broad enough to be useful to more shoppers.",
+        ],
+      },
+      {
+        heading: "20 online plus-size brands, organized by market",
+        paragraphs: [
+          "Use the range as a filter, then open the brand's current chart and compare inches or centimeters. Do not translate a familiar 2X, size 20, or EU 52 by label alone: the body measurements behind those labels differ by brand and region.",
+          "The store marker shows whether a brand has permanent shops, is available only in selected countries or stockists, or is online-only. Open the official locator before traveling: an individual location may not carry the full extended-size range.",
+        ],
+        regions: [
+          {
+            code: "US",
+            name: "United States",
+            intro:
+              "The US has the widest specialist selection in this guide, including several brands built entirely around plus-size fit rather than a small extension of a straight-size line.",
+            shoppingNote:
+              "US tip: check whether the product uses a brand-specific scale before assuming a letter size is familiar. Universal Standard and Torrid both use systems that need their own charts.",
+            brands: [
+              {
+                name: "Universal Standard",
+                sizeRange: "US 00–40",
+                bestFor: "Elevated essentials, denim, workwear",
+                note:
+                  "A measurement-led range with minimalist staples and one of the broadest published numerical scales. Its letter sizes do not map to conventional US letters, so start with the chart.",
+                url: "https://www.universalstandard.com/pages/size-guides",
+                storeStatus: "online-only",
+                storeLabel: "Online only",
+                storeNote: "No permanent physical locations at present.",
+              },
+              {
+                name: "Torrid",
+                sizeRange: "00–6 / US 10–30",
+                bestFor: "Everyday fashion, denim, intimates",
+                note:
+                  "A large plus-specific assortment covering casual clothing, work pieces, wide-width footwear, bras, swim, and multiple denim silhouettes. Category fit can differ, especially in structured pieces.",
+                url: "https://www.torrid.com/td-size-guide-apparel.html",
+                storeStatus: "stores",
+                storeLabel: "In-store: yes",
+                storeNote: "Brand stores across the US, Puerto Rico, and Canada; check local stock.",
+                storeUrl: "https://www.torrid.com/stores/",
+              },
+              {
+                name: "ELOQUII",
+                sizeRange: "Core US 14–32",
+                bestFor: "Fashion-forward workwear and occasionwear",
+                note:
+                  "Strong for tailoring, statement dresses, and trend-led separates. The public chart includes biceps as well as bust, waist, and hips; sizes 30–32 are available in selected styles.",
+                url: "https://www.eloquii.com/c/eloquii-size-chart.html",
+                storeStatus: "online-only",
+                storeLabel: "Online only",
+                storeNote: "No current permanent ELOQUII store network; wholesale availability may vary.",
+              },
+              {
+                name: "Lane Bryant",
+                sizeRange: "US 10–40",
+                bestFor: "Workwear, bras, pants, classic staples",
+                note:
+                  "A long-established plus-size retailer with category-specific charts and several length and denim-fit options. Availability at the top of the range still varies by product.",
+                url: "https://www.lanebryant.com/customer-service?cid=supportcenter-sizechart",
+                storeStatus: "stores",
+                storeLabel: "In-store: yes",
+                storeNote: "Brand stores across many US states; product and size stock varies.",
+                storeUrl: "https://stores.lanebryant.com/",
+              },
+            ],
+          },
+          {
+            code: "UK",
+            name: "United Kingdom",
+            intro:
+              "UK shoppers have several dedicated retailers with broad size ceilings, plus specialist options for tights, underwear, wide-fit footwear, and lower-cost everyday clothing.",
+            shoppingNote:
+              "UK tip: marketplace sites can mix several fit systems on one page. Confirm whether the item is the retailer's own label or a partner brand before using the site's general chart.",
+            brands: [
+              {
+                name: "Yours Clothing",
+                sizeRange: "UK 12–40",
+                bestFor: "Affordable everyday clothing and wide-fit shoes",
+                note:
+                  "A broad specialist assortment spanning casualwear, workwear, occasion pieces, lingerie, maternity, swim, and footwear. Selected styles begin at UK 10, while product availability varies at UK 40.",
+                url: "https://www.yoursclothing.co.uk/womens-curve-size-chart",
+                storeStatus: "stores",
+                storeLabel: "In-store: yes",
+                storeNote: "Physical stores across the UK; check the local range and opening hours.",
+                storeUrl: "https://www.yoursclothing.co.uk/store-finder",
+              },
+              {
+                name: "Simply Be",
+                sizeRange: "UK 10–32",
+                bestFor: "Trend-led fashion, lingerie, wide-fit footwear",
+                note:
+                  "A multi-brand destination with clothing across a continuous advertised range and unusually detailed footwear width choices. Recheck the chart when moving between labels sold on the site.",
+                url: "https://support.simplybe.co.uk/hc/en-gb/articles/360019571299-Women-s-size-chart",
+                storeStatus: "limited",
+                storeLabel: "Selected stores",
+                storeNote: "A selected Simply Be range is available in participating Sainsbury's stores.",
+                storeUrl: "https://www.simplybe.co.uk/shop/c/sainsburys",
+              },
+              {
+                name: "ASOS Curve",
+                sizeRange: "UK 18–30",
+                bestFor: "Trends, occasionwear, youthful styling",
+                note:
+                  "Useful for variety and frequent newness, but ASOS sells both its own Curve range and outside labels. Treat each partner brand as a separate size system and filter reviews accordingly.",
+                url: "https://www.asos.com/discover/size-charts/women/jeans-trousers-leggings/",
+                storeStatus: "online-only",
+                storeLabel: "Online only",
+                storeNote: "ASOS has no permanent retail store network for its Curve range.",
+              },
+              {
+                name: "Snag",
+                sizeRange: "UK 4–38 by category",
+                bestFor: "Tights, chub-rub shorts, leggings, denim",
+                note:
+                  "Known for an extensive letter-based fit system that combines clothing size and body measurements. The exact ceiling changes across tights, clothing, denim, bras, and other categories.",
+                url: "https://snagtights.com/pages/all-snag-size-guides",
+                storeStatus: "online-only",
+                storeLabel: "Online only",
+                storeNote: "No permanent Snag store network; shop through the online storefront.",
+              },
+            ],
+          },
+          {
+            code: "AU",
+            name: "Australia",
+            intro:
+              "Australia's strongest online options include curve-first specialists alongside newer inclusive labels that develop the same styles across straight and plus sizes.",
+            shoppingNote:
+              "Australia tip: confirm that the site is displaying AU sizing and prices in AUD. International versions of the same storefront may translate labels or change the returns address.",
+            brands: [
+              {
+                name: "City Chic",
+                sizeRange: "AU 10–28",
+                bestFor: "Dresses, denim, occasionwear, lingerie",
+                note:
+                  "A curve-specific Australian retailer with a broad category mix and detailed bust, waist, and hip measurements. Some styles use letter sizes, so use the conversion table rather than guessing.",
+                url: "https://www.citychic.com.au/size-guide",
+                storeStatus: "stores",
+                storeLabel: "In-store: yes",
+                storeNote: "Brand stores across Australia; some locations carry an extended range.",
+                storeUrl: "https://www.citychic.com.au/store-locator",
+              },
+              {
+                name: "Taking Shape",
+                sizeRange: "AU 10–30",
+                bestFor: "Color, natural fabrics, petite and tall options",
+                note:
+                  "A long-running Australian plus-size specialist with an extensive measurement table and dedicated petite-plus and tall-plus guidance in selected categories.",
+                url: "https://takingshape.com/AU/customer-service/size-guide.html",
+                storeStatus: "stores",
+                storeLabel: "In-store: yes",
+                storeNote: "Boutiques, outlets, and selected Myer locations across Australia.",
+                storeUrl: "https://takingshape.com/AU/storelocator/?isForm=true&showMap=true",
+              },
+              {
+                name: "FAYT The Label",
+                sizeRange: "AU 6–26",
+                bestFor: "Modern basics, denim, coordinated sets",
+                note:
+                  "An inclusive Australian label that develops the same collection across its stated range. The chart uses body measurements and the brand publishes style-specific fabric and fit notes.",
+                url: "https://faytthelabel.com/pages/sizing",
+                storeStatus: "stores",
+                storeLabel: "In-store: yes",
+                storeNote: "Stores across New South Wales, Queensland, and Victoria.",
+                storeUrl: "https://faytthelabel.com/pages/fayt-store-locations",
+              },
+              {
+                name: "Proud Poppy",
+                sizeRange: "AU 6–30",
+                bestFor: "Bright prints, dresses, relaxed everyday style",
+                note:
+                  "A colorful multi-brand retailer with a broad advertised range. Because suppliers and silhouettes vary, the most useful sizing information is the individual garment chart and fit description.",
+                url: "https://proudpoppyclothing.com.au/pages/sizing",
+                storeStatus: "stores",
+                storeLabel: "In-store: yes",
+                storeNote: "Australian stores plus announced regional pop-up shops.",
+                storeUrl: "https://proudpoppyclothing.com.au/pages/our-stores",
+              },
+            ],
+          },
+          {
+            code: "EU",
+            name: "Europe",
+            intro:
+              "Europe is not one delivery market: currencies, shipping thresholds, return addresses, and taxes can differ by country. Start with the local or EU storefront whenever one is available.",
+            shoppingNote:
+              "EU tip: check both the numeric label and measurements. A UK 20, EU 48, and US 16 may appear together on a conversion table, but that conversion is still specific to the retailer.",
+            brands: [
+              {
+                name: "Ulla Popken",
+                sizeRange: "EU 42–68",
+                bestFor: "Broad everyday assortment and extended sizes",
+                note:
+                  "One of the widest published EU ranges, covering casualwear, workwear, activewear, outerwear, lingerie, and swim. The official guide includes short and tall sizing in selected categories.",
+                url: "https://www.ullapopken.eu/en/guides/size-guide",
+                storeStatus: "limited",
+                storeLabel: "Selected countries",
+                storeNote: "Physical stores in parts of Europe; availability depends on country.",
+                storeUrl: "https://www.ullapopken.eu/en/storefinder",
+              },
+              {
+                name: "Zizzi",
+                sizeRange: "EU 40–64",
+                bestFor: "Scandinavian casualwear, denim, lingerie",
+                note:
+                  "A Danish curve-focused brand with a clear EU chart and broad lifestyle assortment. The brand's XS–XXXL letters correspond to its own EU 40–64 scale, not standard letters elsewhere.",
+                url: "https://www.zizzifashion.com/guides/size-guide/",
+                storeStatus: "limited",
+                storeLabel: "Selected countries",
+                storeNote: "Stores in Denmark, Finland, Norway, and Sweden; many EU markets are online-only.",
+                storeUrl: "https://help.zizzifashion.com/hc/en-gb/articles/14132155339421-Where-can-I-find-store-locations-and-contact-details",
+              },
+              {
+                name: "YOEK",
+                sizeRange: "EU 38/40–58/60",
+                bestFor: "Premium dresses, tunics, color and print",
+                note:
+                  "A Netherlands-based plus-size label with feminine statement pieces and product-level garment measurements. Not every design starts or finishes at the same size.",
+                url: "https://yoek.com/shop",
+                storeStatus: "limited",
+                storeLabel: "Selected stockists",
+                storeNote: "Available through selected independent stockists; confirm the local range first.",
+                storeUrl: "https://yoek.com/pages/store-locator",
+              },
+              {
+                name: "Snag EU",
+                sizeRange: "EU 32/34–64/66 by category",
+                bestFor: "Tights, leggings, anti-chafe and stretch basics",
+                note:
+                  "The dedicated euro storefront publishes centimeter-based clothing charts and uses its own A/B–J system. Category ranges differ, so open the guide for the specific product type.",
+                url: "https://euro.snagtights.com/pages/snag-clothes-size-guide",
+                storeStatus: "online-only",
+                storeLabel: "Online only",
+                storeNote: "No permanent EU store network; shop through the euro storefront.",
+              },
+            ],
+          },
+          {
+            code: "CA",
+            name: "Canada",
+            intro:
+              "Canada has fewer large specialist chains than the US, but several domestic retailers make local delivery, Canadian-dollar pricing, and simpler returns more practical.",
+            shoppingNote:
+              "Canada tip: a US brand that ships north can still create brokerage, duty, currency, and return-postage costs. Compare the final landed price with a Canadian retailer before checkout.",
+            brands: [
+              {
+                name: "Penningtons",
+                sizeRange: "CA 12–36 / 0X–6X",
+                bestFor: "Everyday clothing, activewear, denim, lingerie",
+                note:
+                  "A Canadian plus-size specialist with one of the country's broadest published charts. Its PENN. and Addition Elle labels use related but not identical letter conversions.",
+                url: "https://www.penningtons.com/",
+                storeStatus: "stores",
+                storeLabel: "In-store: yes",
+                storeNote: "Brand stores across Canada; online and store inventory differ.",
+                storeUrl: "https://locations.penningtons.com/",
+              },
+              {
+                name: "Laura Plus",
+                sizeRange: "CA 14–24 / X–3X",
+                bestFor: "Workwear, polished separates, occasion dresses",
+                note:
+                  "A practical Canadian option for refined office and event clothing, with domestic delivery and store returns. A few category items use different letters, so follow the product page.",
+                url: "https://laura.ca/collections/new-arrivals-plus",
+                storeStatus: "stores",
+                storeLabel: "In-store: yes",
+                storeNote: "Many Laura locations carry up to size 24/3X; the full Plus range varies by store.",
+                storeUrl: "https://laura.ca/pages/contact",
+              },
+              {
+                name: "Hilary MacMillan",
+                sizeRange: "XS–4X",
+                bestFor: "Fashion-forward Canadian designer pieces",
+                note:
+                  "A Toronto label offering the same contemporary designs across an inclusive range, with many items produced in Canada. Product pages often add garment length and silhouette notes.",
+                url: "https://www.hilarymacmillan.com/",
+                storeStatus: "limited",
+                storeLabel: "Studio & stockists",
+                storeNote: "Toronto studio appointments plus selected Canadian stockists.",
+                storeUrl: "https://hilarymacmillan.ca/pages/contact-us",
+              },
+              {
+                name: "Joe Fresh Women+",
+                sizeRange: "CA 16–26 / 1X–3X",
+                bestFor: "Affordable basics, activewear, sleep and seasonal pieces",
+                note:
+                  "A budget-friendly domestic range with a large online assortment. Stock and category depth can change quickly, so filter by size before investing time in the full catalog.",
+                url: "https://www.joefresh.com/ca/Categories/Women/Women-Plus-Clothing-New-Arrivals/c/m-wextended-sizes-new-arrivals",
+                storeStatus: "limited",
+                storeLabel: "Stores, stock varies",
+                storeNote: "Flagships and grocery-store locations carry Joe Fresh; Women+ availability varies.",
+                storeUrl: "https://www.joefresh.com/ca/store-locator?gltc=storelocator",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        heading: "A five-minute check before ordering across borders",
+        paragraphs: [
+          "The brand list narrows the search; it does not replace the product page. Before paying, save the information that determines whether an international order is still worthwhile if the first size misses.",
+        ],
+        bullets: [
+          "Switch to the correct country storefront and currency before comparing prices or stock.",
+          "Use the product's body or garment measurements, not a generic international conversion chart alone.",
+          "Check the fabric composition, stretch, intended fit, garment length, and model information for that exact style.",
+          "Confirm who pays return postage, where the return is sent, how many days you have, and whether sale items are excluded.",
+          "Look for duties and taxes at checkout. If they are not collected in advance, the carrier may charge them before delivery.",
+        ],
+      },
+      {
+        heading: "Build a local shortlist, not one permanent favorite",
+        paragraphs: [
+          "Start with two or three retailers that cover your measurements and most-used categories, then record what worked by product—not just brand. A retailer can be dependable for dresses and unpredictable for jeans, or excellent at one fabric and less consistent in another.",
+          "This guide will need regular updates because ranges, shipping territories, and return terms change. The aim is to make the first search smaller and more transparent, while Curvy&'s converter and brand directory help with the next step: comparing the measurements behind the labels.",
+        ],
+      },
+    ],
+    researchLabel: "Source & update note",
+    researchNote:
+      "Published size ranges, physical-store availability, and shopping details were checked against the retailers' official websites on August 21, 2026. Product availability and policies can change, so confirm the current product chart, store locator, and local returns page before ordering.",
+    researchSources: [
+      {
+        label: "Universal Standard size guides",
+        url: "https://www.universalstandard.com/pages/size-guides",
+      },
+      {
+        label: "Lane Bryant size chart",
+        url: "https://www.lanebryant.com/customer-service?cid=supportcenter-sizechart",
+      },
+      {
+        label: "Yours Clothing curve size chart",
+        url: "https://www.yoursclothing.co.uk/womens-curve-size-chart",
+      },
+      {
+        label: "Simply Be women's size chart",
+        url: "https://support.simplybe.co.uk/hc/en-gb/articles/360019571299-Women-s-size-chart",
+      },
+      {
+        label: "Taking Shape Australia size guide",
+        url: "https://takingshape.com/AU/customer-service/size-guide.html",
+      },
+      {
+        label: "Proud Poppy sizing information",
+        url: "https://proudpoppyclothing.com.au/pages/sizing",
+      },
+      {
+        label: "Ulla Popken EU size guide",
+        url: "https://www.ullapopken.eu/en/guides/size-guide",
+      },
+      {
+        label: "Zizzi size guide",
+        url: "https://www.zizzifashion.com/guides/size-guide/",
+      },
+      {
+        label: "Penningtons size charts",
+        url: "https://www.penningtons.com/",
+      },
+      {
+        label: "Joe Fresh Canada size charts",
+        url: "https://www.joefresh.com/ca/sizechart?gltc=sizechart",
       },
     ],
   },

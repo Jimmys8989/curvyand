@@ -389,8 +389,8 @@ export function getSeoForPath(path: string, brands: Brand[]): SeoConfig {
               url: `${SITE_URL}${canonicalPath}`,
               headline: post.title,
               description: post.summary,
-              datePublished: "2026-08-20",
-              dateModified: "2026-08-20",
+              datePublished: post.publishedAtIso,
+              dateModified: post.publishedAtIso,
               author: {
                 "@type": "Organization",
                 name: post.author,
