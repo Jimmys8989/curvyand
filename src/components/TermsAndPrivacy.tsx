@@ -79,7 +79,7 @@ export default function TermsAndPrivacy({ onBack }: TermsAndPrivacyProps) {
               <FileText className="h-6 w-6 text-[#9E5A44]" />
               <h2 className="font-serif text-xl font-bold text-[#1C1917]">Terms of Service</h2>
             </div>
-            <p className="text-neutral-500 text-xs italic">Last updated: July 15, 2026</p>
+            <p className="text-neutral-500 text-xs italic">Last updated: August 21, 2026</p>
 
             <section className="space-y-3">
               <h3 className="font-serif font-bold text-[#1C1917] text-base">1. Agreement to Terms</h3>
@@ -129,7 +129,7 @@ export default function TermsAndPrivacy({ onBack }: TermsAndPrivacyProps) {
               <ShieldCheck className="h-6 w-6 text-[#9E5A44]" />
               <h2 className="font-serif text-xl font-bold text-[#1C1917]">Privacy Policy</h2>
             </div>
-            <p className="text-neutral-500 text-xs italic">Last updated: July 15, 2026</p>
+            <p className="text-neutral-500 text-xs italic">Last updated: August 21, 2026</p>
 
             <section className="space-y-3">
               <h3 className="font-serif font-bold text-[#1C1917] text-base">1. Information We Collect</h3>
@@ -146,20 +146,23 @@ export default function TermsAndPrivacy({ onBack }: TermsAndPrivacyProps) {
                 <li>
                   <strong>Brand Suggestions:</strong> Missing-brand suggestions, including the brand name, website, category, sizing system, fit profile, price tier, tags, and optional description, are sent to our server for moderation. Approved brands become part of the public directory.
                 </li>
+                <li>
+                  <strong>Optional Usage Analytics:</strong> If you allow analytics, Google Analytics receives page visits, referral source, general device and browser information, approximate region, and engagement data. Your saved bust, waist, hip, height, and sizing-profile values are not sent to Google Analytics.
+                </li>
               </ul>
             </section>
 
             <section className="space-y-3">
               <h3 className="font-serif font-bold text-[#1C1917] text-base">2. How We Use Information</h3>
               <p>
-                We use server-side review and approved brand-submission data solely to power the community directory and help other plus-size individuals make informed shopping choices. We do not sell, rent, or lease any data to ad agencies or data brokers.
+                We use server-side review and approved brand-submission data to power the community directory and help other plus-size individuals make informed shopping choices. If you consent, we use aggregate analytics to understand overall traffic and improve popular or difficult-to-use pages. We do not sell, rent, or lease personal data to ad agencies or data brokers.
               </p>
             </section>
 
             <section className="space-y-3">
               <h3 className="font-serif font-bold text-[#1C1917] text-base">3. Cookies & Tracking</h3>
               <p>
-                Curvy& does not use invasive cross-site tracking pixels or behavioral ad cookies. We store a random identifier in your browser to remember and de-duplicate community votes; it is not tied to an account or contact information.
+                Curvy& does not use behavioral advertising cookies. Google Analytics loads only after you select “Allow analytics”; choosing “Decline” prevents the analytics tag from loading. Your preference is stored in your browser and can be changed later through “Analytics Preferences” in the footer. We also store a random identifier to remember and de-duplicate community votes; it is not tied to an account or contact information.
               </p>
             </section>
 

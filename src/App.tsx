@@ -5,6 +5,7 @@ import DatabaseLeaderboard from "./components/DatabaseLeaderboard";
 import BrandDetailView from "./components/BrandDetailView";
 import Homepage from "./components/Homepage";
 import SEO from "./components/SEO";
+import Analytics from "./components/Analytics";
 import TermsAndPrivacy from "./components/TermsAndPrivacy";
 import AboutUs from "./components/AboutUs";
 import BlogAndDiscussions from "./components/BlogAndDiscussions";
@@ -14,6 +15,7 @@ import { Brand, Comment, MeasurementProfile } from "./types";
 import { BRANDS } from "./data";
 import { getBlogPost } from "./blog";
 import { getSeoForPath, parseComparisonPath } from "./seo";
+import { ANALYTICS_PREFERENCES_EVENT, isGoogleAnalyticsConfigured } from "./analytics";
 import {
   fetchPublishedCommunityBrands,
   fetchPublishedReviews,
@@ -247,6 +249,7 @@ export default function App() {
         robots={seo.robots}
         schema={seo.schema}
       />
+      <Analytics />
       {/* Editorial Header */}
       <Header currentPath={currentPath} onNavigate={navigateTo} />
 
@@ -392,6 +395,17 @@ export default function App() {
                     Terms & Privacy
                   </InternalLink>
                 </li>
+                {isGoogleAnalyticsConfigured && (
+                  <li>
+                    <button
+                      type="button"
+                      onClick={() => window.dispatchEvent(new Event(ANALYTICS_PREFERENCES_EVENT))}
+                      className="cursor-pointer text-left transition-colors hover:text-white"
+                    >
+                      Analytics Preferences
+                    </button>
+                  </li>
+                )}
               </ul>
             </div>
           </div>
