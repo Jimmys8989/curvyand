@@ -147,7 +147,7 @@ export default function TermsAndPrivacy({ onBack }: TermsAndPrivacyProps) {
                   <strong>Brand Suggestions:</strong> Missing-brand suggestions, including the brand name, website, category, sizing system, fit profile, price tier, tags, and optional description, are sent to our server for moderation. Approved brands become part of the public directory.
                 </li>
                 <li>
-                  <strong>Optional Usage Analytics:</strong> If you allow analytics, Google Analytics receives page visits, referral source, general device and browser information, approximate region, and engagement data. Your saved bust, waist, hip, height, and sizing-profile values are not sent to Google Analytics.
+                  <strong>Usage Analytics:</strong> Google Analytics receives page visits, referral source, general device and browser information, approximate region, and engagement data. Your saved bust, waist, hip, height, and sizing-profile values are not sent to Google Analytics.
                 </li>
               </ul>
             </section>
@@ -155,14 +155,14 @@ export default function TermsAndPrivacy({ onBack }: TermsAndPrivacyProps) {
             <section className="space-y-3">
               <h3 className="font-serif font-bold text-[#1C1917] text-base">2. How We Use Information</h3>
               <p>
-                We use server-side review and approved brand-submission data to power the community directory and help other plus-size individuals make informed shopping choices. If you consent, we use aggregate analytics to understand overall traffic and improve popular or difficult-to-use pages. We do not sell, rent, or lease personal data to ad agencies or data brokers.
+                We use server-side review and approved brand-submission data to power the community directory and help other plus-size individuals make informed shopping choices. We use aggregate analytics to understand overall traffic and improve popular or difficult-to-use pages. We do not sell, rent, or lease personal data to ad agencies or data brokers.
               </p>
             </section>
 
             <section className="space-y-3">
               <h3 className="font-serif font-bold text-[#1C1917] text-base">3. Cookies & Tracking</h3>
               <p>
-                Curvy& does not use behavioral advertising cookies. Google Analytics loads only after you select “Allow analytics”; choosing “Decline” prevents the analytics tag from loading. Your preference is stored in your browser and can be changed later through “Analytics Preferences” in the footer. We also store a random identifier to remember and de-duplicate community votes; it is not tied to an account or contact information.
+                Curvy& does not use behavioral advertising cookies. Google Analytics loads automatically to help us understand aggregate visits and improve the site. It is configured without Google Signals or advertising-personalization features, and your saved body measurements are not sent to Analytics. We also store a random identifier to remember and de-duplicate community votes; it is not tied to an account or contact information.
               </p>
             </section>
 
