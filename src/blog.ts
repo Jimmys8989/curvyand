@@ -57,7 +57,10 @@ export interface BlogPost {
   researchSources?: BlogResearchSource[];
 }
 
+import { EDITORIAL_POSTS } from "./editorialPosts";
+
 export const BLOG_POSTS: BlogPost[] = [
+  ...EDITORIAL_POSTS,
   {
     slug: "why-plus-size-charts-still-get-fit-wrong",
     title: "Why the size chart still gets it wrong—and what to check next",
