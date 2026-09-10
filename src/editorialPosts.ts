@@ -3,6 +3,108 @@ import type { BlogPost } from "./blog";
 // Approved posts from the local Editorial Review dashboard are added here.
 export const EDITORIAL_POSTS: BlogPost[] = [
   {
+    "slug": "eloquii-vs-city-chic-event-dress-sizing-return-risk",
+    "title": "ELOQUII vs. City Chic: How to compare event-dress sizing before the return risk gets expensive",
+    "eyebrow": "Occasionwear Buying Guide",
+    "summary": "ELOQUII and City Chic use familiar numbers in unfamiliar ways, and a sale dress can turn a fit experiment into a final decision. This guide compares their charts, two current dress constructions, and the practical cost of a return.",
+    "author": "Curvy& Editorial",
+    "publishedAt": "September 9, 2026",
+    "publishedAtIso": "2026-09-09",
+    "readTime": "10 min read",
+    "sections": [
+      {
+        "heading": "Occasionwear makes sizing uncertainty more consequential",
+        "paragraphs": [
+          "A recent r/PlusSizeFashion shopping discussion captured the attraction and frustration around ELOQUII: one shopper described it as a source for special pieces, while another said their fit success was low and returns were difficult, even though the items that worked became favorites. In another recent thread, a shopper considering an ELOQUII wedding dress had to decide between sizes while the item was final sale.",
+          "City Chic appeared more positively in recent general shopping conversations, but those experiences were still individual. The useful comparison is therefore not a popularity contest. It is how each brand defines the label, where a specific dress is fitted or relaxed, and what happens financially if the first size is wrong."
+        ]
+      },
+      {
+        "heading": "A City Chic XS is not a small numerical size",
+        "paragraphs": [
+          "City Chic currently pairs alpha and numerical labels in a way that can surprise a new shopper: XS is US 14, S is 16, M is 18, L is 20, XL is 22, XXL is 24, 3XL is 26, and 4XL is 28. The chart lists a 43.3-inch bust, 36.2-inch waist, and 48-inch hip for XS/14, then increases to a 61-inch bust, 53.9-inch waist, and 65.7-inch hip for 4XL/28.",
+          "ELOQUII's core chart is numerical, beginning with 14 in the main range and extending through 28, with selected styles in 30 and 32. Its size 14 covers a 43–45-inch bust, 37–39-inch natural waist, and 46–48-inch hip. The numbers overlap closely with City Chic at some points, but the alpha labels do not. An ELOQUII 14 and City Chic XS/14 occupy similar published territory; carrying an ELOQUII XL or another brand's XL into City Chic would be a category error.",
+          "The charts also reveal different assumed proportions. At size 20, ELOQUII lists 49–51 bust, 43–45 waist, and 52–54 hip. City Chic L/20 lists 50 bust, 42.9 waist, and 54.7 hip. Those ranges overlap, yet a person at the edge of one measurement may make a different decision in each brand."
+        ],
+        "bullets": [
+          "Translate City Chic by the numerical half of the label first: XS/14, S/16, M/18, and so on.",
+          "At ELOQUII, use the single-number column for the exact garment; split-size labels also appear in parts of the guide.",
+          "Do not assume an alpha size carries across the two sites, even when both sell through a similar numerical range."
+        ]
+      },
+      {
+        "heading": "The exact dress construction decides which measurement leads",
+        "paragraphs": [
+          "ELOQUII's current Texture Knit Dress is a pull-on, fully lined, snug-fit maxi made from 95% polyester and 5% spandex. It is listed at 57 inches from the highest shoulder point in size 18. Because the product is snug at the body and lined, bust, waist, and hip all deserve attention; stretch can improve movement, but the lining and desired drape may make aggressive sizing down look or feel different than expected.",
+          "City Chic's Mary Skater Midi Dress uses a stretch ponte-like fabric made from 66% viscose, 31% polyester, and 3% elastane. The brand marks the bust and waist as fitted and the hips as relaxed, with an A-line skirt, shaping bust seams, and a back zipper. For this design, bust and waist should lead the first size while the relaxed skirt provides more hip margin.",
+          "This is why an overall 'runs small' or 'size down at City Chic' comment cannot safely choose an event dress. A snug knit column, a zippered fit-and-flare, a non-stretch taffeta gown, and a ruched mesh dress allocate ease differently even when the same brand chart sits beside them."
+        ]
+      },
+      {
+        "heading": "Body proportion changes the alteration plan",
+        "paragraphs": [
+          "When bust, waist, and hip point to different sizes, choose around the least forgiving area and the alteration that is realistically possible. On the City Chic example, a relaxed A-line hip means the fitted bust and waist are the likely constraints. On the ELOQUII example, the snug lined column makes the largest of the three measurements more important unless the product-specific finished measurements show generous ease.",
+          "Fuller busts also need more than circumference. Bust projection can lift the front hem, pull an empire or waist seam upward, or cause a neckline to spread even when the chart number technically fits. A smaller bust with a fuller hip may find that a dress sized for the lower body becomes loose at the armhole or shoulder. Those outcomes are proportion issues, not proof that the wearer chose irresponsibly.",
+          "Before ordering, compare shoulder-to-waist, desired front length, upper arm if sleeved, and the dress's stated length with a garment that already works. A simple side-seam take-in is a different project from moving a waist seam, rebuilding a lined bodice, or adding length."
+        ]
+      },
+      {
+        "heading": "Return terms are part of the fit calculation",
+        "paragraphs": [
+          "As of this review, ELOQUII says eligible returns must be received within 60 days of shipment. Final-sale items cannot be returned or exchanged. A return to the original payment method generally carries a $10.99 processing fee, while the fee is waived for an eligible exchange or a refund issued as a non-expiring e-gift card. Original shipping and certain additional fees are not refunded.",
+          "City Chic's US policy requires eligible items to be returned within 30 days of purchase. Mail returns for customers in the contiguous United States incur a $7.95 fee, while eligible Happy Returns drop-offs are free. Items priced at $20 or under and labeled Final Sale are not refundable or exchangeable. The different starting event—shipment for ELOQUII, purchase for City Chic—also matters when an item is needed for a fixed date.",
+          "Policies can change, and marketplace purchases follow the seller's policy rather than necessarily the brand's. Save the product page, price, final-sale marker, and return policy at checkout. If a size is borderline and nonreturnable, the sale price is not the whole cost; include likely tailoring, resale effort, and the possibility that the dress cannot be used for the event."
+        ]
+      },
+      {
+        "heading": "A lower-risk way to choose between the two",
+        "paragraphs": [
+          "Start with ELOQUII when its specific design solves the brief, all critical measurements fit the product chart, and the item remains exchangeable or returnable. The Texture Knit example is best treated as a close, lined stretch dress rather than a forgiving oversized knit. Start with City Chic when its alpha-to-number conversion is understood and the product gives explicit fitted-versus-relaxed notes; the Mary Skater example is a clearer candidate for someone who needs a fitted bust and waist with more hip freedom.",
+          "If both brands have a plausible option, the safer cart is the one with enough measurement evidence and a workable exit. A dress that costs slightly more but can be exchanged may be cheaper than a final-sale bargain requiring major alteration. Individual fit will vary with bust projection, torso and waist position, hip shape, fabric, lining, and preferred ease, but those variables can be managed more deliberately than the label alone."
+        ],
+        "bullets": [
+          "Record current bust, waist, hip, upper arm, shoulder-to-waist, and desired dress length.",
+          "Translate City Chic's alpha label into its paired number before comparing it with ELOQUII.",
+          "Identify every fitted area and whether the garment is lined, zippered, pull-on, or made in a non-stretch fabric.",
+          "Confirm the item—not only the site—is returnable and note which date starts the return clock.",
+          "Do not remove tags or alter the garment until you have tested sitting, reaching, walking, and the intended undergarments and shoes."
+        ]
+      }
+    ],
+    "researchNote": "This guide synthesizes August 2026 public community discussions and verifies size charts, current product construction, and US return terms on the brands' official pages. Community reports are individual experiences rather than a measured consensus. Policies, inventory, pricing, and final-sale status should be rechecked at checkout.",
+    "researchLabel": "Research sources",
+    "researchSources": [
+      {
+        "label": "Recent r/PlusSizeFashion discussion: ELOQUII fit success, special pieces, and return concerns",
+        "url": "https://www.reddit.com/r/PlusSizeFashion/comments/1w1siq2/where_are_you_guys_buying_your_clothes/"
+      },
+      {
+        "label": "Recent r/PlusSize discussion: sizing a final-sale ELOQUII wedding dress",
+        "url": "https://www.reddit.com/r/PlusSize/comments/1vlx3dz/considering_purchasing_this_eloquii_wedding_dress/"
+      },
+      {
+        "label": "ELOQUII official size chart",
+        "url": "https://www.eloquii.com/c/eloquii-size-chart.html"
+      },
+      {
+        "label": "ELOQUII official Texture Knit Dress product details",
+        "url": "https://www.eloquii.com/products/texture-knit-dress/1105509.html"
+      },
+      {
+        "label": "ELOQUII official returns and exchanges policy",
+        "url": "https://www.eloquii.com/help-page?cid=ww-custservice-returnexchange4"
+      },
+      {
+        "label": "City Chic official Mary Skater Midi Dress details and size chart",
+        "url": "https://www.citychiconline.com/plus-size-dress-mary-midi-black-225127black"
+      },
+      {
+        "label": "City Chic official US returns policy",
+        "url": "https://help.citychiconline.com/hc/en-us/articles/4401848075033-Our-Returns-Policy"
+      }
+    ]
+  },
+  {
     "slug": "universal-standard-vs-eileen-fisher-plus-size-work-pants",
     "title": "Universal Standard vs. Eileen Fisher: A practical fit guide for plus-size work pants",
     "eyebrow": "Brand-to-Brand Fit Guide",
