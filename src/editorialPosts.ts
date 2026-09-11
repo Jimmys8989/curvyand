@@ -3,6 +3,189 @@ import type { BlogPost } from "./blog";
 // Approved posts from the local Editorial Review dashboard are added here.
 export const EDITORIAL_POSTS: BlogPost[] = [
   {
+    "slug": "torrid-lean-jean-vs-universal-standard-seine-apron-belly",
+    "title": "Torrid Lean Jean vs. Universal Standard Seine: Two routes to a closer leg fit with a fuller belly",
+    "eyebrow": "Jeans Fit Comparison",
+    "summary": "When jeans that fit the waist and belly become loose through the legs, a generic 'curvy fit' label is not enough. This comparison looks at waistband construction, leg shape, stretch, length, and size translation in two current plus-size jeans.",
+    "author": "Curvy& Editorial",
+    "publishedAt": "September 9, 2026",
+    "publishedAtIso": "2026-09-09",
+    "readTime": "9 min read",
+    "sections": [
+      {
+        "heading": "The fit problem is not simply needing a bigger or smaller jean",
+        "paragraphs": [
+          "In a recent r/PlusSizeFashion thread, a shopper with an apron belly described a recurring mismatch: jeans that fit the waist were much too baggy through the legs. The replies named several brands and alteration strategies, but they did not reveal a universal best jean. They did reveal a clearer search intent—enough room and stability through the middle, paired with a deliberately narrow leg.",
+          "Two current products approach that brief differently. Torrid's High-Rise Slim Boot Lean Jean combines extra waist room with a leg that stays slim to the knee and then opens into a small bootcut. Universal Standard's Seine High Rise Skinny uses a fitted leg from hip to ankle and built-in stretch. Comparing those design choices is more useful than asking which brand 'runs true.'"
+        ]
+      },
+      {
+        "heading": "Translate the size systems before comparing the fit",
+        "paragraphs": [
+          "Torrid uses both numerical and house sizes. Its current guide maps size 1 to 14–16, size 2 to 18–20, size 3 to 22–24, size 4 to 26, size 5 to 28, and size 6 to 30. The body chart lists waist and low-hip ranges for each numerical size; for example, size 20 is assigned a 42–44-inch waist and 52–54-inch low hip.",
+          "Universal Standard sells the Seine in numerical sizes 00–40 and also maintains a separate letter conversion for other clothing. For denim, keep the numerical size visible and use the product's body chart rather than transferring Universal Standard's unusual letter scale. A Universal Standard M means 18–20 in its apparel system, while Torrid's size 2 is its own 18–20 grouping. The shared numerical reference is helpful, but it is not proof that the garments have the same finished waist, rise, or hip shape.",
+          "If your fullest belly measurement, natural waist, and low hip land in different columns, record all three. Brand charts typically name waist and hip, but the point where a high-rise waistband meets your torso can sit above or through the fullest part of the belly depending on rise and torso length."
+        ]
+      },
+      {
+        "heading": "Lean Jean builds the brief into the waistband and knee",
+        "paragraphs": [
+          "Torrid explicitly describes the current Lean Jean as high-rise, pull-on, and made with extra stretch and room at the waist. It stays slim through the knee before moving into a small bootcut. The faux fly removes rigid front hardware, and the available short, regular, and tall inseams are listed as 29, 31, and 33 inches.",
+          "That construction is a logical starting point when waist accommodation is the first priority but a skinny ankle is not. The small flare can balance the line below the knee without adding volume through the thigh. It may be less suitable if the goal is a close fit all the way to the ankle, or if a pull-on waistband tends to roll or migrate on your torso.",
+          "Community replies are useful here only as leads. One shopper specifically liked Torrid's Lean Jean Slim Boot for the way it fit their legs, while other participants preferred different brands or tailoring. That is not a consensus; it is a reason to inspect the exact Lean Jean construction against your own successful pants."
+        ]
+      },
+      {
+        "heading": "Seine uses a true skinny line and more elastane",
+        "paragraphs": [
+          "Universal Standard describes the Seine High Rise Skinny as high-waisted with a fitted skinny leg and hidden stretch. The current dark-indigo version is 73% cotton, 23% polyester, and 4% elastane. The brand also says the style fits between true and generous and recommends going down a size when buying, including when between sizes.",
+          "Torrid's current Lean Jean uses 65% cotton, 20% rayon, 13% polyester, and 2% spandex, which the brand calls high stretch. The Seine's higher elastane percentage does not automatically make it looser or more comfortable. Fabric weight, knit or weave, recovery, waistband construction, and finished dimensions determine how that stretch feels on the body.",
+          "Editorially, the Seine is the stronger shape match when the central problem is excess fabric from hip to ankle and a true skinny leg is wanted. The Lean Jean is the stronger shape match when extra waist accommodation and a smooth pull-on front are priorities, but some opening below the knee is welcome."
+        ]
+      },
+      {
+        "heading": "Length and rise can change where the leg starts to look baggy",
+        "paragraphs": [
+          "Torrid publishes 29-, 31-, and 33-inch inseams for this Lean Jean. Universal Standard sells the Seine in distinct 27-, 30-, and 32-inch pages or options, depending on color and availability. Choose length by comparing a successful pair with a similar rise and shoe plan—not by height alone.",
+          "A too-long skinny jean can stack at the ankle and look looser than intended. A bootcut that breaks too high can read as an unintended flare; one that is too long can pool and pull the knee out of position. Rise can also determine whether the waistband anchors above the fullest belly or cuts across it. Neither product page publishes every finished rise and waistband measurement for every size, so shoppers with a sensitive rise preference should request those figures or compare in person."
+        ]
+      },
+      {
+        "heading": "Which jean is the better first try?",
+        "paragraphs": [
+          "Try the Torrid Lean Jean first if you want a pull-on front, explicitly stated extra waist room, a slim thigh-to-knee line, and a small bootcut. Try the Universal Standard Seine first if you want the closest leg from hip to ankle, need a numerical range extending through 40, or value a choice among 27-, 30-, and 32-inch lengths in the style. These are product-level starting points, not promises about every body or every wash.",
+          "If the waistband fits but the legs remain substantially loose, sizing down may simply recreate pressure at the belly. Fit the least alterable and most comfort-sensitive area first, then price a leg taper with a tailor. Conversely, if a stretch waistband slides down while the legs fit, a different rise or firmer waistband may solve more than another smaller size."
+        ],
+        "bullets": [
+          "Measure the natural waist, the fullest belly point, low hip, thigh, front rise, and preferred inseam.",
+          "Compare the same wash and exact product; stretch and hand feel can change across colors or production runs.",
+          "Check the waistband while sitting, bending, and walking before removing tags.",
+          "Photograph the front, side, and back fit to identify whether excess fabric begins at the hip, thigh, knee, or inseam.",
+          "Keep a return option when testing a new cut, especially if the brand recommends a size change."
+        ]
+      }
+    ],
+    "researchNote": "This comparison responds to a September 2026 community fit question and verifies garment construction, size systems, fiber content, and length options on the brands' official pages. Community experiences are presented as individual reports; the product recommendations are editorial inferences. Fit can vary with belly placement, torso length, hip and thigh proportion, wash, fabric, and preferred ease.",
+    "researchLabel": "Research sources",
+    "researchSources": [
+      {
+        "label": "Recent r/PlusSizeFashion discussion: jeans for an apron belly with slimmer legs",
+        "url": "https://www.reddit.com/r/PlusSizeFashion/comments/1w91svy/jeans/"
+      },
+      {
+        "label": "Torrid official size guide",
+        "url": "https://www.torrid.com/size-guide.html?queryDW=true"
+      },
+      {
+        "label": "Torrid official High-Rise Slim Boot Lean Jean product details",
+        "url": "https://www.torrid.com/product/high-rise-slim-boot-lean-jean/45617106.html"
+      },
+      {
+        "label": "Universal Standard official size guide",
+        "url": "https://www.universalstandard.com/pages/size-guides"
+      },
+      {
+        "label": "Universal Standard official Seine High Rise Skinny Jeans product details",
+        "url": "https://www.universalstandard.com/products/seine-high-rise-skinny-jeans-27-inch-dark-indigo"
+      }
+    ]
+  },
+  {
+    "slug": "torrid-top-sizing-by-fit-and-fabric",
+    "title": "Why one Torrid top size can fit three different ways: A guide to fabric, cut, and length",
+    "eyebrow": "Single-Brand Fit Guide",
+    "summary": "A Torrid size number is only the body-chart starting point. Comparing current fitted, oversized, and Foxy tops shows why stretch, intended ease, and garment length can change the right choice from one product to the next.",
+    "author": "Curvy& Editorial",
+    "publishedAt": "September 11, 2026",
+    "publishedAtIso": "2026-09-11",
+    "readTime": "9 min read",
+    "sections": [
+      {
+        "heading": "The useful answer to ‘Does Torrid run big?’ is product-specific",
+        "paragraphs": [
+          "A recent r/PlusSizeFashion sizing thread began with a familiar problem: a shopper between 1X and 2X wanted an oversized top, had limited access to a store, and hoped to avoid paying for a return. The replies did not produce one dependable brand verdict. Contributors described owning well-fitting Torrid tops across several labeled sizes and repeatedly pointed to fabric, collection, and silhouette as the reason.",
+          "That disagreement is more informative than a simple vote on whether Torrid runs large. Torrid uses one apparel body chart across products, but the current site also sells tops explicitly labeled fitted, oversized, boxy, cropped, and tunic. Those words describe intentionally different amounts and placements of ease. A shopper can therefore remain in the same body-chart column while reasonably preferring different garment sizes."
+        ]
+      },
+      {
+        "heading": "Use the body chart to anchor the label, not predict the silhouette",
+        "paragraphs": [
+          "Torrid currently maps size 1 to 1X and numerical sizes 14–16, with a published bust range of 42–46 inches depending on the numerical column. Size 2 maps to 2X and 18–20, covering a 46–50-inch bust across those columns. The chart also publishes waist and low-hip measurements, which matter when a long top crosses the abdomen or seat instead of ending at the natural waist.",
+          "That chart answers which body range Torrid associates with the label. It does not tell you how many inches of finished-garment ease a particular top has, and the main product pages do not always publish finished bust or sweep. When two sizes both look plausible, the product's stated fit and length become the next evidence—not an assumption that every stretchy top is forgiving in the same places.",
+          "The cleanest starting point is to record bust, waist, and low hip, then identify where the top will end on your body. For a 30- or 32-inch tunic, the low hip or belly may be the limiting area. For a 21-inch crop, torso length and bust projection can change the apparent hem before the hip measurement matters at all."
+        ]
+      },
+      {
+        "heading": "Three current constructions make the same label behave differently",
+        "paragraphs": [
+          "Torrid's current Oversized Waffle Top is described as relaxed, roomy, longer, and wider than the brand's Relaxed fit, and the page explicitly suggests sizing down for a classic fit. In size 2 it measures 30 inches from the shoulder. Its waffle knit is 83% cotton, 15% polyester, and 2% spandex. Here, extra room is designed into the pattern; the small spandex percentage is not doing all the work.",
+          "The Fitted Super Soft Rib Square Neck Top sits at the other end of the intent spectrum. It is explicitly fitted, measures 28 inches from the shoulder in size 2, and uses 59% polyester, 31% rayon, and 10% spandex. Torrid assigns it the maximum stretch level, but maximum stretch does not turn a close base layer into a relaxed top. It means the fabric can expand while following the body more closely.",
+          "The Foxy High Neck Crop Top is also fitted and marked maximum stretch, yet its 95% cotton and 5% spandex fabric is described as holding and smoothing. At 21 inches from the shoulder in size 2, it solves a different styling brief from either 28- or 30-inch top. A size decision made only from the word stretchy would miss both the compression-like hand of Foxy and the large difference in coverage."
+        ],
+        "bullets": [
+          "Oversized Waffle: pattern ease first; 30-inch length; 2% spandex.",
+          "Fitted Super Soft Rib: close silhouette; 28-inch length; 10% spandex.",
+          "Foxy crop: close, smoothing intent; 21-inch length; 5% spandex."
+        ]
+      },
+      {
+        "heading": "Stretch, softness, and room are three separate qualities",
+        "paragraphs": [
+          "Elastane percentage can help explain recovery, but it cannot rank two garments from loosest to tightest. Fiber content does not reveal knit density, waistband or neckline tension, seam placement, finished measurements, or how much ease was added to the pattern. A dense 5% spandex cotton knit can feel more held-in than a lower-spandex waffle top cut several inches wider.",
+          "Softness is similarly easy to misread. A fabric may feel fluid and comfortable against the skin while the pattern remains fitted. In the recent community thread, some shoppers described different experiences with named Torrid fabric families and collections. Those are individual reports rather than measured product specifications; the editorial takeaway is to treat a collection name as a clue to investigate, not as a guaranteed instruction to size up or down.",
+          "If the product page lacks finished bust and hem measurements, compare the shoulder-to-hem length and stated silhouette with a top you already own. Then ask whether you want the fabric to skim, follow, or stand away from the body. That preference can legitimately place the same person in one size for a fitted square-neck layer and another for an intentionally oversized knit."
+        ]
+      },
+      {
+        "heading": "Bust, belly, shoulders, and torso length need separate checks",
+        "paragraphs": [
+          "A single bust circumference cannot predict shoulder mobility, upper-arm room, neckline stability, or front length. A fuller bust can use additional vertical fabric and lift a hem; a fuller or lower belly can do the same when a top is meant to cross that area. A shopper with a smaller bust and fuller low hip may find that sizing for the hem creates excess at a square neckline or armhole.",
+          "For sleeved tops, compare upper arm and shoulder position even when those measurements are not on the body chart. For fitted necklines, test bending and reaching as well as standing. For longline tops, measure down the front of your own body to the published garment length rather than assuming the model's landing point will transfer.",
+          "This is also why height and weight alone cannot settle the question posed in the community thread. They may help a reviewer describe context, but two people at the same height and weight can distribute volume differently. Current body measurements, torso proportions, garment construction, and preferred ease are more actionable."
+        ]
+      },
+      {
+        "heading": "A lower-return way to choose a Torrid top",
+        "paragraphs": [
+          "Start in the body-chart column that contains your current critical measurement, then read every fit adjective literally. Stay near the chart size when you want the product's intended fitted or oversized effect. Consider a different size only after deciding which effect you want to change—more ease at the belly, a closer oversized silhouette, a more stable neckline, or added length—and check that the change will not create a new problem elsewhere.",
+          "Before buying, save the product page because color, material, inventory, markdown status, and return eligibility can change. If the item is final sale, the absence of finished-garment measurements deserves more weight. A low price does not reduce the fit uncertainty; it only caps the cash price of the experiment.",
+          "When the top arrives, keep the tags on and test sitting, reaching, layering, neckline movement, and the front and back hem. Record the exact product name, fabric family, size, and where the fit succeeded or failed. That product-level note is the beginning of useful consistency; a permanent statement that all Torrid tops run large or small is not."
+        ],
+        "bullets": [
+          "Match bust, waist, and low hip to the current chart, based on where the top will sit.",
+          "Separate intended ease from fabric stretch and from softness.",
+          "Compare the published shoulder-to-hem length with a successful top.",
+          "Check shoulder, upper arm, neckline, and front-hem behavior for your proportions.",
+          "Confirm the exact item's return or final-sale status before using it as a size experiment."
+        ]
+      }
+    ],
+    "researchNote": "This guide synthesizes an August 2026 public community discussion and checks the current Torrid body chart, fit language, garment lengths, and fiber content on official product pages. Community comments are individual experiences, while the construction comparisons and checkout method are editorial analysis. Fit can vary by body proportions, color, fabric, cut, production run, and preferred ease.",
+    "researchLabel": "Research sources",
+    "researchSources": [
+      {
+        "label": "Recent r/PlusSizeFashion discussion: Do Torrid clothes run true to size or bigger?",
+        "url": "https://www.reddit.com/r/PlusSizeFashion/comments/1vumb1k/torrid_clothes_true_to_size_or_run_bigger/"
+      },
+      {
+        "label": "Torrid official apparel size guide",
+        "url": "https://www.torrid.com/size-guide.html?queryDW=true"
+      },
+      {
+        "label": "Torrid official Oversized Waffle Top details",
+        "url": "https://www.torrid.com/product/oversized-waffle-top/42820414.html"
+      },
+      {
+        "label": "Torrid official Fitted Super Soft Rib Square Neck Top details",
+        "url": "https://www.torrid.com/product/fitted-super-soft-rib-square-neck-top/40421593-04915.html"
+      },
+      {
+        "label": "Torrid official Foxy High Neck Crop Top details",
+        "url": "https://www.torrid.com/product/foxy-high-neck-crop-top/11670899-00684.html"
+      }
+    ]
+  },
+  {
     "slug": "eloquii-vs-city-chic-event-dress-sizing-return-risk",
     "title": "ELOQUII vs. City Chic: How to compare event-dress sizing before the return risk gets expensive",
     "eyebrow": "Occasionwear Buying Guide",
