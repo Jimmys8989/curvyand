@@ -3,6 +3,83 @@ import type { BlogPost } from "./blog";
 // Approved posts from the local Editorial Review dashboard are added here.
 export const EDITORIAL_POSTS: BlogPost[] = [
   {
+    "slug": "old-navy-vs-ariat-plus-size-button-down-fit",
+    "title": "Old Navy vs. Ariat button-downs: Two fit strategies for a fuller bust and broad shoulders",
+    "eyebrow": "Plus-Size Shirt Comparison",
+    "summary": "A button-down that closes at the bust can still become a tent at the waist or bind at the armhole. This comparison separates Old Navy's cotton basic from Ariat's stretch, mobility-focused shirt.",
+    "author": "Curvy& Editorial",
+    "publishedAt": "September 14, 2026",
+    "publishedAtIso": "2026-09-14",
+    "readTime": "4 min read",
+    "sections": [
+      {
+        "heading": "The real fit brief has four parts",
+        "paragraphs": [
+          "In a recent r/PlusSizeFashion thread, a size 2X/20 shopper described the button-down problem precisely: enough room for a fuller chest, no pulling through broad shoulders or armpits, adequate stomach coverage, and a shape that does not become excessively loose below the bust. A preference for natural fibers made the search narrower still.",
+          "Replies suggested both inexpensive cotton shirts and more engineered options, including Old Navy and Ariat's Kirby. These are useful comparison points because one is a familiar everyday basic and the other comes from riding apparel, where arm movement is an explicit design requirement. Neither can promise a perfect bust-to-waist ratio, but they solve different parts of the brief."
+        ]
+      },
+      {
+        "heading": "Old Navy is the lower-cost, cotton-first option",
+        "paragraphs": [
+          "Old Navy's current Classic Button-Down is 100% cotton twill, described as semi-fitted and designed to hit at the hip. It is offered in regular, tall, and petite fits, with sizes shown from XS through 4X on the product page. That combination gives shoppers two useful levers: body size and vertical proportion.",
+          "The brand's tops chart maps 2X to numerical sizes 20–22, with a 48.75–51-inch chest and 42–44.25-inch waist. Use those as body measurements, not finished shirt dimensions. Cotton twill does not provide the built-in give of a stretch poplin, so the shirt should close and allow forward reach without depending on buttons or seams to hold constant tension."
+        ]
+      },
+      {
+        "heading": "Ariat prioritizes movement and shaping",
+        "paragraphs": [
+          "Ariat's Kirby Stretch Shirt is a more fitted technical answer. The current product description calls out shaped seams, a reinforced button placket, wrinkle resistance, and Greater Arm Mobility construction. Ariat's international listing identifies the stretch poplin as 97% cotton and 3% elastane. The US product page shows both standard and plus labels through 3X.",
+          "The official chart says to choose the size indicated by the chest when chest and waist point to different sizes. That is sensible for a button-front woven shirt because a waist can often be taken in, while insufficient room across the chest, shoulder, or upper arm is harder to add. Ariat's stretch and mobility features make it the stronger first test for reaching and arm movement, but its smaller plus-size ceiling excludes shoppers served by Old Navy's 4X range."
+        ]
+      },
+      {
+        "heading": "Choose by the failure you are trying to prevent",
+        "paragraphs": [
+          "Start with Old Navy when budget, 100% cotton, length choices, or access through 4X matters most. The semi-fitted silhouette is a better experiment for someone trying to avoid a deliberately oversized shape. Start with Ariat when shoulder mobility, a little fabric recovery, and shaped seams are higher priorities—and when your chest measurement falls within its chart.",
+          "For either shirt, measure a woven button-down that already works. Record the underarm-to-underarm width, shoulder seam to shoulder seam, upper sleeve width, back length, and hem width. Those garment measurements expose the 'boob tent' tradeoff more clearly than bust circumference alone. If the retailer does not publish them, request them or order only with a workable return path."
+        ]
+      },
+      {
+        "heading": "Fit the shoulders and bust before planning alterations",
+        "paragraphs": [
+          "During the try-on, button the shirt over the bra and base layer you normally wear. Reach forward, lift both arms, sit, and check whether the placket spreads or the back rides upward. Then assess the waist and stomach without pulling the shirt artificially smooth. A clean fit can include ease; the goal is controlled room, not a body-hugging result at every point.",
+          "Taking in side seams or adding back darts may be a reasonable alteration when the shoulders, armholes, chest, and length already work. Moving an armhole, widening a sleeve, or adding fabric across a gaping placket is more involved. Fit varies with bust projection, shoulder width, torso length, and posture, so buy for the structural areas first and shape the less constrained areas only if the total cost still makes sense."
+        ],
+        "bullets": [
+          "Match the chart to your chest first, then compare waist ease.",
+          "Confirm whether the selected color and size are returnable rather than final sale.",
+          "Test reaching and sitting before washing or removing tags.",
+          "Price a simple waist alteration before treating a larger shirt as a bargain."
+        ]
+      }
+    ],
+    "researchNote": "This comparison synthesizes a September 2026 public community request and verifies construction, size ranges, body charts, and fiber information on official brand pages. The community comments are individual experiences; the fit recommendations are editorial analysis of the published garment features.",
+    "researchLabel": "Research sources",
+    "researchSources": [
+      {
+        "label": "Recent r/PlusSizeFashion discussion: button-downs for a fuller bust, broad shoulders, and stomach coverage",
+        "url": "https://www.reddit.com/r/PlusSizeFashion/comments/1w6tvxa/plus_size_friendly_womens_buttondowns/"
+      },
+      {
+        "label": "Old Navy official Classic Button-Down product details",
+        "url": "https://oldnavy.gap.com/browse/product.do?pid=513771022"
+      },
+      {
+        "label": "Old Navy official women's tops size chart",
+        "url": "https://oldnavy.gap.com/Asset_Archive/AllBrands/sizeChart/v3/chart.html?cid=106026790&locale=en_US"
+      },
+      {
+        "label": "Ariat official Kirby Stretch Shirt product details",
+        "url": "https://www.ariat.com/KIRBY_SHIRT_W_APP.html"
+      },
+      {
+        "label": "Ariat official women's tops and jackets size chart",
+        "url": "https://www.ariat.com/size-charts"
+      }
+    ]
+  },
+  {
     "slug": "torrid-lean-jean-vs-universal-standard-seine-apron-belly",
     "title": "Torrid Lean Jean vs. Universal Standard Seine: Two routes to a closer leg fit with a fuller belly",
     "eyebrow": "Jeans Fit Comparison",
