@@ -3,6 +3,81 @@ import type { BlogPost } from "./blog";
 // Approved posts from the local Editorial Review dashboard are added here.
 export const EDITORIAL_POSTS: BlogPost[] = [
   {
+    "slug": "bloomchic-drawstring-wide-leg-jeans-size-26",
+    "title": "Should you size down in BloomChic drawstring jeans? Read the waist and denim separately",
+    "eyebrow": "Product-Level Size Guide",
+    "summary": "BloomChic's current wide-leg jean pairs an elastic drawstring waist with a published fiber blend containing no elastane. That distinction changes the size-down decision, especially around size 26.",
+    "author": "Curvy& Editorial",
+    "publishedAt": "September 16, 2026",
+    "publishedAtIso": "2026-09-16",
+    "readTime": "4 min read",
+    "sections": [
+      {
+        "heading": "The recent question contains a common sizing trap",
+        "paragraphs": [
+          "A recent r/PlusSizeFashion post asked about BloomChic drawstring wide-leg jeans seen online. The shopper normally wore a size 26 and wondered whether apparently stretchy jeans justified sizing down. Replies offered general impressions of the brand and advice to inspect fabric, but they did not establish how this exact jean would fit every body.",
+          "The useful answer is in the current product data for the pictured Elastic Drawstring Waistband Wide-Leg Jeans. The stretch cue in the name belongs to the waistband, while the published fiber composition contains no elastane or spandex. Treating the whole garment as super-stretch denim could make a smaller size look safer than the specifications support."
+        ]
+      },
+      {
+        "heading": "The fiber content supports the no-stretch warning",
+        "paragraphs": [
+          "BloomChic lists the fabric as 35.3% Tencel, 31.9% cotton, 31.1% polyester, and 1.7% rayon, with no elastane or spandex in the published composition. The product name and imagery show an elastic drawstring waist, while the official attributes identify a wide-leg silhouette and side pockets. That construction can expand at the top without making the entire woven body equally elastic.",
+          "Tencel and rayon may affect softness and drape, but they are not substitutes for elastane. The safe editorial reading is therefore two-part: expect the waistband to accommodate movement within its design range, and expect the hip and thigh to rely on the garment's cut and built-in ease. A comfortable waistband alone does not prove the next size down will clear the seat or remain comfortable when sitting."
+        ]
+      },
+      {
+        "heading": "At size 26, BloomChic publishes both body and garment measurements",
+        "paragraphs": [
+          "For this exact product, the body chart maps US 26/4X to a 48–52-inch waist and a 57.9–61.8-inch hip. The finished-garment table lists a 45.3-inch relaxed waist, 63.4-inch hip, 41.3-inch thigh circumference, 37.4-inch total length, and 23.2-inch inseam. A relaxed elastic waist being smaller than the body range is expected; it is designed to expand. The garment hip supplies ease over the corresponding body range.",
+          "The 23.2-inch inseam is just as important as the waist. Although the current product uses BloomChic's regular sizing designation, this published inseam will land as a crop or ankle length on many shoppers. Its landing point changes the visual width and footwear relationship. Compare the inseam and total length with a successful cropped wide-leg jean rather than assuming a regular label means full length."
+        ]
+      },
+      {
+        "heading": "Sizing down to 24 changes more than the drawstring",
+        "paragraphs": [
+          "The same product table maps US 24/3X to a 46.1–48-inch body waist and a 55.9–57.9-inch body hip. Its finished measurements are a 41.7-inch relaxed waist and 59.4-inch hip. That is four inches less finished hip circumference than the size 26, along with a smaller relaxed waistband.",
+          "If your current low hip is above 57.9 inches, size 24 falls outside BloomChic's stated body range even if the elastic waist can physically stretch farther. If both waist and hip sit within the 24 range and you prefer less ease, the smaller size becomes a reasonable test—not an automatic rule. When waist and hip point to different columns, fit the non-stretch hip and seat first, then use the drawstring to refine the waist.",
+          "Thigh proportion also matters. Wide-leg jeans are supposed to carry volume below the hip, so a loose leg is not by itself evidence that the waist size is wrong. Compare the published 41.3-inch size-26 thigh circumference with a cropped wide-leg jean you already like, measuring at a similar point below the crotch."
+        ]
+      },
+      {
+        "heading": "A lower-risk way to order this jean",
+        "paragraphs": [
+          "Choose size 26 first when your hip measurement needs its body range, when you are near the upper edge of size 24, or when seated comfort matters more than reducing the wide-leg effect. Consider size 24 when all critical body measurements fit its published range and the desired look is closer through the hip. Do not size down only because the title includes 'stretchy.'",
+          "BloomChic currently allows eligible returns initiated within 30 days, but US return shipping is deducted from the refund: $5.99 through Happy Returns for one to three items, with additional per-item charges above that, or $7.99 by other listed methods such as USPS. Original shipping is nonrefundable. That makes ordering two sizes a paid fitting strategy rather than a free comparison.",
+          "On arrival, keep the tags attached and test the jean seated, squatting, walking, and with the pockets loaded. Look for horizontal strain at the front hip, pocket flare, the back waist pulling downward, and the drawstring doing too much work to hold the pant up. Those signs are more informative than whether the elastic can stretch around the body. Fit may vary by proportion and production, but the product-specific chart gives a much stronger starting point than a general BloomChic size or a social video."
+        ],
+        "bullets": [
+          "Use current waist and low-hip measurements, not a usual size 26 from another brand.",
+          "Treat the elastic waist and elastane-free denim body as separate fit systems.",
+          "Compare the 23.2-inch inseam and 37.4-inch total length before judging the leg shape.",
+          "Confirm return eligibility and fees before removing tags or washing."
+        ]
+      }
+    ],
+    "researchNote": "This guide responds to a September 2026 public sizing question and uses BloomChic's product-specific body and finished-garment tables, published fabric composition, fit descriptors, and current US return terms. Community feedback is presented as individual experience; the size recommendation is an editorial interpretation of the official measurements.",
+    "researchLabel": "Research sources",
+    "researchSources": [
+      {
+        "label": "Recent r/PlusSizeFashion discussion: whether to size down in BloomChic drawstring jeans",
+        "url": "https://www.reddit.com/r/PlusSizeFashion/comments/1wfmy72/bloomchic/"
+      },
+      {
+        "label": "BloomChic official Elastic Drawstring Waistband Wide-Leg Jeans product measurements and fabric details",
+        "url": "https://bloomchic.com/products/elastic-drawstring-waistband-wide-leg-jeans"
+      },
+      {
+        "label": "BloomChic official clothing and jeans size guide",
+        "url": "https://bloomchic.com/pages/size-guide"
+      },
+      {
+        "label": "BloomChic official US return policy and return-shipping fees",
+        "url": "https://bloomchic.com/pages/return-policy"
+      }
+    ]
+  },
+  {
     "slug": "old-navy-vs-ariat-plus-size-button-down-fit",
     "title": "Old Navy vs. Ariat button-downs: Two fit strategies for a fuller bust and broad shoulders",
     "eyebrow": "Plus-Size Shirt Comparison",
